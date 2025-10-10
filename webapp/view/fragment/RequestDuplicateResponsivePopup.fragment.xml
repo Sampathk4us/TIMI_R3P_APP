@@ -1,0 +1,42 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestDeleteResponsivePopup.fragment.xml* -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 19/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request delete popup fragment   					  	  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form">
+  	<ResponsivePopover placement="Right" showHeader="false"> 
+    	<content>
+			<HBox class="sapUiContentPadding" width="100%" alignItems="Center" justifyContent="Center">
+				<Text id="tRequestActionQuestion" class="sapUiTinyMarginBeginEnd"></Text>
+				<Button id="btnDuplicateRequestConfirm" icon="sap-icon://accept" class="sapUiSmallTinyEnd" type="Transparent" press="onPressDuplicateRequestPopupConfirm">
+				</Button>
+				<Button id="btnDuplicateRequestCancel" icon="sap-icon://decline" class="sapUiSmallMarginEnd" type="Transparent" press="onPressDuplicateRequestPopupCancel">
+				</Button>
+			</HBox>
+		</content>
+		<beginButton>
+		</beginButton>
+		<endButton>
+		</endButton>
+  	</ResponsivePopover>
+</core:FragmentDefinition>

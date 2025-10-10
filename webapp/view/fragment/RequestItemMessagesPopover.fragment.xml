@@ -1,0 +1,58 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI		                                 	  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestItemMessagesPopover.fragment.xml  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 09/10/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Message responsive popover			  	 		  	  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form">
+  	<ResponsivePopover placement="Right" showHeader="true"> 
+  		<customHeader>
+  			<Bar class="sapUiSizeCompact">
+  				<contentLeft>
+  					<Text text=""></Text>
+  				</contentLeft>
+  				<contentMiddle>
+  					<HBox>
+  						<core:Icon class="sapUiTinyMarginEnd"
+  							src="sap-icon://message-error"
+  							color="Negative"></core:Icon>
+  						<Title
+  							text="{i18n>messagebox.error.title}"></Title>
+  					</HBox>
+  				</contentMiddle>
+  				<contentRight>
+  				</contentRight>
+  			</Bar>
+  		</customHeader>
+    	<content>
+			<List class="sapUiSizeCompact"
+				items="{ItemMessages>/results}" >
+				<DisplayListItem
+					label="{ItemMessages>message}"/>
+			</List>
+		</content>
+		<beginButton>
+		</beginButton>
+		<endButton>
+		</endButton>
+  	</ResponsivePopover>
+</core:FragmentDefinition>

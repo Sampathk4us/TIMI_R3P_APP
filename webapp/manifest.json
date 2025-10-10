@@ -1,0 +1,164 @@
+{
+    "_version": "1.1.0",
+    "sap.app": {
+        "id": "cus.fi.timi.rel",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "{{app.title}}",
+        "description": "{{app.description}}",
+        "applicationVersion": {
+            "version": "3.0.0"
+        },
+        "dataSources": {
+            "YWS_FI062_TIMI": {
+                "uri": "/sap/opu/odata/sap/YWS_FI062_TIMI_REL_SRV/",
+                "type": "OData",
+                "json": true,
+                "useBatch": true,
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "@sap/ux-app-migrator:freestyle",
+            "version": "1.18.1",
+            "toolsId": "b9f9606d-5a13-4b7f-9e07-ed5200fc2b37"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://detail-view",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": [
+            "sap_belize",
+            "sap_belize_deep",
+            "sap_hcb",
+            "sap_bluecrystal"
+        ],
+        "fullWidth": true
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [
+                {
+                    "uri": "assets/js/library/external/d3.js"
+                }
+            ],
+            "css": [
+                {
+                    "uri": "assets/css/style.css"
+                }
+            ]
+        },
+        "rootView": {
+            "viewName": "cus.fi.timi.rel.view.Main",
+            "type": "XML",
+            "id": "app"
+        },
+        "dependencies": {
+            "minUI5Version": "1.71.64",
+            "libs": {
+                "sap.ui.core": {
+                    "minVersion": "1.71.64"
+                },
+                "sap.m": {
+                    "minVersion": "1.71.64"
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "cus.fi.timi.rel.view",
+                "controlId": "app",
+                "controlAggregation": "pages",
+                "transition": "slide",
+                "async": true,
+                "bypassed": {
+                    "target": "notFound"
+                }
+            },
+            "routes": [
+                {
+                    "name": "main",
+                    "pattern": "",
+                    "target": "main"
+                },
+                {
+                    "name": "reporting",
+                    "pattern": "reporting",
+                    "target": "reporting"
+                },
+                {
+                    "name": "overview",
+                    "pattern": "overview",
+                    "target": "overview"
+                },
+                {
+                    "name": "request",
+                    "pattern": "request/{requestId}",
+                    "target": "request"
+                },
+                {
+                    "name": "item",
+                    "pattern": "request/{requestId}/item",
+                    "target": "item"
+                }
+            ],
+            "targets": {
+                "main": {
+                    "viewName": "Main",
+                    "viewLevel": 1
+                },
+                "reporting": {
+                    "viewName": "Reporting",
+                    "viewLevel": 1
+                },
+                "overview": {
+                    "viewName": "Overview",
+                    "viewLevel": 1
+                },
+                "request": {
+                    "viewName": "Request",
+                    "viewLevel": 2
+                },
+                "item": {
+                    "viewName": "Item",
+                    "viewLevel": 3
+                },
+                "notFound": {
+                    "viewName": "NotFound",
+                    "transition": "show"
+                }
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "uri": "/sap/bc/ui5_ui5/sap/yfi062_timi/webcontent",
+        "_version": "1.1.0"
+    }
+}

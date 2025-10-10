@@ -1,0 +1,53 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestAttachments.fragment.xml   	  	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 29/07/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request Attachments 					  				  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout">
+	<UploadCollection id="ucAttachments" 
+		sameFilenameAllowed="true" multiple="false" showSeparators="All" noDataText="{i18n>request.attachment.text.nodata}" uploadEnabled="{parts:[{path:'Request>/Attachments/results'},{path:'AppData>/MAX_ATTACHMENTS'},{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'}],formatter:'.formatterVisibility.triggerAttachmentUploadEnabledVisibility'}"
+		change="onChangeUpload" fileDeleted="onFileDeleted" uploadComplete="onUploadComplete"
+		items="{path:'Request>/Attachments/results',templateShareable:'Constants>/false'}">
+			<items>
+				<UploadCollectionItem
+					documentId="{Request>FolderId}"
+					fileName="{Request>FileName}"
+					mimeType="{Request>MimeType}"
+					url="{Request>Url}"
+					visibleEdit="false"
+					visibleDelete="{parts:[{path:'AppData>/userId'},{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>UserCreation'},{path:'Request>/StatusId'}],formatter:'.formatterVisibility.triggerAttachmentDeleteVisibility'}">
+					<attributes>
+						<ObjectAttribute
+								title="{i18n>request.attachment.text.uploadedby}" text="{Request>UserCreationName}"
+								active="false"/>
+						<ObjectAttribute
+								title="{i18n>request.attachment.text.uploadedon}" text="{path:'Request>TimestampCreation',formatter:'.formatterFormat.formatDate'}"
+								active="false"/>
+						<ObjectAttribute
+								title="{i18n>request.attachment.text.filesize}" text="{path:'Request>FileSize',formatter:'.formatterFormat.formatAttachmentSize'}"
+								active="false"/>
+					</attributes>
+				</UploadCollectionItem>
+			</items>
+	</UploadCollection>
+</core:FragmentDefinition>

@@ -1,0 +1,372 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File 		 : view/fragment/RequestIssuingItems.fragment.xml 	  	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 12/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description : Request issuing items fragment   		 			  	  * -->	
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : M001									  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : Marion Alberny                           * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 03/11/2016								  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : CR2016-273225							  * -->
+<!-- * Description ............... : Total Amounts Calculation Change		  * -->
+<!-- *************************************************************************/ -->
+<!-- * Modification n ...........  : M002									  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : Marion Alberny                           * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 27/01/2017								  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : CR										  * -->
+<!-- * Description ............... : Column management   					  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:unified="sap.ui.unified"
+	xmlns:custom="cus.fi.timi.rel.assets.js.library"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:variants="sap.ui.comp.variants">
+	<Table id="tIssuingItems" class="sapUiNoContentPadding" 
+		items="{path:'Request>/IssuingItems/results',templateShareable:'Constants>/false'}"
+		visible="{AppData>/issuingItemVisibility}"
+		showNoData="false"
+		fixedLayout="false" data:itemType="1" >		
+		<columns >
+			<Column id="colIssuingActions" width="4rem" >
+				<Label text="{i18n>request.table.column.actions}" visible="false"/>
+				<footer>
+					<HBox>
+					<Button id="btnAddIssuingItem" 
+						icon="sap-icon://add" type="Transparent" tooltip="{i18n>button.request.item.add}" 
+						data:itemType="1"
+						press="onPressAddNewItem"
+						visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'},{path:'Constants>/itemTypeIssuing'},{path:'Request>/HeaderData/CreationMode'}],formatter:'.formatterVisibility.triggerAddNewItemButtonVisibility'}">
+					</Button>
+					<unified:FileUploader
+						name="importIssuingItems"
+						style="Transparent" sendXHR="true" fileType="txt" 
+						useMultipart="false"	
+						buttonOnly="true" iconOnly="true" icon="sap-icon://upload"
+						uploadOnChange="false"
+						sameFilenameAllowed="true"
+						change="onChangeImportIssuingItems"
+						visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'},{path:'Constants>/itemTypeIssuing'},{path:'Request>/HeaderData/CreationMode'}],formatter:'.formatterVisibility.triggerAddNewItemButtonVisibility'}"/>
+					</HBox>
+				</footer>
+			</Column>
+			<Column id="colIssuingItemId" width="4rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="500px">
+				<Label text="{i18n>request.table.column.itemid}" tooltip="{i18n>request.table.column.itemid}"/>
+			</Column>
+			<Column id="colIssuingDebitCredit" width="6rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="500px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/ITMDCIND/Visible}">
+				<Label text="{i18n>request.table.column.debitcredit.short}" tooltip="{i18n>request.table.column.debitcredit}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/ITMDCIND/Mandatory}" />
+			</Column>
+			<Column id="colIssuingItemText" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1440px" 
+				visible="{FieldsAttributes>/ISSUING_ITEMS/ITMTEXT/Visible}">
+				<Label text="{i18n>request.table.column.itemtext}" tooltip="{i18n>request.table.column.itemtext}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/ITMTEXT/Mandatory}" />
+			</Column>
+			<Column id="colIssuingAnalyticalNature" width="5rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="705px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Visible}">
+				<Label text="{i18n>request.table.column.analyticalnature.short}" tooltip="{i18n>request.table.column.analyticalnature}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Mandatory}" />
+			</Column>
+			<Column id="colIssuingGLAccount" width="8rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="850px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Visible}">
+				<Label text="{i18n>request.table.column.glaccount.short}" tooltip="{i18n>request.table.column.glaccount}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Mandatory}" />
+			</Column>
+			<Column id="colIssuingLCOA" width="8rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="850px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/LCOAACCOUNT/Visible}">
+				<Label text="{i18n>request.table.column.lcoaaccount}" tooltip="{i18n>request.table.column.lcoaaccount}" />
+			</Column>
+			<Column id="colIssuingGMID" width="14rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="995px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/GMID/Visible}">
+					<Label 
+						text="{i18n>request.table.column.GMID}" 
+						tooltip="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? ${i18n>request.table.column.rulesgmid} : ${i18n>request.table.column.gmid}}"
+						required="{FieldsAttributes>/ISSUING_ITEMS/GMID/Mandatory}">
+						<customData>
+							<core:CustomData key="customrequiredcoobjects" value="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? 'X' : ''}" writeToDom="true"></core:CustomData>
+						</customData>
+					</Label>
+			</Column>			
+			<Column id="colIssuingCostCenter" width="8rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="995px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/COSTCENTER/Visible}">
+					<Label 
+						text="{i18n>request.table.column.costcenter}" 
+						tooltip="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? ${i18n>request.table.column.rulescoobjects} : ${i18n>request.table.column.costcenter}}"
+						required="{FieldsAttributes>/ISSUING_ITEMS/COSTCENTER/Mandatory}">
+						<customData>
+							<core:CustomData key="customrequiredcoobjects" value="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? 'X' : ''}" writeToDom="true"></core:CustomData>
+						</customData>
+					</Label>
+			</Column>
+			<Column id="colIssuingInternalOrder" width="9rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1152px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/INTERNALORDER/Visible}">
+				<Label text="{i18n>request.table.column.internalorder}" tooltip="{i18n>request.table.column.internalorder}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/INTERNALORDER/Mandatory}" />
+			</Column>
+			<Column id="colIssuingWBS" width="9rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1314px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/WBS/Visible}">
+					<Label 
+						text="{i18n>request.table.column.wbs}"
+						tooltip="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? ${i18n>request.table.column.rulescoobjects} : ${i18n>request.table.column.wbs}}"
+						required="{FieldsAttributes>/ISSUING_ITEMS/WBS/Mandatory}">
+						<customData>
+							<core:CustomData key="customrequiredcoobjects" value="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? 'X' : ''}" writeToDom="true"></core:CustomData>
+						</customData>
+					</Label>
+			</Column>
+			<Column id="colIssuingStudy" width="6rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1440px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/STUDY/Visible}">
+				<Label text="{i18n>request.table.column.study}" tooltip="{i18n>request.table.column.study}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/STUDY/Mandatory}" />
+			</Column>
+			<Column id="colIssuingProduct" width="6rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1570px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/PRODUCT/Visible}">
+				<Label text="{i18n>request.table.column.product}" tooltip="{i18n>request.table.column.product}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/PRODUCT/Mandatory}" />
+			</Column>
+			<Column id="colIssuingAmount" width="8rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="610px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/AMOUNT/Visible}">
+				<Label text="{i18n>request.table.column.amount}" tooltip="{i18n>request.table.column.amount}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/AMOUNT/Mandatory}" />
+				<footer>					
+				 	<Text id="tIssuingItemsTotalAmount"
+						text="{parts:[{path:'Request>/HeaderData/DocumentTypeCode'},{path:'Constants>/itemTypeIssuing'},{path:'Request>/IssuingItems/results'},{path:'Constants>/true'},{path:'Request>/HeaderData/CurrencyCode'}],formatter:'.miscellaneous.calculateItemsTotalAmount'}" />
+				 </footer>
+			</Column>
+			<Column id="colIssuingMarkup" width="4rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="610px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/MARKUP/Visible}">
+				<Label text="{i18n>request.table.column.markup}" tooltip="{i18n>request.table.column.markup}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/MARKUP/Mandatory}" />
+			</Column>
+			<Column id="colIssuingTotalAmount" width="8rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="610px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/TOTALAMOUNT/Visible}">
+				<Label text="{i18n>request.table.column.totalamount}" tooltip="{i18n>request.table.column.totalamount}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/TOTALAMOUNT/Mandatory}" />
+				<footer>
+					<Text id="tIssuingItemsTotalAmountWithMarkup"
+						text="{parts:[{path:'Request>/HeaderData/DocumentTypeCode'},{path:'Constants>/itemTypeIssuing'},{path:'Request>/IssuingItems/results'},{path:'Constants>/true'},{path:'Request>/HeaderData/CurrencyCode'}],formatter:'.miscellaneous.calculateItemsTotalAmountWithMarkup'}" />
+				</footer>
+			</Column>
+			<Column id="colIssuingTaxCode" width="2rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1650px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/TAXCODE/Visible}">
+				<Label text="{i18n>request.table.column.taxcode}" tooltip="{i18n>request.table.column.taxcode}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/TAXCODE/Mandatory}" />
+			</Column>
+			<Column id="colIssuingBusinessArea" width="3rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1650px"
+				visible="{FieldsAttributes>/ISSUING_ITEMS/BUSINESSAREA/Visible}">
+				<Label text="{i18n>request.table.column.businessarea.short}" tooltip="{i18n>request.table.column.businessarea}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/BUSINESSAREA/Mandatory}" />
+			</Column>
+			<Column id="colIssuingQuantity" width="3rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1650px"
+				visible="{= ${FieldsAttributes>/ISSUING_ITEMS/DATA_HU/Visible} === true}">
+				<Label text="{i18n>request.table.column.quantity}" tooltip="{i18n>request.table.column.quantity}"/>
+			</Column>
+			<Column id="colIssuingUnit" width="3rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1650px"
+				visible="{= ${FieldsAttributes>/ISSUING_ITEMS/DATA_HU/Visible} === true}">
+				<Label text="{i18n>request.table.column.unit}" tooltip="{i18n>request.table.column.unit}"/>
+			</Column>
+			<Column id="colIssuingReference2" width="8rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1650px"
+				visible="{= ${FieldsAttributes>/ISSUING_ITEMS/DATA_HU/Visible} === true}">
+				<Label text="{i18n>request.table.column.referencekey2}" tooltip="{i18n>request.table.column.referencekey2}"/>
+			</Column>
+			<Column id="colIssuingHsnSac" width="8rem" hAlign="Center" 
+				demandPopin="true" popinDisplay="Inline" minScreenWidth="1650px"
+				visible="{= ${FieldsAttributes>/ISSUING_ITEMS/HSN_SAC/Visible} === true}">
+				<Label text="{i18n>request.table.column.hsnsac}" tooltip="{i18n>request.table.column.hsnsac}"
+					required="{FieldsAttributes>/ISSUING_ITEMS/HSN_SAC/Mandatory}" />
+			</Column>
+			<Column id="colIssuingNavigate" width="2rem">
+				<Label text=">" visible="false" />
+			</Column>
+			
+		</columns>
+		<items>
+			<ColumnListItem type="Inactive"
+				visible="{= !${Request>FlagDelete}}">
+				<cells>
+					<HBox>
+						<Button id="btnDuplicateIssuingItem" icon="sap-icon://duplicate"
+							type="Transparent" tooltip="{i18n>button.request.item.duplicate}"
+							press="onPressDuplicateItem" data:itemType="1"
+							visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'},{path:'Constants>/itemTypeIssuing'},{path:'Request>/HeaderData/CreationMode'}],formatter:'.formatterVisibility.triggerDuplicateItemButtonVisibility'}">
+						</Button>
+						<Button id="btnDeleteIssuingItem" icon="sap-icon://delete"
+							type="Transparent" tooltip="{i18n>button.request.item.delete}"
+							press="onPressDeleteItem" data:itemType="1"
+							visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'},{path:'Constants>/itemTypeIssuing'},{path:'Request>/HeaderData/CreationMode'}],formatter:'.formatterVisibility.triggerDeleteItemButtonVisibility'}">
+						</Button>
+					</HBox>
+					<FlexBox
+						alignItems="Center"
+						justifyContent="{path:'Request>States',formatter:'.formatterState.getItemIdJustifyContent'}">
+						<items>
+							<Button class="sapUiSmallTinyEnd"
+								icon="sap-icon://message-warning"  type="Transparent"
+								visible="{path:'Request>States',formatter:'.formatterVisibility.triggerItemErrorIconVisibility'}"
+								press="onPressShowItemMessages">
+								<customData>
+									<core:CustomData key="customTextColor" value="red" writeToDom="true"></core:CustomData>
+								</customData>
+							</Button>
+							<Text 
+								text="{Request>ItemId}"/>
+						</items>
+					</FlexBox>
+					<ComboBox items="{path:'DCIndicatorCollection>/results',templateShareable:'Constants>/false'}" 
+						selectedKey="{Request>DCIndicator}"
+						selectionChange="onSelectionChangeItemDCIndicator"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/ITMDCIND/Editable}" visible="{FieldsAttributes>/ISSUING_ITEMS/ITMDCIND/Visible}" 
+						valueState="{path:'Request>States/DCIndicator',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/DCIndicator'},{path:'Request>Messages/DCIndicator'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/DCIndicator}">
+						<core:Item key="{DCIndicatorCollection>DCIndicatorCode}"
+							text="{DCIndicatorCollection>DCIndicatorName}" />
+					</ComboBox>
+					<Input value="{Request>ItemText}" maxLength="50" class="myClass"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/ITMTEXT/Editable}"
+						valueState="{path:'Request>States/ItemText',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/ItemText'},{path:'Request>Messages/ItemText'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/ItemText}"></Input>
+					<Input value="{Request>AnalyticalNature}" maxLength="24"
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemNature"
+						change="onChangeIssuingItemNature"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Editable}" 
+						valueState="{path:'Request>States/AnalyticalNature',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/AnalyticalNature'},{path:'Request>Messages/AnalyticalNature'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/AnalyticalNature}"></Input>
+					<Input value="{Request>GLAccount}" maxLength="10"
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemAccount"
+						change="onChangeIssuingItemAccount"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Editable}" 
+						valueState="{path:'Request>States/GLAccount',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/GLAccount'},{path:'Request>Messages/GLAccount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/GLAccount}"></Input>
+					<Input value="{Request>LCOAAccount}" maxLength="10"
+						showValueHelp="false"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/LCOAACCOUNT/Editable}" 
+						valueState="{path:'Request>States/LCOAAccount',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/LCOAAccount'},{path:'Request>Messages/LCOAAccount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/LCOAAccount}"></Input>
+					<Input value="{Request>GMID}" maxLength="18" 
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemGMID"
+						change="onChangeIssuingItemGMID"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/GMID/Editable}"
+						valueState="{path:'Request>States/GMID',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/GMID'},{path:'Request>Messages/GMID'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/GMID}"></Input>	
+					<Input value="{Request>CostCenter}" maxLength="10" 
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemCostCenter"
+						change="onChangeIssuingItemCostCenter"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/COSTCENTER/Editable}"
+						valueState="{path:'Request>States/CostCenter',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/CostCenter'},{path:'Request>Messages/CostCenter'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/CostCenter}"></Input>
+					<Input value="{Request>InternalOrder}" maxLength="12"
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemInternalOrder"
+						change="onChangeIssuingItemInternalOrder"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/INTERNALORDER/Editable}"
+						valueState="{path:'Request>States/InternalOrder',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/InternalOrder'},{path:'Request>Messages/InternalOrder'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/InternalOrder}"></Input>
+					<Input value="{Request>WBSExternal}"  maxLength="24" 
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemWBS"
+						change="onChangeIssuingItemWBS"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/WBS_EXT/Editable}"
+						valueState="{path:'Request>States/WBSExternal',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/WBSExternal'},{path:'Request>Messages/WBSExternal'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/WBSExternal}"></Input>
+					<Input value="{Request>Study}" maxLength="50"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/STUDY/Editable}"
+						valueState="{path:'Request>States/Study',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/Study'},{path:'Request>Messages/Study'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/Study}"></Input>
+					<Input value="{Request>Product}" maxLength="50" 
+						editable="{FieldsAttributes>/ISSUING_ITEMS/PRODUCT/Editable}"
+						valueState="{path:'Request>States/Product',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/Product'},{path:'Request>Messages/Product'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/Product}"></Input>
+					<custom:NumericInput value="{Request>Amount}" maxLength="16" decimals="{path:'Request>/HeaderData/CurrencyCode',formatter:'.businessRules.getCurrencyMaxDecimals'}" hAlign="Right"  
+						change="onChangeItemAmount"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/AMOUNT/Editable}"
+						valueState="{path:'Request>States/Amount',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/Amount'},{path:'Request>Messages/Amount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/Amount}"></custom:NumericInput>
+					<custom:NumericInput value="{Request>Markup}" maxLength="3" decimals="0" hAlign="Center" 
+						change="onChangeItemMarkup"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/MARKUP/Editable}"
+						valueState="{path:'Request>States/Markup',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/Markup'},{path:'Request>Messages/Markup'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/Markup}"></custom:NumericInput>
+					<Text text="{parts:[{path:'Request>TotalAmount'},{path:'Request>/HeaderData/CurrencyCode'}],formatter:'.businessRules.formatAmountWithDecimalAndSpaceSeparator'}"></Text>
+					<Input value="{Request>TaxCode}" maxLength="2" 
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemTax"
+						change="onChangeIssuingItemTax"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/TAXCODE/Editable}"
+						valueState="{path:'Request>States/TaxCode',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/TaxCode'},{path:'Request>Messages/TaxCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/TaxCode}"></Input>
+					<Input value="{Request>BusinessAreaCode}" maxLength="4"
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemBusinessArea"
+						change="onChangeIssuingItemBusinessArea"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/BUSINESSAREA/Editable}"
+						valueState="{path:'Request>States/BusinessAreaCode',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/BusinessAreaCode'},{path:'Request>Messages/BusinessAreaCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/BusinessAreaCode}"></Input>
+					<Input value="{Request>Quantity}" type="Number"
+						editable="{= ${FieldsAttributes>/ISSUING_ITEMS/DATA_HU/Editable} === true}"></Input>
+					<Input value="{Request>UnitId}"
+						editable="{= ${FieldsAttributes>/ISSUING_ITEMS/DATA_HU/Editable} === true}"
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemUnit"></Input>
+					<Input value="{Request>Reference2}" maxLength="12"
+						editable="{= ${FieldsAttributes>/ISSUING_ITEMS/DATA_HU/Editable} === true}"></Input>
+					<Input value="{Request>HsnSacCode}" maxLength="16"
+						showValueHelp="true" valueHelpRequest="onValueHelpIssuingItemHsnSac"
+						change="onChangeIssuingItemHsnSac"
+						editable="{FieldsAttributes>/ISSUING_ITEMS/HSN_SAC/Editable}"
+						valueState="{path:'Request>States/HsnSacCode',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/HsnSacCode'},{path:'Request>Messages/HsnSacCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/HsnSacCode}"></Input>
+					<Button icon="sap-icon://slim-arrow-right"
+							type="Transparent" press="onPressNavigateToItem" data:itemType="1">
+					</Button>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+
+</core:FragmentDefinition>

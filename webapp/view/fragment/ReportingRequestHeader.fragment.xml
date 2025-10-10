@@ -1,0 +1,122 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI084                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/ReportingRequestHeader.fragment.xml   	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 26/01/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Reporting Request Header fragment   					  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form" 
+		xmlns:custom="cus.fi.timi.rel.assets.js.library" xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  
+		<Table id="tReportingRequestHeader" class="sapUiNoContentPadding reportingList"
+			items="{ReportingRequestHeaderList>/results}"
+			showNoData="true" noDataText="{i18n>request.table.nodata}" fixedLayout="false"
+			growing="true" growingScrollToLoad="true">
+			<columns>
+				<Column id="ReqidCol" hAlign="Center" width="4rem"><Text text="{i18n>request.table.column.request}"/></Column>
+				<!-- <Column id="IntercoTypeCol" hAlign="Center" width="4rem" visible="false"><Text text="{i18n>label.intercotype}"/></Column> -->
+				<Column id="StatusCol" hAlign="Center" width="9rem"><Text text="{i18n>request.table.column.status}"/></Column>
+				<Column id="BatchStatusCol" hAlign="Center" width="2rem" 
+			  			visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerAutomaticPostingColumnVisibility'}"><Text text="{i18n>request.table.column.posted}"/></Column>				
+			    <Column id="DateCreationCol" hAlign="Center" width="5rem"><Text text="{i18n>request.table.column.datecreation}" /></Column>
+			    <Column id="CreationModeCol" hAlign="Center" width="5rem"><Text text="{i18n>request.table.column.creationmode}" /></Column>
+				<!-- <Column id="MajorTypeCol" hAlign="Center" width="12rem" visible="false"><Text text="{i18n>request.table.column.majortype}"/></Column> -->
+				<Column id="HeadertextCol" hAlign="Left"><Text text="{i18n>request.table.column.headertext}"/></Column>
+				<Column id="IssuingCountryCol" hAlign="Center" visible="false"><Text text="{i18n>request.table.column.issuingcountry}"/></Column>				
+				<Column id="IssuingLegalEntityCol" hAlign="Center" visible="false"><Text text="{i18n>request.table.column.issuinglegalentity}"/></Column>
+				<Column id="IssuingCompanyCol" hAlign="Center"><Text text="{i18n>request.table.column.issuingcompany.long}"/></Column>
+				<Column id="IssuingControllerCol" hAlign="Center" width="12rem"><Text text="{i18n>request.table.column.issuingcontroller.long}"/></Column>
+				<Column id="ReceivingCountryCol" hAlign="Center" visible="false"><Text text="{i18n>request.table.column.receivingcountry}"/></Column>				
+				<Column id="ReceivingLegalEntityCol" hAlign="Center" visible="false"><Text text="{i18n>request.table.column.receivinglegalentity}"/></Column>
+				<Column id="ReceivingCompanyCol" hAlign="Center"><Text text="{i18n>request.table.column.receivingcompany.long}"/></Column>
+				<Column id="ReceivingControllerCol" hAlign="Center" width="12rem"><Text text="{i18n>request.table.column.receivingcontroller.long}"/></Column>
+				<Column id="AmountCol" hAlign="Center"><Text text="{i18n>request.table.column.amount}"/></Column>
+				<Column id="CurrencyCol" hAlign="Center" width="4rem"><Text text="{i18n>request.table.column.currency}"/></Column>
+				<Column id="IssuingPostingDocCol" hAlign="Center"><Text text="{i18n>request.table.column.issuingdocumentnumber}"/></Column>
+				<Column id="IssuingFiscalYearCol" hAlign="Center" width="3rem"><Text text="{i18n>request.table.column.issuingfiscalyear}"/></Column>
+				<Column id="ReceivingPostingDocCol" hAlign="Center"><Text text="{i18n>request.table.column.receivingdocumentnumber}"/></Column>	
+				<Column id="ReceivingFiscalYearCol" hAlign="Center" width="3.5rem"><Text text="{i18n>request.table.column.receivingfiscalyear}"/></Column>			
+			</columns>
+			<items>
+				<ColumnListItem type="Navigation" press="onPressNavigateToRequestDetailsFromHeader">
+					<cells>
+						<ObjectIdentifier title="{ReportingRequestHeaderList>RequestId}"/>
+						<!-- <Text text="{path:'ReportingRequestHeaderList>IntercoTypeCode', formatter:'.formatterText.getIntercoTypeText'}"/> -->
+						<ObjectStatus text="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'ReportingRequestHeaderList>StatusId'}],formatter:'.formatterText.getStatusText'}">
+							<customData>
+								<core:CustomData key="customobjectstatus" value="{path:'ReportingRequestHeaderList>StatusId', formatter:'.formatterState.getCustomStatusState'}" writeToDom="true"></core:CustomData>
+							</customData>
+						</ObjectStatus>	
+						<core:Icon
+								src="{parts:[{path:'AppData>/appType'},{path:'ReportingRequestHeaderList>'}], formatter:'.formatterState.getAutomaticIntegrationIcon'}"
+								size="0.85rem"
+								tooltip="{parts:[{path:'AppData>/appType'},{path:'ReportingRequestHeaderList>'}], formatter:'.formatterText.getAutomaticIntegrationTooltip'}"
+								color="{parts:[{path:'AppData>/appType'},{path:'ReportingRequestHeaderList>'}], formatter:'.formatterState.getAutomaticIntegrationIconColor'}"
+								press="onPressShowRequestBatchLogs">
+						</core:Icon> 							
+						<Text text="{path:'ReportingRequestHeaderList>DateCreation',formatter:'.formatterFormat.formatDate'}"/>	
+						<Text text="{path: 'ReportingRequestHeaderList>CreationMode', formatter:'.formatterText.getCreationModeText'}"/>
+						<!-- <Text text="{path:'ReportingRequestHeaderList>MajorTypeCode', formatter:'.formatterText.getMajorTypeText'}"/> -->
+						<!--
+						<Text text="{path:'ReportingRequestHeaderList>MajorTypeCode', formatter:'.formatterText.getMajorTypeText'}"/>
+						-->
+						<!-- This line is commented out and represents a Text control that would display
+						the major type code from the ReportingRequestHeaderList model. The text is
+						formatted using the getMajorTypeText formatter function to convert the
+						major type code into a human-readable format. -->
+						<Text text="{ReportingRequestHeaderList>HeaderText}" />
+						<HBox justifyContent="Start">
+							<Text text="{path:'ReportingRequestHeaderList>IsCountry',formatter:'.formatterText.getCountryNameFromCountryCode'}" />
+						</HBox>						
+						<HBox justifyContent="Start">
+							<Text text="{path:'ReportingRequestHeaderList>IsLegalEntityCode',formatter:'.formatterText.getLegalEntityCodeNameFromLegalEntityCode'}" />
+						</HBox>
+						<HBox justifyContent="Start">
+							<Text text="{path:'ReportingRequestHeaderList>IsCompanyCode',formatter:'.formatterText.getCompanyCodeNameFromCompanyCode'}" />
+						</HBox>
+						<HBox justifyContent="Start">
+							<Text text="{ReportingRequestHeaderList>Descriptions/IsControllerName}" />
+						</HBox>
+						<HBox justifyContent="Start">
+							<Text text="{path:'ReportingRequestHeaderList>RcCountry',formatter:'.formatterText.getCountryNameFromCountryCode'}" />
+						</HBox>						
+						<HBox justifyContent="Start">
+							<Text text="{path:'ReportingRequestHeaderList>RcLegalEntityCode',formatter:'.formatterText.getLegalEntityCodeNameFromLegalEntityCode'}" />
+						</HBox>
+						<HBox justifyContent="Start">
+							<Text text="{path:'ReportingRequestHeaderList>RcCompanyCode',formatter:'.formatterText.getCompanyCodeNameFromCompanyCode'}" />
+						</HBox>
+						<HBox justifyContent="Start">
+							<Text text="{ReportingRequestHeaderList>Descriptions/RcControllerName}" />
+						</HBox>
+						<HBox justifyContent="End">
+							<Text text="{path:'ReportingRequestHeaderList>Amount',formatter:'.formatterFormat.formatAmount'}"/>	
+						</HBox>
+						<Text text="{ReportingRequestHeaderList>CurrencyCode}"/>
+						<Text text="{ReportingRequestHeaderList>IsDocumentNumber}" />
+						<Text text="{parts:[{path:'ReportingRequestHeaderList>IsDocumentNumber'},{path:'ReportingRequestHeaderList>IsFiscalYear'}], formatter:'.formatterText.getPostingFiscalYearText'}" />
+						<Text text="{ReportingRequestHeaderList>RcDocumentNumber}" />
+						<Text text="{parts:[{path:'ReportingRequestHeaderList>RcDocumentNumber'},{path:'ReportingRequestHeaderList>RcFiscalYear'}], formatter:'.formatterText.getPostingFiscalYearText'}" />				
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+  
+</core:FragmentDefinition>

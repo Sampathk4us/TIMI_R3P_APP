@@ -1,0 +1,374 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestHeaderIconTab.fragment.xml   	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 12/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request header icon tab fragment   					  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification nï¿½ ........... : M001									  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : Marion Alberny                           * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 03/11/2016								  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : CR2016-273225							  * -->
+<!-- * Description ............... : Withholding Tax and SGL Indicator		  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+  xmlns:custom="cus.fi.timi.rel.assets.js.library">
+	<form:SimpleForm minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" class="sapUiNoContentPadding"
+					labelSpanL="5" labelSpanM="5" emptySpanL="1" emptySpanM="1" columnsL="2" columnsM="2">
+		<form:content>
+			<core:Title level="H6">
+				<core:customData>
+					<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+				</core:customData>
+			</core:Title>
+			<Label 	text="{parts:[{path:'i18n>request.label.invoicetype'},{path:'i18n>label.majortype'}], formatter:'.formatterText.getRequestHeaderInfoType'}" labelFor="tInvoiceType"/>
+			<Text	id="tInvoiceType"
+					text="{parts:[{path:'Request>/HeaderData/Descriptions/DocumentTypeName'},{path:'Request>/HeaderData/Descriptions/MajorTypeName'}], formatter:'.formatterText.getRequestHeaderInfoType'}">
+			</Text>
+			<Label  text="{i18n>request.label.headertext}" labelFor="iHeaderText" 
+					required="{FieldsAttributes>/HEADER_DATA/HEADERTEXT/Mandatory}" />
+			<Input 	id="iHeaderText"
+					value = "{Request>/HeaderData/HeaderText}" maxLength="50" 
+					editable="{FieldsAttributes>/HEADER_DATA/HEADERTEXT/Editable}" visible="{FieldsAttributes>/HEADER_DATA/HEADERTEXT/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/HeaderText',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/HeaderText'},{path:'Request>/HeaderData/Messages/HeaderText'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/HeaderText}">	
+			</Input>
+			<Label 	text="{i18n>request.label.issuinglegalentity}" labelFor="iIssuingLegalEntity"/>
+			<Input 	id="iIssuingLegalEntity"
+					value="{Request>/HeaderData/IsLegalEntityCode}" maxLength="6"
+					description="{Request>/HeaderData/Descriptions/IsLegalEntityName}" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_RCOMP/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_RCOMP/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/IsLegalEntityCode',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsLegalEntityCode'},{path:'Request>/HeaderData/Messages/IsLegalEntityCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/IsLegalEntityCode}">
+			</Input>
+			<Label 	text="{i18n>request.label.issuingcompany}" labelFor="iIssuingCompany"/>
+			<Input 	id="iIssuingCompany"
+					value="{Request>/HeaderData/IsCompanyCode}" maxLength="6"
+					description="{Request>/HeaderData/Descriptions/IsCompanyName}" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_BUKRS/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_BUKRS/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/IsCompanyCode',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsCompanyCode'},{path:'Request>/HeaderData/Messages/IsCompanyCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/IsCompanyCode}">
+			</Input>
+			<Label 	text="{i18n>request.label.customer}" labelFor="cbCustomer"
+					required="{FieldsAttributes>/HEADER_DATA/CUSTOMER/Mandatory}" />
+			<ComboBox 	id="cbCustomer" 
+						selectedKey="{Request>/HeaderData/CustomerCode}" 
+						items="{path:'CustomerCollection>/results',templateShareable:'Constants>/false'}"
+						change="onChangeCustomer"
+						editable="{FieldsAttributes>/HEADER_DATA/CUSTOMER/Editable}" visible="{FieldsAttributes>/HEADER_DATA/CUSTOMER/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/CustomerCode',formatter:'.formatterState.getValueState'}"  
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/CustomerCode'},{path:'Request>/HeaderData/Messages/CustomerCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/CustomerCode}">
+						<core:Item 	key="{CustomerCollection>CustomerCode}"
+									text="{parts:[{path:'CustomerCollection>CustomerCode'},{path:'CustomerCollection>CustomerName'},{path:'CustomerCollection>TrainStationId'}],formatter:'.formatterText.formatTierComboBox'}" />
+			</ComboBox>
+			<Label 	labelFor="iDummyCell" /><Input id="iDummyCell" value="" editable="false" visible="{FieldsAttributes>/HEADER_DATA/WITHHOLDTYPE/Visible}" /> 
+			<Label 	text="{i18n>request.label.issuingsglind}" labelFor="iIssuingSGLInd"
+					required="{FieldsAttributes>/HEADER_DATA/IS_SGLIND/Mandatory}" />
+			<Input 	id="iIssuingSGLInd"
+					value="{Request>/HeaderData/IsSpecialGLIndicator}" maxLength="1" showValueHelp="true" valueHelpRequest="onValueHelpIssuingSGLInd" 
+					change="onChangeIssuingSGLInd"
+					description="{Request>/HeaderData/Descriptions/IsSpecialGLIndicatorName}" fieldWidth="120px"
+					tooltip="{Request>/HeaderData/Descriptions/IsSpecialGLIndicatorName}"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_SGLIND/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_SGLIND/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/IsSpecialGLIndicator',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsSpecialGLIndicator'},{path:'Request>/HeaderData/Messages/IsSpecialGLIndicator'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/IsSpecialGLIndicator}">
+			</Input>
+			<Label 	text="{i18n>request.label.issuingcontroller}" labelFor="iIssuingController"
+					required="{FieldsAttributes>/HEADER_DATA/IS_CONTROLLER/Mandatory}" />
+			<Input 	id="iIssuingController"
+					value="{Request>/HeaderData/IsController}" maxLength="12" showValueHelp="true" valueHelpOnly="true"
+					description="{Request>/HeaderData/Descriptions/IsControllerName}" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_CONTROLLER/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_CONTROLLER/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/IsController',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsController'},{path:'Request>/HeaderData/Messages/IsController'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/IsController}">
+			</Input>
+			<Label 	text="{i18n>label.requester}" labelFor="iRequester"
+					required="{FieldsAttributes>/HEADER_DATA/REQUESTER/Mandatory}" />
+			<Input 	id="iRequester"
+					value="{Request>/HeaderData/Requester}" maxLength="12" showValueHelp="true" valueHelpOnly="true"
+					description="{Request>/HeaderData/Descriptions/RequesterName}" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/REQUESTER/Editable}"  visible="{FieldsAttributes>/HEADER_DATA/REQUESTER/Visible}"
+					valueState="{path:'Request>/HeaderData/States/Requester',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/Requester'},{path:'Request>/HeaderData/Messages/Requester'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/Requester}"> 
+			</Input>
+			<Label 	text="{i18n>request.label.issuingbusinessarea}" labelFor="cbIssuingBusinessArea"
+					required="{FieldsAttributes>/HEADER_DATA/IS_BUSAREA/Mandatory}" />
+			<ComboBox 	id="cbIssuingBusinessArea"
+						selectedKey="{Request>/HeaderData/IsBusinessAreaCode}"
+						items="{path:'IssuingBusinessAreaCollection>/results',templateShareable:'Constants>/false'}"
+						editable="{FieldsAttributes>/HEADER_DATA/IS_BUSAREA/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_BUSAREA/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/IsBusinessAreaCode',formatter:'.formatterState.getValueState'}"  
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsBusinessAreaCode'},{path:'Request>/HeaderData/Messages/IsBusinessAreaCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/IsBusinessAreaCode}"
+						placeholder="{path:'FieldsAttributes>/HEADER_DATA/IS_BUSAREA/Editable',formatter:'.formatterText.getHeaderIssuingBusinessAreaPlaceholderText'}">
+						<core:Item 	key="{IssuingBusinessAreaCollection>BusinessAreaCode}"
+									text="{parts:[{path:'IssuingBusinessAreaCollection>BusinessAreaCode'},{path:'IssuingBusinessAreaCollection>BusinessAreaName'}],formatter:'.formatterText.formatTextAndId'}" />
+			</ComboBox>	
+			<Label 	text="{i18n>request.label.issuingbusinessarea}" labelFor="iIssuingBusinessAreaAlt"
+					required="{FieldsAttributes>/HEADER_DATA/IS_BUSAREA_ALT/Mandatory}" />
+			<Input id="iIssuingBusinessAreaAlt"
+				value="{Request>/HeaderData/IsBusinessAreaAltCode}" maxLength="4"
+				visible="{FieldsAttributes>/HEADER_DATA/IS_BUSAREA_ALT/Visible}"
+				showValueHelp="true" valueHelpRequest="onValueHelpIssuingBusinessAreaAlt"
+				description="{Request>/HeaderData/Descriptions/IsBusinessAreaAltName}" fieldWidth="120px"
+				change="onChangeIssuingBusinessAreaAlt"
+				editable="{FieldsAttributes>/HEADER_DATA/IS_BUSAREA_ALT/Editable}"
+				valueState="{path:'Request>/HeaderData/States/IsBusinessAreaAltCode',formatter:'.formatterState.getValueState'}"
+				showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsBusinessAreaAltCode'},{path:'Request>/HeaderData/Messages/IsBusinessAreaAltCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+				valueStateText="{Request>/HeaderData/Messages/IsBusinessAreaAltCode}">
+			</Input>
+			<Label 	text="{i18n>request.label.issuingtaxcode}" labelFor="iIssuingTaxCode"
+					required="{FieldsAttributes>/HEADER_DATA/IS_TAXCODE/Mandatory}" />
+			<Input 	id="iIssuingTaxCode"
+					value="{Request>/HeaderData/IsTaxCode}" maxLength="2" showValueHelp="true" valueHelpRequest="onValueHelpIssuingTax" 
+					change="onChangeIssuingTax"
+					description="{Request>/HeaderData/Descriptions/IsTaxName}" fieldWidth="120px"
+					tooltip="{Request>/HeaderData/Descriptions/IsTaxName}"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_TAXCODE/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_TAXCODE/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/IsTaxCode',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsTaxCode'},{path:'Request>/HeaderData/Messages/IsTaxCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/IsTaxCode}">
+			</Input>
+			<Label 	text="{i18n>request.label.issuingreferenceinvoice}" labelFor="hbIssuingReferenceInvoice"
+					required="{FieldsAttributes>/HEADER_DATA/IS_REFINVOICEDOC/Mandatory}" />
+			<HBox	id="hbIssuingReferenceInvoice" visible="{FieldsAttributes>/HEADER_DATA/IS_REFINVOICEDOC/Visible}" >
+				<Input class="sapUiTinyMarginEnd" 
+					value="{Request>/HeaderData/IsReferenceInvoiceDocument}" maxLength="10" hAlign="Center" width="7rem"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_REFINVOICEDOC/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_REFINVOICEDOC/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/IsReferenceInvoiceDocument',formatter:'.formatterState.getValueState'}"
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsReferenceInvoiceDocument'},{path:'Request>/HeaderData/Messages/IsReferenceInvoiceDocument'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/IsReferenceInvoiceDocument}">
+				</Input>
+				<custom:NumericInput class="sapUiTinyMarginEnd" 
+					value="{Request>/HeaderData/IsReferenceInvoiceYear}" maxLength="4" hAlign="Center" width="4rem" decimal="0" isNumC="true"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_REFINVOICEYEAR/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_REFINVOICEYEAR/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/IsReferenceInvoiceYear',formatter:'.formatterState.getValueState'}"
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsReferenceInvoiceYear'},{path:'Request>/HeaderData/Messages/IsReferenceInvoiceYear'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/IsReferenceInvoiceYear}">
+				</custom:NumericInput>
+				<custom:NumericInput 
+					value="{Request>/HeaderData/IsReferenceInvoiceItem}" maxLength="3" hAlign="Center" width="3rem" decimal="0" isNumC="true"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_REFINVOICEITEM/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_REFINVOICEITEM/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/IsReferenceInvoiceItem',formatter:'.formatterState.getValueState'}"
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsReferenceInvoiceItem'},{path:'Request>/HeaderData/Messages/IsReferenceInvoiceItem'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/IsReferenceInvoiceItem}">
+				</custom:NumericInput>
+			</HBox>
+			<Label 	text="{i18n>request.label.issuingbusinessplace}" labelFor="cbIssuingBusinessPlace"
+					required="{FieldsAttributes>/HEADER_DATA/IS_BUSPLACE/Mandatory}" />
+			<Input value="{Request>/HeaderData/IsBusinessPlaceCode}" maxLength="4"
+				visible="{FieldsAttributes>/HEADER_DATA/IS_BUSPLACE/Visible}"
+				showValueHelp="true" valueHelpRequest="onValueHelpIssuingBusinessPlace"
+				description="{Request>/HeaderData/Descriptions/IsBusinessPlaceName}" fieldWidth="120px"
+				change="onChangeIssuingBusinessPlace"
+				editable="{FieldsAttributes>/HEADER_DATA/IS_BUSPLACE/Editable}"
+				valueState="{path:'Request>/HeaderData/States/IsBusinessPlaceCode',formatter:'.formatterState.getValueState'}"
+				showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsBusinessPlaceCode'},{path:'Request>/HeaderData/Messages/IsBusinessPlaceCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+				valueStateText="{Request>/HeaderData/Messages/IsBusinessPlaceCode}"></Input>
+			<Label 	text="{i18n>request.label.issuingreference}" labelFor="iIssuingReference"/>
+			<Input 	id="iIssuingReference"
+					value="{Request>/HeaderData/IsReference}" maxLength="16" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_REFERENCE/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_REFERENCE/Visible}">
+			</Input>
+			<Label 	text="{i18n>request.label.additionaldata}" labelFor="btnAdditionalData" />
+			<Button id="btnAdditionalData" 
+				text="Display" width="5rem" visible="{= ${FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible} === true || ${FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible} === true }"
+				press="onPressShowAdditionalData"></Button>
+			<core:Title level="H6">
+				<core:customData>
+					<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+				</core:customData>
+			</core:Title>
+			<Label 	text="{i18n>request.label.currency}" labelFor="cbCurrency"
+					required="{FieldsAttributes>/HEADER_DATA/CURRENCY/Mandatory}" />
+			<ComboBox 	id="cbCurrency" items="{path:'CurrencyCollection>/results',templateShareable:'Constants>/false',length:300}"
+						selectedKey="{Request>/HeaderData/CurrencyCode}" 
+						change="onChangeCurrency"
+						editable="{FieldsAttributes>/HEADER_DATA/CURRENCY/Editable}" visible="{FieldsAttributes>/HEADER_DATA/CURRENCY/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/CurrencyCode',formatter:'.formatterState.getValueState'}"  
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/CurrencyCode'},{path:'Request>/HeaderData/Messages/CurrencyCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/CurrencyCode}">
+						<core:Item 	key="{CurrencyCollection>CurrencyCode}"
+									text="{parts:[{path:'CurrencyCollection>CurrencyCode'},{path:'CurrencyCollection>CurrencyName'}],formatter:'.formatterText.formatTextAndId'}" />
+			</ComboBox>
+			<Label 	text="{i18n>request.label.paymentterm}" labelFor="iPaymentTerm"/>
+			<Text text="{Request>/HeaderData/PaymentTermCode} - {Request>/HeaderData/Descriptions/PaymentTermName}" >
+			</Text>
+			<Label 	text="{i18n>request.label.receivinglegalentity}" labelFor="iReceivingLegalEntity"/>
+			<Input 	id="iReceivingLegalEntity"
+					value="{Request>/HeaderData/RcLegalEntityCode}" maxLength="6"
+					description="{Request>/HeaderData/Descriptions/RcLegalEntityName}" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/RC_RCOMP/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_RCOMP/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/RcLegalEntityCode',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcLegalEntityCode'},{path:'Request>/HeaderData/Messages/RcLegalEntityCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/RcLegalEntityCode}">
+			</Input>
+			<Label 	text="{i18n>request.label.receivingcompany}" labelFor="iReceivingCompany"/>
+			<Input 	id="iReceivingCompany"
+					value="{Request>/HeaderData/RcCompanyCode}" maxLength="6"
+					description="{Request>/HeaderData/Descriptions/RcCompanyName}" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/RC_BUKRS/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_BUKRS/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/RcCompanyCode',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcCompanyCode'},{path:'Request>/HeaderData/Messages/RcCompanyCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/RcCompanyCode}">
+			</Input>
+			<Label 	text="{i18n>request.label.vendor}" labelFor="cbVendor"
+					required="{FieldsAttributes>/HEADER_DATA/VENDOR/Mandatory}" />
+			<ComboBox 	id="cbVendor"
+						selectedKey="{Request>/HeaderData/VendorCode}"
+						items="{path:'VendorCollection>/results',templateShareable:'Constants>/false'}" selectionChange="onSelectionChangeVendor"
+						change="onChangeVendor"
+						editable="{FieldsAttributes>/HEADER_DATA/VENDOR/Editable}" visible="{FieldsAttributes>/HEADER_DATA/VENDOR/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/VendorCode',formatter:'.formatterState.getValueState'}"  
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/VendorCode'},{path:'Request>/HeaderData/Messages/VendorCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/VendorCode}">
+						<core:Item 	key="{VendorCollection>VendorCode}"
+									text="{parts:[{path:'VendorCollection>VendorCode'},{path:'VendorCollection>VendorName'},{path:'VendorCollection>TrainStationId'}],formatter:'.formatterText.formatTierComboBox'}" />
+			</ComboBox>
+			<Label 	text="{i18n>request.label.withholding}" labelFor="cbWithholdingTaxType"
+					required="{FieldsAttributes>/HEADER_DATA/WITHHOLDTAX/Mandatory}" />
+			<ComboBox 	id="cbWithholdingTaxType"
+						selectedKey="{Request>/HeaderData/WithholdingTaxTypeCode}" 
+						items="{path:'WithholdingTaxTypeCollection>/results',templateShareable:'Constants>/false'}" selectionChange="onSelectionChangeWithholdingTaxType"
+						change="onChangeWithholdingTaxType"
+						editable="{FieldsAttributes>/HEADER_DATA/WITHHOLDTYPE/Editable}" visible="{FieldsAttributes>/HEADER_DATA/WITHHOLDTYPE/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/WithholdingTaxTypeCode',formatter:'.formatterState.getValueState'}"  
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/WithholdingTaxTypeCode'},{path:'Request>/HeaderData/Messages/WithholdingTaxTypeCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/WithholdingTaxTypeCode}">
+						<core:Item 	key="{WithholdingTaxTypeCollection>WithholdingTaxTypeCode}"
+									text="{parts:[{path:'WithholdingTaxTypeCollection>WithholdingTaxTypeCode'},{path:'WithholdingTaxTypeCollection>WithholdingTaxTypeName'}],formatter:'.formatterText.formatTextAndId'}" />
+			</ComboBox>
+			<ComboBox 	id="cbWhithholdingTaxCode"
+						selectedKey="{Request>/HeaderData/WithholdingTaxCodeCode}" 
+						items="{path:'WithholdingTaxCodeCollection>/results',templateShareable:'Constants>/false'}" selectionChange="onSelectionChangeWithholdingTaxCode"
+						change="onChangeWithholdingTaxCode"
+						editable="{FieldsAttributes>/HEADER_DATA/WITHHOLDTAX/Editable}" visible="{FieldsAttributes>/HEADER_DATA/WITHHOLDTAX/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/WithholdingTaxCodeCode',formatter:'.formatterState.getValueState'}"  
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/WithholdingTaxCodeCode'},{path:'Request>/HeaderData/Messages/WithholdingTaxCodeCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/WithholdingTaxCodeCode}">
+						<core:Item 	key="{WithholdingTaxCodeCollection>WithholdingTaxCodeCode}"
+									text="{parts:[{path:'WithholdingTaxCodeCollection>WithholdingTaxCodeCode'},{path:'WithholdingTaxCodeCollection>WithholdingTaxCodeName'}],formatter:'.formatterText.formatTextAndId'}" />
+			</ComboBox>			
+			<Label 	text="{i18n>request.label.receivingsglind}" labelFor="iReceivingSGLInd"
+					required="{FieldsAttributes>/HEADER_DATA/RC_SGLIND/Mandatory}" />
+			<Input 	id="iReceivingSGLInd"
+					value="{Request>/HeaderData/RcSpecialGLIndicator}" maxLength="1" showValueHelp="true" valueHelpRequest="onValueHelpReceivingSGLInd" 
+					change="onChangeReceivingSGLInd"
+					description="{Request>/HeaderData/Descriptions/RcSpecialGLIndicatorName}" fieldWidth="120px"
+					tooltip="{Request>/HeaderData/Descriptions/RcSpecialGLIndicatorName}"
+					editable="{FieldsAttributes>/HEADER_DATA/RC_SGLIND/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_SGLIND/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/RcSpecialGLIndicator',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcSpecialGLIndicator'},{path:'Request>/HeaderData/Messages/RcSpecialGLIndicator'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/RcSpecialGLIndicator}">
+			</Input>
+			<Label 	text="{i18n>request.label.receivingcontroller}" labelFor="iReceivingController"
+					required="{FieldsAttributes>/HEADER_DATA/RC_CONTROLLER/Mandatory}" />
+			<Input 	id="iReceivingController"
+					value="{Request>/HeaderData/RcController}" maxLength="12" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpReceivingController"
+					description="{Request>/HeaderData/Descriptions/RcControllerName}" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/RC_CONTROLLER/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_CONTROLLER/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/RcController',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcController'},{path:'Request>/HeaderData/Messages/RcController'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/RcController}">
+			</Input>
+			<Label 	text="{i18n>request.label.receivingbusinessarea}" labelFor="cbReceivingBusinessArea"
+					required="{FieldsAttributes>/HEADER_DATA/RC_BUSAREA/Mandatory}" />
+			<ComboBox 	id="cbReceivingBusinessArea"
+						selectedKey="{Request>/HeaderData/RcBusinessAreaCode}" 
+						items="{path:'ReceivingBusinessAreaCollection>/results',templateShareable:'Constants>/false'}"
+						editable="{FieldsAttributes>/HEADER_DATA/RC_BUSAREA/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_BUSAREA/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/RcBusinessAreaCode',formatter:'.formatterState.getValueState'}"  
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcBusinessAreaCode'},{path:'Request>/HeaderData/Messages/RcBusinessAreaCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/RcBusinessAreaCode}"
+						placeholder="{path:'FieldsAttributes>/HEADER_DATA/RC_BUSAREA/Editable',formatter:'.formatterText.getHeaderReceivingBusinessAreaPlaceholderText'}">
+						<core:Item 	key="{ReceivingBusinessAreaCollection>BusinessAreaCode}"
+									text="{parts:[{path:'ReceivingBusinessAreaCollection>BusinessAreaCode'},{path:'ReceivingBusinessAreaCollection>BusinessAreaName'}],formatter:'.formatterText.formatTextAndId'}" />
+			</ComboBox>
+			<Label 	text="{i18n>request.label.receivingbusinessarea}" labelFor="iReceivingBusinessAreaAlt"
+					required="{FieldsAttributes>/HEADER_DATA/RC_BUSAREA_ALT/Mandatory}" />
+			<Input id="iReceivingBusinessAreaAlt"
+		 		value="{Request>/HeaderData/RcBusinessAreaAltCode}" maxLength="4"
+				visible="{FieldsAttributes>/HEADER_DATA/RC_BUSAREA_ALT/Visible}"
+				showValueHelp="true" valueHelpRequest="onValueHelpReceivingBusinessAreaAlt"
+				description="{Request>/HeaderData/Descriptions/RcBusinessAreaAltName}" fieldWidth="120px"
+				change="onChangeReceivingBusinessAreaAlt"
+				editable="{FieldsAttributes>/HEADER_DATA/RC_BUSAREA_ALT/Editable}"
+				valueState="{path:'Request>/HeaderData/States/RcBusinessAreaAltCode',formatter:'.formatterState.getValueState'}"
+				showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcBusinessAreaAltCode'},{path:'Request>/HeaderData/Messages/RcBusinessAreaAltCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+				valueStateText="{Request>/HeaderData/Messages/RcBusinessAreaAltCode}">
+			</Input>
+			<Label 	text="{i18n>request.label.receivingtaxcode}" labelFor="iReceivingTaxCode"
+					required="{FieldsAttributes>/HEADER_DATA/RC_TAXCODE/Mandatory}" />
+			<Input 	id="iReceivingTaxCode"
+					value="{Request>/HeaderData/RcTaxCode}" maxLength="2" showValueHelp="true" valueHelpRequest="onValueHelpReceivingTax"
+					change="onChangeReceivingTax"
+					description="{Request>/HeaderData/Descriptions/RcTaxName}" fieldWidth="120px"
+					
+					editable="{FieldsAttributes>/HEADER_DATA/RC_TAXCODE/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_TAXCODE/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/RcTaxCode',formatter:'.formatterState.getValueState'}"  
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcTaxCode'},{path:'Request>/HeaderData/Messages/RcTaxCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/RcTaxCode}">
+			</Input>
+			<Label 	text="{i18n>request.label.receivingreferenceinvoice}" labelFor="hbReceivingReferenceInvoice"
+					required="{FieldsAttributes>/HEADER_DATA/RC_REFINVOICEDOC/Mandatory}" />
+			<HBox	id="hbReceivingReferenceInvoice" visible="{FieldsAttributes>/HEADER_DATA/RC_REFINVOICEDOC/Visible}" >
+				<Input class="sapUiTinyMarginEnd" 
+					value="{Request>/HeaderData/RcReferenceInvoiceDocument}" maxLength="10"  width="7rem" 
+					editable="{FieldsAttributes>/HEADER_DATA/RC_REFINVOICEDOC/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_REFINVOICEDOC/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/RcReferenceInvoiceDocument',formatter:'.formatterState.getValueState'}"
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcReferenceInvoiceDocument'},{path:'Request>/HeaderData/Messages/RcReferenceInvoiceDocument'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/RcReferenceInvoiceDocument}">
+				</Input>
+				<custom:NumericInput class="sapUiTinyMarginEnd" 
+					value="{Request>/HeaderData/RcReferenceInvoiceYear}" maxLength="4" hAlign="Center" width="4rem" decimals="0" isNumC="true"
+					editable="{FieldsAttributes>/HEADER_DATA/RC_REFINVOICEYEAR/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_REFINVOICEYEAR/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/RcReferenceInvoiceYear',formatter:'.formatterState.getValueState'}"
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcReferenceInvoiceYear'},{path:'Request>/HeaderData/Messages/RcReferenceInvoiceYear'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/RcReferenceInvoiceYear}">
+				</custom:NumericInput>
+				<custom:NumericInput 
+					value="{Request>/HeaderData/RcReferenceInvoiceItem}" maxLength="3" hAlign="Center" width="3rem" decimals="0" isNumC="true"
+					editable="{FieldsAttributes>/HEADER_DATA/RC_REFINVOICEITEM/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_REFINVOICEITEM/Visible}" 
+					valueState="{path:'Request>/HeaderData/States/RcReferenceInvoiceItem',formatter:'.formatterState.getValueState'}"
+					showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcReferenceInvoiceItem'},{path:'Request>/HeaderData/Messages/RcReferenceInvoiceItem'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+					valueStateText="{Request>/HeaderData/Messages/RcReferenceInvoiceItem}">
+				</custom:NumericInput>
+			</HBox>
+			<Label 	text="{i18n>request.label.receivingbusinessplace}" labelFor="cbReceivingBusinessPlace"
+					required="{FieldsAttributes>/HEADER_DATA/RC_BUSPLACE/Mandatory}" />
+			<Input value="{Request>/HeaderData/RcBusinessPlaceCode}" maxLength="4"
+				visible="{FieldsAttributes>/HEADER_DATA/RC_BUSPLACE/Visible}"
+				showValueHelp="true" valueHelpRequest="onValueHelpReceivingBusinessPlace"
+				description="{Request>/HeaderData/Descriptions/RcBusinessPlaceName}" fieldWidth="120px"
+				change="onChangeReceivingBusinessPlace"
+				editable="{FieldsAttributes>/HEADER_DATA/RC_BUSPLACE/Editable}"
+				valueState="{path:'Request>/HeaderData/States/RcBusinessPlaceCode',formatter:'.formatterState.getValueState'}"
+				showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcBusinessPlaceCode'},{path:'Request>/HeaderData/Messages/RcBusinessPlaceCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+				valueStateText="{Request>/HeaderData/Messages/RcBusinessPlaceCode}"></Input>
+			<Label 	text="{i18n>request.label.receivingreference}" labelFor="iReceivingReference"/>
+			<Input 	id="iReceivingReference"
+					value="{Request>/HeaderData/RcReference}" maxLength="16" fieldWidth="120px"
+					editable="{FieldsAttributes>/HEADER_DATA/RC_REFERENCE/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_REFERENCE/Visible}">
+			</Input>
+		</form:content>
+	</form:SimpleForm>
+</core:FragmentDefinition>

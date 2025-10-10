@@ -1,0 +1,174 @@
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form" xmlns:unified="sap.ui.unified"
+  xmlns:custom="cus.fi.timi.rel.assets.js.library"
+  xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog class="sapUiSizeCompact timi requestUploadFileCreationDialog"
+		contentWidth="100%" contentHeight="100%"
+		resizable="false" draggable="false">
+		<customHeader>
+   			<Toolbar class="requestPopupToolbar"
+    			design="Solid">
+ 				<ToolbarSpacer />
+    			<Title class="sapUiTinyMarginBegin requestPopupTitle"
+    				text="{i18n>label.uploadfilecreation}" level="H4"></Title>
+ 				<ToolbarSpacer />
+   			</Toolbar>
+		</customHeader>
+		<content>
+			<VBox>
+    			<UploadCollection id="ucFileUploadAttachments" class="sapUiSizeCompact uploadFileCreationAttachment"
+					sameFilenameAllowed="true" multiple="false" showSeparators="All" noDataText="{i18n>text.uploadfilecreation.attachments.required}"
+					change="onChangeUploadFile" fileDeleted="onFileDeleted" uploadComplete="onUploadComplete"
+					items="{path:'UploadFileCreationAttachments>/results',templateShareable:'Constants>/true'}">
+					<toolbar>
+						<OverflowToolbar>
+							<Title text="1. {path:'UploadFileCreationAttachments>/results', formatter:'.formatterText.getAttachmentText'}"/>
+							<Button 
+								icon="sap-icon://navigation-up-arrow" type="Transparent" 
+								data:displayStateValue="show" 
+								press="onPressToogleUploadFileCreationAttachmentsVisibility"
+								tooltip="{i18n>searchcriteria.button.tooltip.hide}"></Button>
+							<ToolbarSpacer/>
+							<UploadCollectionToolbarPlaceholder class="UploadPlaceholder"></UploadCollectionToolbarPlaceholder>
+						</OverflowToolbar>
+					</toolbar>
+					<items>
+						<UploadCollectionItem class="sapUiSizeCompact"
+							documentId="{UploadFileCreationAttachments>FolderId}"
+							fileName="{UploadFileCreationAttachments>FileName}"
+							mimeType="{UploadFileCreationAttachments>MimeType}"
+							url="{UploadFileCreationAttachments>Url}"
+							visibleEdit="false" visibleDelete="true">
+							<attributes>
+								<ObjectAttribute class="sapUiSizeCompact"
+										title="{i18n>request.attachment.text.uploadedby}" text="{UploadFileCreationAttachments>UserCreationName}"
+										active="false"/>
+								<ObjectAttribute class="sapUiSizeCompact"
+										title="{i18n>request.attachment.text.uploadedon}" 
+										text="{path:'UploadFileCreationAttachments>TimestampCreation',formatter:'.formatterFormat.formatDate'}"
+										active="false"/>
+								<ObjectAttribute class="sapUiSizeCompact"
+										title="{i18n>request.attachment.text.filesize}" 
+										text="{path:'UploadFileCreationAttachments>FileSize',formatter:'.formatterFormat.formatAttachmentSize'}"
+										active="false"/>
+							</attributes>
+						</UploadCollectionItem>
+					</items>
+				</UploadCollection>
+				
+				<Toolbar class="sapUiMediumMarginTop ">
+					<Title class="sapUiSmallMarginBegin uploadFileTitle"
+						text="2. {i18n>text.data}"/>
+					<Button 
+						icon="sap-icon://navigation-up-arrow" type="Transparent" 
+						data:displayStateValue="show" 
+						press="onPressToogleUploadFileCreationAttachmentsVisibility"
+						tooltip="{i18n>searchcriteria.button.tooltip.hide}"></Button>
+	 				<ToolbarSpacer />
+	   			</Toolbar>
+	   			<HBox alignItems="Center">
+		   			<ComboBox id="cbUploadFileCreationMajorType" class="sapUiSmallMarginBegin"
+		   			    visible="false"
+		   				items="{MajorTypeCollection>/results}" width="20rem"
+		   				selectedKey="{UploadFileCreationData>/MajorTypeCode}"
+		   				placeholder="{i18n>text.placeholder.majortypeselection}">
+		   				<core:Item 
+		   					key="{MajorTypeCollection>MajorTypeCode}" 
+		   					text="{MajorTypeCollection>MajorTypeName}"/>
+		   			</ComboBox>
+					<unified:FileUploader class="uploadRequestFileButton" id="fuFileUploadRequests"
+						visible="true" enabled="{parts:[{path:'AppData>/intercoType'},{path:'UploadFileCreationData>/MajorTypeCode'}], formatter:'.formatterState.getUploadFileCreationFileUploaderState'}"
+						icon="sap-icon://upload" fileType="txt" uploadOnChange="true" sendXHR="true" sameFilenameAllowed="true"
+						buttonText="{i18n>text.importtxtfile}" buttonOnly="true"
+						change="onChangeUploadTXTFile" 
+						typeMissmatch="onTypeMissmatchUploadTXTFile"
+						uploadComplete="onUploadCompleteUploadTXTFile">
+					</unified:FileUploader>
+	 				<Label id="lblUploadFileCreationResults" class="sapUiMediumMarginBegin fileUploadName"
+	 					visible="true"
+	 					text="{UploadFileReport>/UploadFilename} ({path:'UploadFileReport>/UploadFilesize',formatter:'.formatterFormat.formatAttachmentSize'}) - {path:'UploadFileReport>/Requests/results', formatter:'.formatterText.getRequestNumberText'}"/>
+	   			</HBox>
+	   			<Table id="tUploadFileCreationResults" class="sapUiTinyMarginTop"
+	 				visible="false" mode="SingleSelectMaster"
+					items="{path:'UploadFileReportRequests>/results',templateShareable:'Constants>/false',length:900}" showNoData="false" fixedLayout="false"
+					busyIndicatorDelay="{AppData>/busyIndicatorDelay}"
+	   				selectionChange="onSelectUploadingRequest">
+	   				<columns  >
+	   					<Column hAlign="Center">
+			  			</Column>
+			  			<Column hAlign="Center"><Text text="{i18n>request.table.column.majortype}" visible="false"/></Column>
+			  			<Column hAlign="Center"><Text text="{i18n>request.table.column.analyticalnature.short}" visible="false"/></Column>
+			  			<Column hAlign="Center"><Text text="{i18n>request.table.column.invoicetype}" /></Column>
+						<Column hAlign="Center"><Text text="{i18n>request.table.column.receivingcontroller}" /></Column>
+						<Column hAlign="Center"><Text text="{i18n>request.table.column.issuingcompany}" /></Column>
+			      		<Column hAlign="Center"><Text text="{i18n>request.table.column.receivingcompany}" /></Column>
+			      		<Column hAlign="Right"><Text text="{i18n>request.table.column.amount}" /></Column>
+			      		<Column hAlign="Center" width="4rem"><Text text="{i18n>request.table.column.currency}" /></Column>
+			      		<Column width="30%" hAlign="Left"><Text text="{i18n>request.table.column.headertext}" /></Column>
+	   				</columns>
+	   				<items>
+	   					<ColumnListItem type="Active">
+	   						<HBox>
+			   					<core:Icon 
+									src="{path:'UploadFileReportRequests>CheckStatus', formatter:'.formatterState.getMessageStateIcon'}"
+									color="{path:'UploadFileReportRequests>CheckStatus', formatter:'.formatterState.getMessageStateIconColor'}">
+								</core:Icon>
+	   							<Label class="badge"
+									text="{path:'UploadFileReportRequests>Messages/results', formatter:'.utilities.count'}"
+									visible="{= ${path:'UploadFileReport>Messages/results', formatter:'.utilities.count'} === 0 ? false : true}">
+								</Label>
+	   						</HBox>
+							<Text text="{path:'UploadFileReportRequests>HeaderData/MajorTypeCode',formatter:'.formatterText.getMajorTypeText'}" visible="false"/>
+							<Text text="{UploadFileReportRequests>HeaderData/TreasuryNatureCode}" visible="false"/>							
+							<Text text="{path:'UploadFileReportRequests>HeaderData/DocumentTypeCode', formatter:'.formatterText.getInvoiceTypeText'}"/>
+							<Text text="{UploadFileReportRequests>HeaderData/RcController}"/>
+							<Text text="{UploadFileReportRequests>HeaderData/IsLegalEntityCode} / {UploadFileReportRequests>HeaderData/IsCompanyCode}"/>
+							<Text text="{UploadFileReportRequests>HeaderData/RcLegalEntityCode} / {UploadFileReportRequests>HeaderData/RcCompanyCode}"/>
+							<Text text="{path:'UploadFileReportRequests>HeaderData/Amount',formatter:'.formatterFormat.formatAmount'}"/>	
+							<Text text="{UploadFileReportRequests>HeaderData/CurrencyCode}"/>
+							<Text text="{UploadFileReportRequests>HeaderData/HeaderText}"/>
+						</ColumnListItem>
+	   				</items>
+	   			</Table>
+	   			
+	   			<List id="listUploadFileCreationMessages" class="messageList sapUiTinyMarginBegin sapUiSmallMarginTop"
+	   				width="95%"
+	   				headerText="Errors List" visible="false"
+	   				items="{UploadFileCreationMessages>/results}" >
+					<CustomListItem>
+						<HBox 
+							height="1.5rem" alignItems="Center">
+							<HBox 
+								width="2rem" justifyContent="Center" alignItems="Center">
+		   						<core:Icon 
+									src="{path:'UploadFileCreationMessages>MessageType', formatter:'.formatterState.getMessageStateIcon'}"
+									color="{path:'UploadFileCreationMessages>MessageType', formatter:'.formatterState.getMessageStateIconColor'}">
+								</core:Icon>
+							</HBox>
+	   						<Label 
+	   							text="{i18n>label.line} {UploadFileCreationMessages>LineId}"/>
+	   						<Label class="sapUiTinyMarginBeginEnd" text="-"></Label>
+							<Label text="{UploadFileCreationMessages>Message}"/>
+						</HBox>
+					</CustomListItem>
+				</List>
+
+			</VBox>
+		</content>
+		<beginButton>
+			<Button 
+				text="{i18n>button.confirmation.create} ({UploadFileCreationData>/NbTotalRequests})"
+				enabled="{parts:[{path:'UploadFileCreationAttachments>/results'},{path:'UploadFileCreationData>/RequestsAreValid'}],formatter:'.checkUploadFileCreationCondition'}"
+				icon="sap-icon://create" type="Accept" 
+				press="onPressCreateRequestConfirmation">
+			</Button>
+		</beginButton>
+		<endButton>
+			<Button
+				text="{i18n>button.cancel}" 
+				icon="sap-icon://sys-cancel" type="Reject"
+				press="onPressCreateRequestCancellation">
+			</Button>
+		</endButton>
+  	</Dialog>
+</core:FragmentDefinition>

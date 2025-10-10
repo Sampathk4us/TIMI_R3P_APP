@@ -1,0 +1,232 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI		                                 	  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestHeaderAdditionalDataPopover.fragment.xml  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 03/02/2021                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Resquest Header Additional Data			  	 		  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<!-- * Modification No ........... : M0001									  * -->
+<!-- * Project ................... : AMSÂ 2.0Â SupportÂ Maintenance 			  * -->
+<!-- * Consultant name ........... : Shivram Sagi							  * -->
+<!-- * Trigram ................... : SRS									  * -->
+<!-- * Document................... : FIORI-SDT-FI062						  * -->
+<!-- *======================================================================* * -->
+<!-- * Modification date ......... : 15/10/2021								  * -->
+<!-- * Transport order ........... : DO8K905596								  * -->
+<!-- * Description ............... : ITS-CHG0246517 - Enhancement			  * -->
+<!-- * 								 Add below new fields to TIMI Major		  * -->
+<!-- *								 Specific for Poland 		 	 		  * -->
+<!-- *								 1. Issuing SGL Indicator		   		  * -->
+<!-- *							     2. Issuing Invoice Reference	 		  * -->
+<!-- *								 3. Receiving SGL Indicator				  * -->
+<!-- *								 4. Receiving Invoice Reference		  	  * -->
+<!-- *========================================================================* -->
+
+<!-- M0001 - SRS - Begin of INS - 15.10.2021 Added custom namespace -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+  xmlns:custom="cus.fi.timi.rel.assets.js.library">
+<!-- M0001 - SRS - End of INS - 15.10.2021 Added custom namespace -->
+  	<ResponsivePopover class="timi" placement="Right" showHeader="false"> 
+    	<content>
+			<form:SimpleForm minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" class="sapUiNoContentPadding"
+							labelSpanL="5" labelSpanM="5" emptySpanL="1" emptySpanM="1" columnsL="2" columnsM="2">
+				<form:content>
+					<core:Title level="H6">
+						<core:customData>
+							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+						</core:customData>
+					</core:Title>
+					<Label 	text="{i18n>request.label.issuingheadertext}" labelFor="iIssuingHeaderText"
+							required="{FieldsAttributes>/HEADER_DATA/HEADERTEXT/Mandatory}" />
+					<Input id="iIssuingHeaderText"
+						value="{Request>/HeaderData/HeaderText}" maxLength="50" 
+						editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}"></Input>
+					<Label 	text="{i18n>request.label.issuingtaxreportingdate}" labelFor="dpIssuingTaxDate"/>
+					<DatePicker id="dpIssuingTaxDate"
+						dateValue="{path:'Request>/HeaderData/IsTaxReportingDate',formatOptions:{UTC:true}}"
+						displayFormat="dd/MM/yyyy"
+						editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}"></DatePicker>
+					<Label  text="{i18n>request.label.issuinginvrecdate}" labelFor="dpIssuingInvoiceReceiptDate"/>
+					<DatePicker id="dpIssuingInvoiceReceiptDate" 
+						dateValue="{path:'Request>/HeaderData/IsInvoiceReceiptDate',formatOptions:{UTC:true}}"
+						displayFormat="dd/MM/yyyy"
+						editable="false" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}"></DatePicker>
+<!-- 					<Label 	text="{i18n>request.label.issuingreference}" labelFor="iIssuingReference"/>
+					<Input 	id="iIssuingReference"
+							value="{Request>/HeaderData/IsReference}" maxLength="16" fieldWidth="120px"
+							editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}">
+					</Input> -->
+					<Label 	text="{i18n>request.label.issuingassignment}" labelFor="iIssuingAssignment"/>
+					<Input 	id="iIssuingAssignment"
+							value="{Request>/HeaderData/IsAssignment}" maxLength="18" fieldWidth="120px"
+							editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}">
+					</Input>
+					<!-- M0001 - SRS - Begin of INS - 15.10.2021 -->
+					<Label 	text="{i18n>request.label.issuingsglind}" labelFor="iIsSGLInd"
+							required="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Mandatory}" />
+					<Input 	id="iIsSGLInd"
+							value="{Request>/HeaderData/IsSpecialGLIndicator}" maxLength="1" showValueHelp="true" valueHelpRequest="onValueHelpIssuingSGLInd" 
+							change="onChangeIssuingSGLInd"
+							description="{Request>/HeaderData/Descriptions/IsSpecialGLIndicatorName}" fieldWidth="120px"
+							tooltip="{Request>/HeaderData/Descriptions/IsSpecialGLIndicatorName}"
+							editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}" 
+							valueState="{path:'Request>/HeaderData/States/IsSpecialGLIndicator',formatter:'.formatterState.getValueState'}"  
+							showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsSpecialGLIndicator'},{path:'Request>/HeaderData/Messages/IsSpecialGLIndicator'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>/HeaderData/Messages/IsSpecialGLIndicator}">
+					</Input>
+					<!-- M0001 - SRS - End of INS - 15.10.2021 -->
+					<Label 	text="{i18n>request.label.issuingrefkey1}" labelFor="iIssuingRefKey1"/>
+					<Input 	id="iIssuingRefKey1"
+							value="{Request>/HeaderData/IsReferenceKey1}" maxLength="12" fieldWidth="120px"
+							editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}">
+					</Input>	
+					<Label 	text="{i18n>request.label.issuingrefkey3}" labelFor="iIssuingRefKey3"/>
+					<Input 	id="iIssuingRefKey3"
+							value="{Request>/HeaderData/IsReferenceKey3}" maxLength="20" fieldWidth="120px"
+							editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}">
+					</Input>	
+					<Label 	text="{i18n>request.label.issuingreferenceinvoice}" labelFor="hbIsRefInvDoc"/>
+					<!-- M0001 - SRS - Begin of MOD - 15.10.2021 -->
+<!-- 					<Input id="iIsRefInvDoc" class="sapUiTinyMarginEnd"  -->
+<!-- 						value="{Request>/HeaderData/IsReferenceInvoiceDocument}" maxLength="10" hAlign="Center" fieldWidth="120px" -->
+<!-- 						editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}"> -->
+<!-- 					</Input> -->
+					<HBox	id="hbIsRefInvDoc" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}" >
+					<Input class="sapUiTinyMarginEnd" 
+						value="{Request>/HeaderData/IsReferenceInvoiceDocument}" maxLength="10" hAlign="Center" width="6rem"
+						editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/IsReferenceInvoiceDocument',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsReferenceInvoiceDocument'},{path:'Request>/HeaderData/Messages/IsReferenceInvoiceDocument'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/IsReferenceInvoiceDocument}">
+					</Input>
+					<custom:NumericInput class="sapUiTinyMarginEnd" 
+						value="{Request>/HeaderData/IsReferenceInvoiceYear}" maxLength="4" hAlign="Center" width="4rem" decimal="0" isNumC="true"
+						editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/IsReferenceInvoiceYear',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsReferenceInvoiceYear'},{path:'Request>/HeaderData/Messages/IsReferenceInvoiceYear'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/IsReferenceInvoiceYear}">
+					</custom:NumericInput>
+					<custom:NumericInput 
+						value="{Request>/HeaderData/IsReferenceInvoiceItem}" maxLength="3" hAlign="Center" width="3rem" decimal="0" isNumC="true"
+						editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}" 
+						valueState="{path:'Request>/HeaderData/States/IsReferenceInvoiceItem',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/IsReferenceInvoiceItem'},{path:'Request>/HeaderData/Messages/IsReferenceInvoiceItem'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>/HeaderData/Messages/IsReferenceInvoiceItem}">
+					</custom:NumericInput>
+					</HBox>
+					<!-- M0001 - SRS - End of MOD - 15.10.2021 -->
+					<core:Title level="H6">
+						<core:customData>
+							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+						</core:customData>
+					</core:Title>
+					<Label 	text="{i18n>request.label.receivingheadertext}" labelFor="iReceivingHeaderText"/>
+					<Input id="iReceivingHeaderText"
+						value="{Request>/HeaderData/RcHeaderText}" maxLength="50" 
+						editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}"></Input>
+					<Label 	text="{i18n>request.label.receivingtaxreportingdate}" labelFor="dpReceivingTaxDate"/>
+					<DatePicker id="dpReceivingTaxDate"
+						dateValue="{path:'Request>/HeaderData/RcTaxReportingDate',formatOptions:{UTC:true}}"
+						displayFormat="dd/MM/yyyy"
+						editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}"></DatePicker>
+					<Label  text="{i18n>request.label.receivinginvrecdate}" labelFor="dpReceivingInvoiceReceiptDate"/>
+					<DatePicker id="dpReceivingInvoiceReceiptDate" 
+						dateValue="{path:'Request>/HeaderData/RcInvoiceReceiptDate',formatOptions:{UTC:true}}"
+						displayFormat="dd/MM/yyyy"
+						editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}"></DatePicker>
+<!-- 					<Label 	text="{i18n>request.label.receivingreference}" labelFor="iReceivingReference"/>
+					<Input 	id="iReceivingReference"
+							value="{Request>/HeaderData/RcReference}" maxLength="16" fieldWidth="120px"
+							editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}">
+					</Input> -->
+					<Label 	text="{i18n>request.label.receivingassignment}" labelFor="iReceivingAssignment"/>
+					<Input 	id="iReceivingAssignment"
+							value="{Request>/HeaderData/RcAssignment}" maxLength="18" fieldWidth="120px"
+							editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}">
+					</Input>
+					<!-- M0001 - SRS - Begin of INS - 15.10.2021 -->
+					<Label 	text="{i18n>request.label.receivingsglind}" labelFor="iReSGLInd"
+							required="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Mandatory}" />
+					<Input 	id="iReSGLInd"
+							value="{Request>/HeaderData/RcSpecialGLIndicator}" maxLength="1" showValueHelp="true" valueHelpRequest="onValueHelpReceivingSGLInd" 
+							change="onChangeReceivingSGLInd"
+							description="{Request>/HeaderData/Descriptions/RcSpecialGLIndicatorName}" fieldWidth="120px"
+							tooltip="{Request>/HeaderData/Descriptions/RcSpecialGLIndicatorName}"
+							editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}" 
+							valueState="{path:'Request>/HeaderData/States/RcSpecialGLIndicator',formatter:'.formatterState.getValueState'}"  
+							showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcSpecialGLIndicator'},{path:'Request>/HeaderData/Messages/RcSpecialGLIndicator'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>/HeaderData/Messages/RcSpecialGLIndicator}">
+					</Input>
+					<!-- M0001 - SRS - End of INS - 15.10.2021 -->
+					<Label 	text="{i18n>request.label.receivingrefkey1}" labelFor="iReceivingRefKey1"/>
+					<Input 	id="iReceivingRefKey1"
+							value="{Request>/HeaderData/RcReferenceKey1}" maxLength="12" fieldWidth="120px"
+							editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}">
+					</Input>
+					<Label 	text="{i18n>request.label.receivingrefkey3}" labelFor="iReceivingRefKey3"/>
+					<Input 	id="iReceivingRefKey3"
+							value="{Request>/HeaderData/RcReferenceKey3}" maxLength="20" fieldWidth="120px"
+							editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}">
+					</Input>
+					<!-- M0001 - SRS - Begin of INS - 15.10.2021 -->
+					<Label 	text="{i18n>request.label.receivingreferenceinvoice}" labelFor="hbReRefInvDoc"
+					required="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Mandatory}" />
+					<HBox	id="hbReRefInvDoc" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}" >
+						<Input class="sapUiTinyMarginEnd" 
+							value="{Request>/HeaderData/RcReferenceInvoiceDocument}" maxLength="10"  width="6rem" 
+							editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}" 
+							valueState="{path:'Request>/HeaderData/States/RcReferenceInvoiceDocument',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcReferenceInvoiceDocument'},{path:'Request>/HeaderData/Messages/RcReferenceInvoiceDocument'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>/HeaderData/Messages/RcReferenceInvoiceDocument}">
+						</Input>
+						<custom:NumericInput class="sapUiTinyMarginEnd" 
+							value="{Request>/HeaderData/RcReferenceInvoiceYear}" maxLength="4" hAlign="Center" width="4rem" decimals="0" isNumC="true"
+							editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}" 
+							valueState="{path:'Request>/HeaderData/States/RcReferenceInvoiceYear',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcReferenceInvoiceYear'},{path:'Request>/HeaderData/Messages/RcReferenceInvoiceYear'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>/HeaderData/Messages/RcReferenceInvoiceYear}">
+						</custom:NumericInput>
+						<custom:NumericInput 
+							value="{Request>/HeaderData/RcReferenceInvoiceItem}" maxLength="3" hAlign="Center" width="3rem" decimals="0" isNumC="true"
+							editable="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_DATA_PL/Visible}" 
+							valueState="{path:'Request>/HeaderData/States/RcReferenceInvoiceItem',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>/HeaderData/States/RcReferenceInvoiceItem'},{path:'Request>/HeaderData/Messages/RcReferenceInvoiceItem'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>/HeaderData/Messages/RcReferenceInvoiceItem}">
+						</custom:NumericInput>
+					</HBox>
+					<!-- M0001 - SRS - End of INS - 15.10.2021 -->
+				</form:content>
+			</form:SimpleForm>
+			<form:SimpleForm minWidth="1024" maxContainerCols="2" editable="true" layout="ResponsiveGridLayout" class="sapUiNoContentPadding"
+							labelSpanL="2" labelSpanM="2" emptySpanL="1" emptySpanM="1" columnsL="1" columnsM="1">
+				<Label 	text="{i18n>request.label.issuingaccountingtext}" labelFor="taIssuingAccountingText"/>
+				<TextArea id="taIssuingAccountingText"
+					value="{Request>/HeaderData/IsAccountingText}" growing="true"
+					editable="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_DATA_PL/Visible}">
+				</TextArea>	
+			</form:SimpleForm>	
+		</content>
+		<beginButton>
+		</beginButton>
+		<endButton>
+		</endButton>
+  	</ResponsivePopover>
+</core:FragmentDefinition>

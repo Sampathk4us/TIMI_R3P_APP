@@ -1,0 +1,162 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestHeaderLongText.fragment.xml   	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 27/10/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request header long text fragment   					  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : M001									  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : David TEA                          	  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 							  			  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 							  			  * -->
+<!-- * Description ............... : 		  								  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  	xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+	xmlns:custom="cus.fi.timi.rel.assets.js.library">
+	<layout:Splitter>
+	<Table id="tIssuingWithHoldingTax" class="sapUiTinyMarginTopBottom" 
+		visible="{Request>/States/IssuingTableWTaxVisible}"	
+		items="{path:'Request>/IssuingWithholdingTax/results',templateShareable:'Constants>/false'}"
+		showNoData="false" fixedLayout="false">		
+		<layoutData><layout:SplitterLayoutData size="50%" resizable="false"/></layoutData>
+		<headerToolbar>
+			<OverflowToolbar>
+				<content>
+					<Title text="{i18n>request.table.withholdingtax.title.issuing}" level="H2"/>
+				</content>
+			</OverflowToolbar>
+		</headerToolbar>
+		<columns hAlign="Center">
+			<Column width="10rem" hAlign="Center" demandPopin="true" popinDisplay="Inline">
+				<Label 
+					text="{i18n>request.table.withholdingtax.column.wtaxtype}" 
+					tooltip="{i18n>request.table.withholdingtax.column.wtaxtype}"/>
+			</Column>
+			<Column width="6rem" hAlign="Center" demandPopin="true" popinDisplay="Inline">
+				<Label 
+					text="{i18n>request.table.withholdingtax.column.wtaxcode}" 
+					tooltip="{i18n>request.table.withholdingtax.column.wtaxcode}"/>
+			</Column>
+			<Column width="5rem" hAlign="Center" demandPopin="true" popinDisplay="Inline">
+				<Label 
+					text="{i18n>request.table.withholdingtax.column.amount.base}" 
+					tooltip="{i18n>request.table.withholdingtax.column.amount.base}"/>
+			</Column>
+			<Column width="5rem" hAlign="Center" demandPopin="true" popinDisplay="Inline">
+				<Label 
+					text="{i18n>request.table.withholdingtax.column.amount.tax}" 
+					tooltip="{i18n>request.table.withholdingtax.column.amount.tax}"/>
+			</Column>	
+		</columns>
+		<items>
+			<ColumnListItem type="Inactive">
+				<cells>
+					<Text text="{Request>WTaxType} - {Request>Descriptions/WTaxType}"></Text>					
+					<ComboBox items="{Request>WithholdingTaxCodes/results}"
+						selectedKey="{Request>WTaxCode}" 
+						selectionChange="onSelectionChangeItemDCIndicator"
+						editable="{FieldsAttributes>/ISSUING_WTAX/WT_WITHCD/Editable}" 
+						visible="{FieldsAttributes>/ISSUING_WTAX/WT_WITHCD/Visible}" 
+						valueState="{path:'Request>States/WTaxCode',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/WTaxCode'},{path:'Request>Messages/WTaxCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/WTaxCode}">
+						<core:Item key="{Request>WTaxCode}" text="{Request>WTaxCode} - {Request>WTaxCodeDescription}" />
+					</ComboBox>
+					<custom:NumericInput value="{Request>BaseAmount}" maxLength="16" decimals="{path:'Request>BaseAmount',formatter:'.businessRules.getCurrencyMaxDecimals'}" hAlign="Right"  
+						change="onChangeWTaxItemAmount"
+						editable="{FieldsAttributes>/ISSUING_WTAX/BASE_AMOUNT/Editable}"
+						valueState="{path:'Request>States/BaseAmount',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/BaseAmount'},{path:'Request>Messages/BaseAmount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/BaseAmount}">
+					</custom:NumericInput>
+					<custom:NumericInput value="{Request>TaxAmount}" maxLength="16" decimals="{path:'Request>TaxAmount',formatter:'.businessRules.getCurrencyMaxDecimals'}" hAlign="Right"  
+						change="onChangeWTaxItemAmount"
+						editable="{FieldsAttributes>/ISSUING_WTAX/TAX_AMOUNT/Editable}"
+						valueState="{path:'Request>States/TaxAmount',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/TaxAmount'},{path:'Request>Messages/TaxAmount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/TaxAmount}">
+					</custom:NumericInput>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>	
+	<Table id="tReceivingWithHoldingTax" class="sapUiTinyMarginTopBottom" 
+		visible="{Request>/States/ReceivingTableWTaxVisible}"	
+		items="{path:'Request>/ReceivingWithholdingTax/results',templateShareable:'Constants>/false'}"
+		showNoData="false" fixedLayout="false">		
+		<layoutData><layout:SplitterLayoutData size="auto"/></layoutData>
+		<headerToolbar>
+			<OverflowToolbar>
+				<content>
+					<Title text="{i18n>request.table.withholdingtax.title.receiving}" level="H2"/>
+				</content>
+			</OverflowToolbar>
+		</headerToolbar>
+		<columns hAlign="Center">
+			<Column width="10rem" hAlign="Center" demandPopin="true" popinDisplay="Inline">
+				<Label 
+					text="{i18n>request.table.withholdingtax.column.wtaxtype}" 
+					tooltip="{i18n>request.table.withholdingtax.column.wtaxtype}"/>
+			</Column>
+			<Column width="6rem" hAlign="Center" demandPopin="true" popinDisplay="Inline">
+				<Label 
+					text="{i18n>request.table.withholdingtax.column.wtaxcode}" 
+					tooltip="{i18n>request.table.withholdingtax.column.wtaxcode}"/>
+			</Column>
+			<Column width="5rem" hAlign="Center" demandPopin="true" popinDisplay="Inline">
+				<Label 
+					text="{i18n>request.table.withholdingtax.column.amount.base}" 
+					tooltip="{i18n>request.table.withholdingtax.column.amount.base}"/>
+			</Column>
+			<Column width="5rem" hAlign="Center" demandPopin="true" popinDisplay="Inline">
+				<Label 
+					text="{i18n>request.table.withholdingtax.column.amount.tax}" 
+					tooltip="{i18n>request.table.withholdingtax.column.amount.tax}"/>
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem type="Inactive">
+				<cells>
+					<Text text="{Request>WTaxType} - {Request>Descriptions/WTaxType}"></Text>					
+					<ComboBox items="{Request>WithholdingTaxCodes/results}" 
+						selectedKey="{Request>WTaxCode}" 
+						selectionChange="onSelectionChangeItemDCIndicator"
+						editable="{FieldsAttributes>/RECEIVING_WTAX/WT_WITHCD/Editable}" 
+						visible="{FieldsAttributes>/RECEIVING_WTAX/WT_WITHCD/Visible}" 
+						valueState="{path:'Request>States/WTaxCode',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/WTaxCode'},{path:'Request>Messages/WTaxCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/WTaxCode}">
+						<core:Item key="{Request>WTaxCode}" text="{Request>WTaxCode} - {Request>WTaxCodeDescription}" />
+					</ComboBox>
+					<custom:NumericInput value="{Request>BaseAmount}" maxLength="16" decimals="{path:'Request>BaseAmount',formatter:'.businessRules.getCurrencyMaxDecimals'}" hAlign="Right"  
+						change="onChangeWTaxItemAmount"
+						editable="{FieldsAttributes>/RECEIVING_WTAX/BASE_AMOUNT/Editable}"
+						valueState="{path:'Request>States/BaseAmount',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/BaseAmount'},{path:'Request>Messages/BaseAmount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/BaseAmount}">
+					</custom:NumericInput>
+					<custom:NumericInput value="{Request>TaxAmount}" maxLength="16" decimals="{path:'Request>TaxAmount',formatter:'.businessRules.getCurrencyMaxDecimals'}" hAlign="Right"  
+						change="onChangeWTaxItemAmount"
+						editable="{FieldsAttributes>/RECEIVING_WTAX/TAX_AMOUNT/Editable}"
+						valueState="{path:'Request>States/TaxAmount',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/TaxAmount'},{path:'Request>Messages/TaxAmount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/TaxAmount}">
+					</custom:NumericInput>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+	</layout:Splitter>
+</core:FragmentDefinition>

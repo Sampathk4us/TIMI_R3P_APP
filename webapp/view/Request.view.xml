@@ -1,0 +1,257 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/Request.view.xml   	  						  	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 12/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request view  					  				  	  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : M001									  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : Marion Alberny                           * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 03/11/2016								  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : CR2016-273225							  * -->
+<!-- * Description ............... : New Refresh Button for List Refresh	  * -->
+<!-- *************************************************************************/ -->
+<!-- * Modification n  ........... : M002									  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : Marion Alberny                           * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 27/01/2017								  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : CR										  * -->
+<!-- * Description ............... : Toolbars for variant management		  * -->
+<!-- *************************************************************************/ -->
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:custom="cus.fi.timi.rel.assets.js.library"
+		controllerName="cus.fi.timi.rel.controller.Request" xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" 
+		xmlns:html="http://www.w3.org/1999/xhtml" xmlns:variants="sap.ui.comp.variants">
+	<Page id="pRequest" title="{path:'Request>/RequestId',formatter:'.formatterText.getRequestViewTitle'}"
+		showNavButton="true" navButtonPress="onNavBack">
+		<content>
+			<ObjectHeader id="ohRequest" 
+				visible="{= ${AppData>/issuingItemFullscreen} === true || ${AppData>/receivingItemFullscreen} === true ? false : true}"
+				title="{path:'Request>/RequestId',formatter:'.formatterText.getRequestViewTitle'}" number="{parts:[{path:'Request>/HeaderData/Amount'},{path:'Request>/HeaderData/CurrencyCode'}],formatter:'.businessRules.formatAmountWithDecimalAndSpaceSeparator'}" 
+				numberUnit="{Request>/HeaderData/CurrencyCode}" backgroundDesign="Translucent">
+				<statuses>
+					<ObjectStatus id="osOffMarkupAmount" text="{path:'Request>/IssuingItems/results',formatter:'.formatterText.getOffMarkupAmountText'}">
+					</ObjectStatus>
+					<ObjectStatus text="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'}],formatter:'.formatterText.getStatusText'}">
+						<customData>
+							<core:CustomData key="customobjectstatus" value="{path:'Request>/StatusId', formatter:'.formatterState.getCustomStatusState'}" writeToDom="true"></core:CustomData>
+						</customData>
+					</ObjectStatus>	
+				</statuses>
+				<attributes>
+					<ObjectAttribute text="{Request>/HeaderData/Descriptions/DocumentTypeName}" />
+				</attributes>
+				<attributes>
+					<ObjectAttribute text="{i18n>request.table.column.creationmode} : {path:'Request>/HeaderData/CreationMode', formatter:'.formatterText.getCreationModeText'}"
+						visible="false" />
+				</attributes>
+			</ObjectHeader>
+			<IconTabBar id="itbRequest" class="sapUiNoContentPadding"
+				visible="{= ${AppData>/issuingItemFullscreen} === true || ${AppData>/receivingItemFullscreen} === true ? false : true}"
+				upperCase="false">
+				<items>
+					<IconTabFilter 
+						icon="sap-icon://hint" text="{i18n>icon.label.headerdata.short}" tooltip="{i18n>icon.label.headerdata}">
+						<content>
+							<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.RequestHeaderIconTab" type="XML"/>
+						</content>
+						<customData>
+							<core:CustomData key="customicontabcolor" value="{path:'Request>/States/HeaderData',formatter:'.formatterState.getCustomErrorColor'}" writeToDom="true"></core:CustomData>
+						</customData>
+					</IconTabFilter>
+					<IconTabFilter 
+						icon="sap-icon://notes" text="{i18n>icon.label.longtext}" tooltip="{i18n>icon.label.longtext}">
+						<content>
+							<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.RequestHeaderLongText" type="XML"/>
+						</content>
+					</IconTabFilter>
+					<IconTabFilter visible="{Request>/States/TabWithholdingTaxVisible}"
+						icon="sap-icon://waiver" text="{i18n>icon.label.withholdingtax}" tooltip="{i18n>icon.label.withholdingtax.long}">
+						<content>
+							<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.RequestWithholdingTax" type="XML"/>
+						</content>
+						<customData>
+							<core:CustomData key="customicontabcolor" value="{path:'Request>/States/WithholdingTax',formatter:'.formatterState.getCustomErrorColor'}" writeToDom="true"></core:CustomData>
+						</customData>
+					</IconTabFilter>
+					<IconTabFilter 
+						icon="sap-icon://attachment" text="{i18n>icon.label.attachment}" tooltip="{i18n>icon.label.attachment}"
+						count="{path:'Request>/Attachments/results',formatter:'.utilities.count'}">
+						<content>
+							<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.RequestAttachments" type="XML"/>
+						</content>
+						<customData>
+							<core:CustomData key="customicontabcolor" value="{path:'Request>/States/Attachments',formatter:'.formatterState.getCustomErrorColor'}" writeToDom="true"></core:CustomData>
+						</customData>
+					</IconTabFilter>
+					<IconTabFilter 
+						icon="sap-icon://workflow-tasks" text="{i18n>icon.label.workflow}" tooltip="{i18n>icon.label.workflow}">
+						<content>
+							<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.RequestWorkflowHistory" type="XML"/>
+						</content>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+			<Toolbar id="otbIssuing" class="sapUiTinyMarginTop sapUiSmallMarginBeginEnd"
+				visible="{= !${AppData>/receivingItemFullscreen}}">
+				<Title 	id="tTitleIssuing" text="{path:'Request>/IssuingItems/results',formatter:'.formatterText.getIssuingItemsTableTitle'}"/>
+				<Button id="btnIssuingItemVisibility" 
+					icon="{= ${AppData>/issuingItemVisibility} === true ? 'sap-icon://navigation-up-arrow' : 'sap-icon://navigation-down-arrow'}" type="Transparent"
+					press="onPressToogleIssuingItemsVisibility"
+					tooltip="{i18n>request.table.issuingitems.button.tooltip.hide}"></Button>
+				<variants:VariantManagement id="vmIssuingItems" 
+						variantItems="{path:'IssuingVariantList>/results',templateShareable:'Constants>/false'}"
+						data:itemType="1" 
+						select="onSelectItemVariant" save="onSaveItemVariant"  
+						manage="onManageItemVariant"  >
+					<variants:variantItems>
+						<variants:VariantItem text="{IssuingVariantList>VAR_NAME}" key="{IssuingVariantList>VAR_KEY}" readOnly="{IssuingVariantList>readOnly}" author="{IssuingVariantList>author}"></variants:VariantItem>
+		            </variants:variantItems>                             
+     			</variants:VariantManagement>
+				<Label class="sapUiSmallMarginBegin"
+					text="{Request>/HeaderData/Descriptions/IsSystemName}" design="Bold"
+					visible="{= ${Request>/HeaderData/IsAutopostingStatus} === 'S'}"/>
+				<Label
+					text="{Request>/HeaderData/IsCompanyCode} {Request>/HeaderData/IsDocumentNumber} {Request>/HeaderData/IsDocumentYear}"
+					visible="{= ${Request>/HeaderData/IsAutopostingStatus} === 'S'}"/>
+     			<ToolbarSpacer></ToolbarSpacer>
+     			<Button 
+     				icon="sap-icon://action-settings" 
+     				data:itemType="1"
+     				press="onPressItemsSettings"
+     				type="Transparent">
+     				<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow" />
+					</layoutData> 
+				</Button>	
+				<Button 
+					icon="{= ${AppData>/issuingItemFullscreen} === true ? 'sap-icon://exit-full-screen' : 'sap-icon://full-screen'}"
+	   				press="onPressToogleIssuingItemFullscreen"
+	   				type="Transparent">
+				</Button>		
+			</Toolbar>
+			<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.RequestIssuingItems" type="XML"/>
+			
+			<Toolbar id="otbReceiving" class="sapUiTinyMarginTop sapUiSmallMarginBeginEnd"
+				visible="{= !${AppData>/issuingItemFullscreen}}">
+				<Title  id="tTitleReceiving" text="{path:'Request>/ReceivingItems/results',formatter:'.formatterText.getReceivingItemsTableTitle'}"/>
+				<Button id="btnReceivingItemVisibility" 
+					icon="{= ${AppData>/receivingItemVisibility} === true ? 'sap-icon://navigation-up-arrow' : 'sap-icon://navigation-down-arrow'}" type="Transparent"
+					press="onPressToogleReceivingItemsVisibility"
+					tooltip="{i18n>request.table.receivingitems.button.tooltip.hide}"></Button>
+				<variants:VariantManagement id= "vmReceivingItems"
+						variantItems="{path:'ReceivingVariantList>/results',templateShareable:'Constants>/false'}"
+						data:itemType="2" 
+						select="onSelectItemVariant" save="onSaveItemVariant"  
+						manage="onManageItemVariant" >
+					<variants:variantItems>
+						<variants:VariantItem text="{ReceivingVariantList>VAR_NAME}" key="{ReceivingVariantList>VAR_KEY}" readOnly="{ReceivingVariantList>readOnly}" author="{ReceivingVariantList>author}"></variants:VariantItem>
+		            </variants:variantItems>                             
+     			</variants:VariantManagement>
+				<Label class="sapUiSmallMarginBegin"
+					text="{Request>/HeaderData/Descriptions/RcSystemName}" design="Bold"
+					visible="{= ${Request>/HeaderData/RcAutopostingStatus} === 'S'}"/>
+				<Label
+					text="{Request>/HeaderData/RcCompanyCode} {Request>/HeaderData/RcDocumentNumber} {Request>/HeaderData/RcDocumentYear}"
+					visible="{= ${Request>/HeaderData/RcAutopostingStatus} === 'S'}"/>
+     			<ToolbarSpacer></ToolbarSpacer>
+     			<Button 
+     				icon="sap-icon://action-settings" 
+     				data:itemType="2"
+     				press="onPressItemsSettings"
+    				type="Transparent" >
+     				<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow" />
+					</layoutData> 
+				</Button>	
+				<Button 
+					icon="{= ${AppData>/receivingItemFullscreen} === true ? 'sap-icon://exit-full-screen' : 'sap-icon://full-screen'}"
+	   				press="onPressToogleReceivingItemFullscreen"
+	   				type="Transparent">
+				</Button>			
+			</Toolbar>
+			<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.RequestReceivingItems" type="XML"/>
+		</content>
+		<footer>
+			<Toolbar id="tbFooter">
+ 				<ToolbarSpacer/>
+				<Button id="btnSaveRequest"
+					icon="sap-icon://save" text="{i18n>button.request.save}" press="onPressRequestAction" data:actionId="1"
+					visible="{Request>/Actions/VisibleSave}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="gray" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>
+				<Button id="btnSubmitRequest"
+					icon="sap-icon://forward" text="{i18n>button.request.submit}" press="onPressRequestAction" data:actionId="2"
+					visible="{Request>/Actions/VisibleSubmit}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="orange" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>
+				<Button id="btnDeleteRequest"
+					icon="sap-icon://delete" text="{i18n>button.request.delete}" press="onPressRequestAction" timiColor="Red" data:actionId="5"
+					visible="{Request>/Actions/VisibleDelete}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="red" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>
+				<Button id="btnReclaimRequest"
+					icon="sap-icon://response" text="{i18n>button.request.reclaim}" press="onPressRequestAction" timiColor="Orange" data:actionId="7"
+					visible="{Request>/Actions/VisibleReclaim}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="orange" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>
+				<Button id="btnApproveRequest"
+					icon="sap-icon://employee-approvals" text="{i18n>button.request.approve}" press="onPressRequestAction" timiColor="Blue" data:actionId="3"
+					visible="{Request>/Actions/VisibleApprove}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="blue" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>
+				<Button id="btnValidateRequest"
+					icon="sap-icon://employee-approvals" text="{i18n>button.request.validate}" press="onPressRequestAction" timiColor="Green" data:actionId="8"
+					visible="{Request>/Actions/VisibleValidate}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="green" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>	
+				<Button id="btnValidateReceiverRequest"
+					icon="sap-icon://employee-approvals" text="{i18n>button.request.validate}" press="onPressRequestAction" timiColor="Green" data:actionId="12"
+					visible="{Request>/Actions/VisibleValidateReceiver}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="green" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>	
+				<Button id="btnGenerateRequest"
+					icon="sap-icon://excel-attachment" text="{i18n>button.request.generate}" press="onPressRequestAction" timiColor="Green" data:actionId="9"
+					visible="{Request>/Actions/VisibleGenerate}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="green" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>	
+				<Button id="btnRejectRequest"
+					icon="sap-icon://employee-rejections" text="{i18n>button.request.reject}" press="onPressRequestAction" 
+					data:actionId="{parts:[{path:'Request>/Actions/VisibleRejectIssuer'}, {path:'Request>/Actions/VisibleRejectReceiver'}], formatter:'.formatterState.getRejectActionId'}"
+					visible="{parts:[{path:'Request>/Actions/VisibleRejectIssuer'}, {path:'Request>/Actions/VisibleRejectReceiver'}], formatter:'.formatterVisibility.triggerRejectButtonVisibility'}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="red" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>	
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

@@ -1,0 +1,34 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestWorkflowHistoryResponsivePopup.fragment.xml* -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 25/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request workflow history popup fragment   			  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n  ........... : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form">
+  	<ResponsivePopover class="sapUiSizeCompact" 
+  		placement="Right" showHeader="false" contentWidth="auto"> 
+    	<content>
+  			<Label text="{i18n>request.workflow.popup.title}" design="Bold" class="sapUiSmallMarginBegin sapUiTinyMarginTop"></Label>
+			<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.RequestWorkflowHistory" type="XML"/>
+		</content>
+  	</ResponsivePopover>
+</core:FragmentDefinition>

@@ -1,0 +1,547 @@
+/************************************************************************
+* Project            : TIMI                                 			*
+* Process            : FI                                              	*
+* Task code          : FI062                                           	*
+* Functional document:                                					*
+* Technical document :                                    				*
+*-----------------------------------------------------------------------*
+* File       	: assets/css/style.css    	            				*
+* Author        : David TEA                                            	*
+* Company       : Resp                                               	*
+* Creation Date : 12/05/2016                                           	*
+*-----------------------------------------------------------------------*
+* Description   : app misc style properties					         	*
+*                                                                      	*
+*************************************************************************
+* Modification nÂ° ........... : M001									*
+* Project ................... : TIMI 									*
+* Author .................... : Marion Alberny                          *
+*-----------------------------------------------------------------------*
+* Modification date ......... : 04/11/2016								*
+* Transport order ........... : 										*
+* Change Request ............ : CR2016-273225							*
+* Description ............... : SGL Indicator							*
+*************************************************************************/
+.timi .valueHelpController{
+	width: 40rem;
+}
+
+.timi .valueHelpTax{
+	width: 40rem;
+}
+
+.timi .valueHelpGMID{
+	width: 40rem;
+}
+
+.timi .valueHelpCostCenter{
+	width: 40rem;
+}
+
+.timi .valueHelpNature{
+	width: 40rem;
+}
+
+.timi .valueHelpAccount{
+	width: 50rem;
+}
+
+.timi .valueHelpInternalOrder{
+	width: 40rem;
+}
+
+.timi .valueHelpWBS{
+	width: 40rem;
+}
+
+.timi .valueHelpSGLInd{
+	width: 40rem;
+}
+
+.timi .valueHelpHsnSac{
+	width: 40rem;
+}
+
+.timi .valueHelpBusinessPlace{
+	width: 40rem;
+}
+
+.timi .sapMFeedListItem{
+	padding-top : 0.5rem;
+	padding-bottom : 0.5rem;
+}
+
+.timi tr[data-isSubstitution="X"]{
+	background-color: rgba(7, 141, 232, 0.23)!important;
+}
+
+.timi .charts div[role="toolbar"]{
+	height: 0px !important;
+}
+
+.timi.batchlog .sapMCLI.sapMLIB{
+	border: none;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
+.timi.batchlog .batchlogTitle{
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-bottom: 2px;
+}
+
+.timi.popup .sapMRbG .sapMRbBLabel{
+	padding-top: 5px
+}
+
+.timi button[data-customTextColor="red"] .sapMBtnIcon{
+	color : #d51515 !important;
+}
+
+.timi button[data-customTextColor="orange"] .sapMBtnIcon{
+	color: #e66e00 !important;
+}
+
+.timi label[data-customTextColor="turquoise"]{
+	color: #0070b1 !important;
+}
+
+.timi label[data-customTextStyle="italic"]{
+	font-style: italic !important;
+}
+
+.timi .sapMOH{
+	padding-top:1rem;
+	padding-bottom:1rem;
+}
+
+.timi h6[data-nodisplay="X"]{
+	display:none;
+}
+
+.timi .colorIconSize{
+	font-size:0.75rem;
+}
+
+.timi .workflowComment{
+	color:#545454;
+	font-weight:bold;
+}
+
+.timi .overviewList .sapMListTblCell,
+.timi .reportingList .sapMListTblCell{
+	padding-left:0.3rem;
+	padding-right:0.3rem;
+}
+
+.timi .iconActionsOnRequest{
+	padding: 3px;
+	border-radius: 3px;
+}
+
+.timi label[data-customrequiredcoobjects="X"]:before{
+	content:"1";
+	color: #c14646;
+	font-size: 0.7rem;
+	font-weight:bold;
+	bottom: 0.25rem;
+	position:relative;
+}
+
+.timi.requestHeaderDataPopover .requestPopupToolbar{
+	background-color: #ECECEC57;
+}
+
+.timi.requestUploadFileCreationDialog .requestPopupToolbar{
+	background-color: #ECECEC;
+}
+
+.timi.requestHeaderDataPopover .requestPopupToolTitle,
+.timi.requestUploadFileCreationDialog .requestPopupTitle{
+	font-size: 1.095rem;
+	color: #000000;
+	text-shadow: 1px 0 #FFFFFF;
+}
+
+.timi.requestHeaderDataPopover .sapMLabel{
+	color: #3A3A3AF0;
+	text-shadow: 1px 0 #FFFFFF;
+	font-weigth: 550;
+}	
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMUCTextButtonContainer span{
+	font-size: 0.8rem;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMUCItemIcon{
+	font-size: 2rem; 
+	padding-top:0.35rem;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMUCDeleteBtn span{
+	font-size: 1rem;
+	margin-bottom: 0.9rem;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMUCItem{
+	padding-top:0.2rem;
+	padding-bottom:0.2rem;
+	height: 3.5rem;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMUCAttrContainer{
+	padding-top: 0rem;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment.hideUploadFileAttachments ul{
+	display: none;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .showHideButton .sapMBtnInner{
+	background-color: #18609cd6;
+	color: #FFFFFF;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .showHideButton .sapMBtnIcon{
+	color: #FFFFFF;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMIBar.sapMTB .sapMBarChild{
+	margin-top: 0.1rem;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMTB.sapMListHdrTBar{
+	height: 2.5rem;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMTB.sapMListHdrTBar .sapUiFup{
+	margin-right: 1rem;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMListNoDataText{
+	color: #CC1919;
+	padding-top: 8px;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileCreationAttachment .sapMListNoData{
+	border-bottom: 0px;
+}
+
+.timi.requestUploadFileCreationDialog .noBorder{
+	border: none;
+}
+
+.timi.requestUploadFileCreationDialog .uploadRequestFileButton{
+	margin-left: 0.75rem;
+}
+
+.timi.requestUploadFileCreationDialog div label.badge {
+    color: white;
+    padding: 4px 10px 12px 7px !important;
+    vertical-align: top!important;
+    text-align: center !important;
+    border-radius: 1rem;
+    height: 1px;
+    width: 1px;
+    background-color: #ad0505c9;
+    position: relative;
+    top: -8px;
+    left: -6px;
+    font-size: 0.51rem !important;
+    z-index: 9999;
+    position: absolute;
+    display: inline-block;
+}
+
+.timi.requestUploadFileCreationDialog .messageList .sapMLIB{
+	border: 0;
+}
+
+.timi.requestUploadFileCreationDialog .messageList .sapMListHdr{
+	border: 0;
+	height: 2rem;
+	line-height: 2rem;
+}
+
+.timi.requestUploadFileCreationDialog .fileUploadName{
+	font-weight: 550;
+	color: #1b5c96;
+	padding-top: 5px;
+}
+
+.timi.requestUploadFileCreationDialog .uploadFileTitle{
+	font-size: 1.125rem;
+}
+
+.timi .toolbarHeight{
+	height: 2.2rem !important;
+}
+
+.timi .groupHeaderListItem{
+	line-height: 1.2rem !important;
+}
+
+.timi .groupHeaderListItem span{
+	padding-top: 0.5rem;
+	color: #1b5c96;
+	font-weight: 550; 
+}
+
+.timi .groupHeaderListItem[data-isselectedheader="X"]{
+	background-color:#1b5c96cf;
+}
+
+.timi .groupHeaderListItem[data-isselectedheader="X"] span{
+	color: white;
+}
+
+.timi .toolbarHeight .displayMode{
+	font-weight: 550;
+	color: #346187;
+}
+
+.timi .toMargin{
+	margin-top: 8px;
+	margin-left: 3px;
+    margin-right: 3px;
+}
+
+.timi.customTooltip label,
+.timi.customTooltip div,
+.timi.customTooltip span{
+	font-size: 0.75rem;
+}
+
+/** BUTTON **/
+.timi button[data-custombuttoncolor="gray"]>span.sapMBtnInner, 
+.timi button[data-custombuttoncolor="gray"].sapMBtn:not(.sapMBtnDisabled)>.sapMBtnActive{
+	background-color:#6a6a6a !important;
+}
+
+.timi button[data-custombuttoncolor="gray"].sapMBtn:hover>.sapMBtnHoverable:not(.sapMBtnActive){
+	background-color:#5f5f5f !important;
+}
+
+.timi button[data-custombuttoncolor="red"]>span.sapMBtnInner, 
+.timi button[data-custombuttoncolor="red"].sapMBtn:not(.sapMBtnDisabled)>.sapMBtnActive{
+	background-color:#d51515 !important;
+}
+
+.timi button[data-custombuttoncolor="red"].sapMBtn:hover>.sapMBtnHoverable:not(.sapMBtnActive){
+	background-color:#c11313 !important;
+}
+
+.timi button[data-custombuttoncolor="orange"]>span.sapMBtnInner, 
+.timi button[data-custombuttoncolor="orange"].sapMBtn:not(.sapMBtnDisabled)>.sapMBtnActive{
+	background-color:#e66e00 !important;
+}
+
+.timi button[data-custombuttoncolor="orange"].sapMBtn:hover>.sapMBtnHoverable:not(.sapMBtnActive){
+	background-color:#d06300 !important;
+}
+
+.timi button[data-custombuttoncolor="blue"]>span.sapMBtnInner, 
+.timi button[data-custombuttoncolor="blue"].sapMBtn:not(.sapMBtnDisabled)>.sapMBtnActive{
+	background-color:#2e75B6 !important;
+}
+
+.timi button[data-custombuttoncolor="blue"].sapMBtn:hover>.sapMBtnHoverable:not(.sapMBtnActive){
+	background-color:#296aa5 !important;
+}
+
+.timi button[data-custombuttoncolor="green"]>span.sapMBtnInner, 
+.timi button[data-custombuttoncolor="green"].sapMBtn:not(.sapMBtnDisabled)>.sapMBtnActive{
+	background-color:#008236 !important;
+}
+
+.timi button[data-custombuttoncolor="green"].sapMBtn:hover>.sapMBtnHoverable:not(.sapMBtnActive){
+	background-color:#006c2e !important;
+}
+
+
+/** ICONTABFILTER **/
+.timi div[data-customicontabcolor="gray"]:not(.sapMITBSelected) span.sapMITBFilterIcon{
+	color: #6a6a6a;
+	background: white;
+	border: 1px solid #6a6a6a;
+}
+
+.timi div[data-customicontabcolor="gray"].sapMITBSelected span.sapMITBFilterIcon{
+	color: white;
+	background: #6a6a6a; 
+	border: 1px solid white;
+}
+
+.timi div[data-customicontabcolor="gray"].sapMITBSelected .sapMITBContentArrow{
+	border-bottom-color: #6a6a6a;
+}
+
+.timi div[data-customicontabcolor="red"]:not(.sapMITBSelected) span.sapMITBFilterIcon{
+	color: #d51515;
+	background: white;
+	border: 1px solid #d51515;
+}
+
+.timi div[data-customicontabcolor="red"].sapMITBSelected span.sapMITBFilterIcon{
+	color: white;
+	background: #d51515; 
+	border: 1px solid white;
+}
+
+.timi div[data-customicontabcolor="red"].sapMITBSelected .sapMITBContentArrow{
+	border-bottom-color: #d51515;
+}
+
+.timi div[data-customicontabcolor="burgundy"]:not(.sapMITBSelected) span.sapMITBFilterIcon{
+	color: #b91414;
+	background: white;
+	border: 1px solid #b91414;
+}
+
+.timi div[data-customicontabcolor="burgundy"].sapMITBSelected span.sapMITBFilterIcon{
+	color: white;
+	background: #b91414; 
+	border: 1px solid white;
+}
+
+.timi div[data-customicontabcolor="burgundy"].sapMITBSelected .sapMITBContentArrow{
+	border-bottom-color: #b91414;
+}
+
+.timi div[data-customicontabcolor="orange"]:not(.sapMITBSelected) span.sapMITBFilterIcon{
+	color: #e66e00;
+	background: white;
+	border: 1px solid #e66e00;
+}
+
+.timi div[data-customicontabcolor="orange"].sapMITBSelected span.sapMITBFilterIcon{
+	color: white;
+	background: #e66e00; 
+	border: 1px solid white;
+}
+
+.timi div[data-customicontabcolor="orange"].sapMITBSelected .sapMITBContentArrow{
+	border-bottom-color: #e66e00;
+}
+
+.timi div[data-customicontabcolor="blue"]:not(.sapMITBSelected) span.sapMITBFilterIcon{
+	color: #2e75B6;
+	background: white;
+	border: 1px solid #2e75B6;
+}
+
+.timi div[data-customicontabcolor="blue"].sapMITBSelected span.sapMITBFilterIcon{
+	color: white;
+	background: #2e75B6; 
+	border: 1px solid white;
+}
+
+.timi div[data-customicontabcolor="blue"].sapMITBSelected .sapMITBContentArrow{
+	border-bottom-color: #2e75B6;
+}
+
+.timi div[data-customicontabcolor="greenlight"]:not(.sapMITBSelected) span.sapMITBFilterIcon{
+	color: #049c15;
+	background: white;
+	border: 1px solid #049c15;
+}
+
+.timi div[data-customicontabcolor="greenlight"].sapMITBSelected span.sapMITBFilterIcon{
+	color: white;
+	background: #049c15; 
+	border: 1px solid white;
+}
+
+.timi div[data-customicontabcolor="greenlight"].sapMITBSelected .sapMITBContentArrow{
+	border-bottom-color: #049c15;
+}
+
+.timi div[data-customicontabcolor="green"]:not(.sapMITBSelected) span.sapMITBFilterIcon{
+	color: #0f961d;
+	background: white;
+	border: 1px solid #0f961d;
+}
+
+.timi div[data-customicontabcolor="green"].sapMITBSelected span.sapMITBFilterIcon{
+	color: white;
+	background: #0f961d; 
+	border: 1px solid white;
+}
+
+.timi div[data-customicontabcolor="green"].sapMITBSelected .sapMITBContentArrow{
+	border-bottom-color: #0f961d;
+}
+
+.timi div[data-customicontabcolor="greendark"]:not(.sapMITBSelected) span.sapMITBFilterIcon{
+	color: #008236;
+	background: white;
+	border: 1px solid #008236;
+}
+
+.timi div[data-customicontabcolor="greendark"].sapMITBSelected span.sapMITBFilterIcon{
+	color: white;
+	background: #008236; 
+	border: 1px solid white;
+}
+
+.timi div[data-customicontabcolor="greendark"].sapMITBSelected .sapMITBContentArrow{
+	border-bottom-color: #008236;
+}
+
+/** OBJECTSTATUS **/
+.timi div[data-customobjectstatus="Draft"] .sapMObjStatusText,
+.timi div[data-customobjectstatus="Submitted"] .sapMObjStatusText,
+.timi div[data-customobjectstatus="Approved"] .sapMObjStatusText,
+.timi div[data-customobjectstatus="Validated"] .sapMObjStatusText,
+.timi div[data-customobjectstatus="Rejected"] .sapMObjStatusText,
+.timi div[data-customobjectstatus="RejectedReceiver"] .sapMObjStatusText,
+.timi div[data-customobjectstatus="ValidatedReceiver"] .sapMObjStatusText,
+.timi div[data-customobjectstatus="Generated"] .sapMObjStatusText{
+	color: white;
+	padding: 4px 9px 4px 9px;
+	border-radius: 18px;
+}
+.timi div[data-customobjectstatus="Draft"].sapMObjStatus,
+.timi div[data-customobjectstatus="Submitted"].sapMObjStatus,
+.timi div[data-customobjectstatus="Approved"].sapMObjStatus,
+.timi div[data-customobjectstatus="Validated"].sapMObjStatus,
+.timi div[data-customobjectstatus="Rejected"].sapMObjStatus,
+.timi div[data-customobjectstatus="RejectedReceiver"].sapMObjStatus,
+.timi div[data-customobjectstatus="ValidatedReceiver"].sapMObjStatus,
+.timi div[data-customobjectstatus="Generated"].sapMObjStatus{
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.timi div[data-customobjectstatus="Draft"] .sapMObjStatusText{
+	background-color: #999999;
+}
+
+.timi div[data-customobjectstatus="Submitted"] .sapMObjStatusText{
+	background-color: #E66E00;
+}
+
+.timi div[data-customobjectstatus="Approved"] .sapMObjStatusText{
+	background-color: #2E75B6;
+}
+
+.timi div[data-customobjectstatus="Rejected"] .sapMObjStatusText{
+	background-color: #D51515;
+}
+
+.timi div[data-customobjectstatus="RejectedReceiver"] .sapMObjStatusText{
+	background-color: #B91414;
+}
+
+.timi div[data-customobjectstatus="Validated"] .sapMObjStatusText{
+	background-color: #049c15;
+}
+
+.timi div[data-customobjectstatus="ValidatedReceiver"] .sapMObjStatusText{
+	background-color: #0f961d;
+}
+
+.timi div[data-customobjectstatus="Generated"] .sapMObjStatusText{
+	background-color: #008236;
+}

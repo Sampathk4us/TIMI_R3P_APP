@@ -1,0 +1,223 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestHeaderPopup.fragment.xml   	      * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 12/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request header popup fragment   					      * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form">
+  	<ResponsivePopover id='rpRequestHeaderData' 
+  		 placement="Left" showHeader="false" contentWidth="50rem"  > 
+    	<content>
+    		<Label text="{i18n>request.popup.title.headerdata}" design="Bold" class="sapUiSmallMarginTop sapUiSmallMarginBegin"></Label>
+			<form:Form>
+				<form:layout>
+					<form:ResponsiveGridLayout columnsL="2" columnsM="2" ></form:ResponsiveGridLayout>
+				</form:layout>
+				<form:formContainers>
+					<form:FormContainer>
+						<form:FormElement>
+							<form:label>
+								<Label text="{i18n>request.label.invoicetype}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{path:'RequestHeader>/HeaderData/DocumentTypeCode', formatter:'.formatterText.getInvoiceTypeText'}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement>
+							<form:label>
+								<Label text="{i18n>request.label.issuingcompany}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/IsCompanyCode}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement visible="true">
+							<form:label>
+								<Label text="{i18n>request.label.issuingcontroller}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/Descriptions/IsControllerName}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement>
+							<form:label>
+								<Label text="{i18n>request.label.amount}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{path:'RequestHeader>/HeaderData/Amount',formatter:'.formatterFormat.formatAmount'}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement>
+							<form:label>
+								<Label text="{i18n>request.label.issuingtaxcode}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/IsTaxCode}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement visible="false">
+							<form:label>
+								<Label text="{i18n>label.requester}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/Descriptions/RequesterName}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+					</form:FormContainer>
+					
+					<form:FormContainer>
+						<form:FormElement>
+							<form:label>
+								<Label text="{i18n>request.label.headertext}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/HeaderText}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement>
+							<form:label>
+								<Label text="{i18n>request.label.receivingcompany}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/RcCompanyCode}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement>
+						</form:FormElement>
+						<form:FormElement visible="true">
+							<form:label>
+								<Label text="{i18n>request.label.receivingcontroller}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/Descriptions/RcControllerName}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement>
+							<form:label>
+								<Label text="{i18n>request.label.currency}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/CurrencyCode}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+						<form:FormElement>
+							<form:label>
+								<Label text="{i18n>request.label.receivingtaxcode}" design="Bold">
+									<layoutData>
+										<layout:GridData span="L5 M5 S12" linebreak="true"></layout:GridData>
+									</layoutData>
+								</Label>
+							</form:label>
+							<form:fields>
+								<Text text="{RequestHeader>/HeaderData/RcTaxCode}">
+									<layoutData>
+										<layout:GridData span="L7 M7 S12"></layout:GridData>
+									</layoutData>
+								</Text>
+							</form:fields>
+						</form:FormElement>
+					</form:FormContainer>
+				</form:formContainers>
+			</form:Form>
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>

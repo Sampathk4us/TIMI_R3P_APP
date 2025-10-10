@@ -1,0 +1,66 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI084                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/ReportingRequestItem.fragment.xml   	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 26/01/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Reporting Request Item fragment   					  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form" 
+		xmlns:custom="cus.fi.timi.rel.assets.js.library" xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  
+		<Table id="tReportingRequestItem" class="sapUiNoContentPadding reportingList"
+			items="{ReportingRequestItemList>/results}"
+			showNoData="true" noDataText="{i18n>request.table.nodata}" fixedLayout="false"
+			growing="true" growingScrollToLoad="true">
+			<columns>
+				<Column id="ItmReqidCol" hAlign="Center" width="4rem"><Text text="{i18n>request.table.column.request}"/></Column>
+				<Column id="ItmStatusCol" hAlign="Center" width="9rem"><Text text="{i18n>request.table.column.status}"/></Column>
+				<Column id="ItmIssuingReceivingCol" hAlign="Center"><Text text="{i18n>request.table.column.itemtype}"/></Column>
+				<Column id="ItmDebitCreditCol" hAlign="Center"><Text text="{i18n>request.table.column.debitcredit}"/></Column>
+				<Column id="ItmItemtextCol" hAlign="Left"><Text text="{i18n>request.table.column.itemtext}"/></Column>
+				<Column id="ItmGlAccountCol" hAlign="Right"><Text text="{i18n>request.table.column.glaccount}"/></Column>
+				<Column id="ItmLCOACol" hAlign="Center"><Text text="{i18n>request.table.column.lcoaaccount}"/></Column>		
+				<Column id="ItmAmountCol" hAlign="Center"><Text text="{i18n>request.table.column.totalamount}"/></Column>		
+				<Column id="ItmCurrencyCol" hAlign="Center" width="4rem"><Text text="{i18n>request.table.column.currency}"/></Column>	
+			</columns>
+			<items>
+				<ColumnListItem type="Navigation" press="onPressNavigateToRequestDetailsFromItem">
+					<cells>
+						<ObjectIdentifier title="{ReportingRequestItemList>RequestId}"/>
+						<ObjectStatus text="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'ReportingRequestItemList>StatusId'}],formatter:'.formatterText.getStatusText'}">
+							<customData>
+								<core:CustomData key="customobjectstatus" value="{path:'ReportingRequestItemList>StatusId',formatter:'.formatterState.getCustomStatusState'}" writeToDom="true"></core:CustomData>
+							</customData>
+						</ObjectStatus>	
+						<Text text="{path:'ReportingRequestItemList>ItemType',formatter:'.formatterText.getItemTypeText'}" />
+						<Text text="{path:'ReportingRequestItemList>DCIndicator',formatter:'.formatterText.getDCIndicatorText'}" />
+						<Text text="{ReportingRequestItemList>ItemText}" />					
+						<Text text="{ReportingRequestItemList>GLAccount}" />
+						<Text text="{ReportingRequestItemList>LCOAAccount}" />
+						<HBox justifyContent="End">
+							<Text text="{path:'ReportingRequestItemList>TotalAmount',formatter:'.formatterFormat.formatAmount'}"/>	
+						</HBox>
+						<Text text="{ReportingRequestItemList>CurrencyCode}"/>							
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+  
+</core:FragmentDefinition>

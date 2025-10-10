@@ -1,0 +1,175 @@
+<!-- /*************************************************************************** -->
+<!-- * Project : TIMI 															* -->
+<!-- * Process : FI 															* -->
+<!-- * Task code : FI062 														* -->
+<!-- * Functional document: 													* -->
+<!-- * Technical document : 													* -->
+<!-- *________________________________________________________________________	* -->
+<!-- * File : view/fragment/OverviewSearchCriteria.fragment.xml 				* -->
+<!-- * Author : David TEA 														* -->
+<!-- * Company : Resp 															* -->
+<!-- * Creation Date : 12/05/2016 												* -->
+<!-- *________________________________________________________________________	* -->
+<!-- * Description : Request receiving items fragment 							* -->
+<!-- * 																			* -->
+<!-- **************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  	* -->
+<!-- * Author .................... :                                          	* -->
+<!-- *________________________________________________________________________	* -->
+<!-- * Modification date ......... : 											* -->
+<!-- * Transport order ........... : 											* -->
+<!-- * Change Request ............ : 											* -->
+<!-- * Description ............... : 											* -->
+<!-- ***************************************************************************/ -->
+<!-- * Modification No ........... : M001									  	* -->
+<!-- * Project ................... : AMSÂ 2.0Â SupportÂ Maintenance 			  	* -->
+<!-- * Consultant name ........... : Abhisek Chaudhuri						  	* -->
+<!-- * Trigram ................... : ABC									  	* -->
+<!-- * Document................... : FIORI-SDT-FI062						  	* -->
+<!-- *========================================================================* * -->
+<!-- * Modification date ......... : 09/12/2022								  	* -->
+<!-- * Transport order ........... : DO8K906199								  	* -->
+<!-- * Description ............... : ITS-CHG0314312 - Enhancement			  	* -->
+<!-- * 								 Correction of length in dropdown of	  	* -->
+<!-- *								 Issuing company and Receiving Company	  	* -->
+<!-- *								 so that all company codes are visible	  	* -->
+<!-- *==========================================================================* -->
+<!--  * Modification No ........... : M002									  	*  -->
+<!--  * Project ................... : AMS 2.0 Support Maintenance 			  	*  -->
+<!--  * Consultant name ........... : Nune Chandini						  	*  -->
+<!--  * Trigram ................... : XYZ									  	*  -->
+<!--  * Document................... : FIORI-SDT-FI062						  	*  -->
+<!--  * Modification date ......... : 02/07/2024								  	*  -->
+<!--  * Transport order ........... : DO8K907118							  	*  -->
+<!--  * Description ............... : CHG0070266 - Enhancement			  	*  -->
+<!--  * 								 Correction of length in dropdown of	  	*  -->
+<!--  *								 Issuing company and Receiving Company	  	*  -->
+<!--  *								 so that all company codes are visible	  	*  -->
+<!--  *==========================================================================*  -->
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+	xmlns:custom="cus.fi.timi.rel.assets.js.library"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+				<form:SimpleForm id="formSearchCriteria"
+				minWidth="1024"
+				maxContainerCols="3"
+				editable="true"
+				layout="ResponsiveGridLayout"
+				labelSpanL="4"
+				labelSpanM="4"
+				labelSpanS="4"
+				emptySpanL="2"
+				emptySpanM="2"
+				emptySpanS="2"
+				columnsL="3"
+				columnsM="2"
+				class="sapUiSizeCompact sapUiNoContentPadding">
+				<form:content>
+					<core:Title level="H6">
+						<core:customData>
+							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+						</core:customData>
+					</core:Title>
+					<Label 	
+						text="{i18n>searchcriteria.label.request}" labelFor="iCriteriaRequest"/>
+					<Input id="iCriteriaRequest" 
+						width="10rem" maxLength="10">
+					</Input>
+					<Label 	
+						text="{i18n>label.majortype}" labelFor="mcbReportingCriteriaMajorType"/>
+					<MultiComboBox id="mcbReportingCriteriaMajorType"
+						items="{MajorTypeCollection>/results}"
+						visible="false">
+						<core:Item 	key="{MajorTypeCollection>MajorTypeCode}" text="{MajorTypeCollection>MajorTypeName}" />
+					</MultiComboBox>
+					<Label 	
+						text="{i18n>request.table.column.creationmode}" labelFor="mcbReportingCriteriaCreationMode"/>
+					<MultiComboBox id="mcbReportingCriteriaCreationMode"
+						items="{CreationModeCollection>/results}"
+						visible="false">
+							<core:Item 
+								key="{CreationModeCollection>CreationModeCode}" 
+								text="{CreationModeCollection>CreationModeName}" />
+					</MultiComboBox>
+					<core:Title level="H6">
+						<core:customData>
+							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+						</core:customData>
+					</core:Title>
+					<Label 	
+						text="{i18n>searchcriteria.label.datefrom}" labelFor="dpCriteriaDateFrom"/>
+						<DatePicker id="dpCriteriaDateFrom" 
+							width="10rem"
+							placeholder="{i18n>searchcriteria.placeholder.date}" valueFormat="yyyyMMdd" displayFormat="dd/MM/yyyy">
+						</DatePicker>
+					<Label 	
+						text="{i18n>searchcriteria.label.dateto}" labelFor="dpCriteriaDateTo"/>
+					<DatePicker id="dpCriteriaDateTo" 
+						width="10rem"
+						placeholder="{i18n>searchcriteria.placeholder.date}" valueFormat="yyyyMMdd" displayFormat="dd/MM/yyyy">
+					</DatePicker>
+					<core:Title level="H6">
+						<core:customData>
+							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+						</core:customData>
+					</core:Title>
+					<Label 	
+						text="{i18n>searchcriteria.label.issuingcompany}" labelFor="mcbCriteriaIssuingCompany"/>
+						<!-- M001 - ABC - Begin of MOD - 09.12.2022 -->
+<!--  M002 - XYZ - Begin of MOD - 02.07.2024  -->
+						<!-- <MultiComboBox id="mcbCriteriaIssuingCompany" 
+							items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true'}"> -->
+						<!-- <MultiComboBox id="mcbCriteriaIssuingCompany" 
+							items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true',length:'300'}"> -->
+<MultiComboBox id="mcbCriteriaIssuingCompany" items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true',length:600}">
+<!--  M002 - XYZ - End of MOD - 02.07.2024  -->						
+<!-- M001 - ABC - End of MOD - 09.12.2022 -->
+							<core:Item 	
+								key="{CompanyCollection>CompanyCode}" 
+								text="{CompanyCollection>LegalEntityCode} / {parts:[{path:'CompanyCollection>CompanyCode'},{path:'CompanyCollection>CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
+							/>
+						</MultiComboBox>
+					<Label 	
+						text="{i18n>searchcriteria.label.receivingcompany}" labelFor="mcbCriteriaReceivingCompany"/>
+						<!-- M001 - ABC - Begin of MOD - 09.12.2022 -->
+<!--  M002 - XYZ - Begin of MOD - 02.07.2024  -->
+						<!-- <MultiComboBox id="mcbCriteriaReceivingCompany" 
+							items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true'}"> -->
+						<!-- <MultiComboBox id="mcbCriteriaReceivingCompany" 
+							items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true',length:'300'}"> -->
+<MultiComboBox id="mcbCriteriaReceivingCompany" items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true',length:'600'}">
+<!--  M002 - XYZ - End of MOD - 02.07.2024  -->						
+<!-- M001 - ABC - End of MOD - 09.12.2022 -->
+							<core:Item 	
+								key="{CompanyCollection>CompanyCode}" 
+								text="{CompanyCollection>LegalEntityCode} / {parts:[{path:'CompanyCollection>CompanyCode'},{path:'CompanyCollection>CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
+							/>
+						</MultiComboBox>
+					<Label></Label>
+			   	</form:content>
+			</form:SimpleForm> 
+			
+			<form:Form id="formSearchButton" class="sapUiSizeCompact sapUiNoContentPadding">
+				<form:layout>
+					<form:ResponsiveGridLayout columnsL="1" columnsM="1" labelSpanL="5" labelSpanM="5" labelSpanS="2"></form:ResponsiveGridLayout>
+				</form:layout>
+				<form:FormContainer>
+					<form:FormElement>
+						<form:label>
+							<Label>
+							</Label>
+						</form:label>
+						<form:fields>
+							<Button id="btnSearch" class="sapUiSizeCompact sapUiNoContentPadding"
+								text="{i18n>searchcriteria.button.search.label}" press="onPressSearchRequest" type="Emphasized">
+								<layoutData>
+									<layout:GridData span="L2 M2 S12"></layout:GridData>
+								</layoutData>
+							</Button>
+						</form:fields>
+					</form:FormElement>
+				</form:FormContainer>
+			</form:Form>
+						
+</core:FragmentDefinition>

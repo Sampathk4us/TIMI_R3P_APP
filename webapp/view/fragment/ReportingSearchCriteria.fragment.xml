@@ -1,0 +1,165 @@
+<!-- /*************************************************************************** -->
+<!-- * Project : TIMI 															* -->
+<!-- * Process : FI 															* -->
+<!-- * Task code : FI084 														* -->
+<!-- * Functional document: 													* -->
+<!-- * Technical document : 													* -->
+<!-- *________________________________________________________________________	* -->
+<!-- * File : view/fragment/ReportingSearchCriteria.fragment.xml 				* -->
+<!-- * Author : David TEA 														* -->
+<!-- * Company : Resp 															* -->
+<!-- * Creation Date : 26/01/2017 												* -->
+<!-- *________________________________________________________________________	* -->
+<!-- * Description : Reporting Search Criteria 									* -->
+<!-- * 																			* -->
+<!-- **************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________	* -->
+<!-- * Modification date ......... : 											* -->
+<!-- * Transport order ........... : 											* -->
+<!-- * Change Request ............ : 											* -->
+<!-- * Description ............... : 											* -->
+<!-- ***************************************************************************/ -->
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+	xmlns:custom="cus.fi.timi.rel.assets.js.library"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	
+	<form:SimpleForm id="formReportingSearchCriteria"
+				minWidth="1024"
+				maxContainerCols="3"
+				editable="true"
+				layout="ResponsiveGridLayout"
+				labelSpanL="4"
+				labelSpanM="4"
+				labelSpanS="4"
+				emptySpanL="1"
+				emptySpanM="1"
+				emptySpanS="1"
+				columnsL="3"
+				columnsM="2"
+				class="sapUiSizeCompact sapUiNoContentPadding">
+				<form:content>
+					<core:Title level="H6">
+						<core:customData>
+							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+						</core:customData>
+					</core:Title>
+					<Label 	
+						text="{i18n>searchcriteria.label.request}" labelFor="iReportingCriteriaRequest"/>
+					<Input id="iReportingCriteriaRequest" 
+						width="10rem" maxLength="10">
+					</Input>
+					<Label 	text="{i18n>searchcriteria.label.status}" labelFor="mcbReportingCriteriaStatus"/>
+					<MultiComboBox id="mcbReportingCriteriaStatus" items="{StatusCollection>/results}">
+						<core:Item 	key="{StatusCollection>StatusCode}" 
+									text="{StatusCollection>StatusName}" />
+					</MultiComboBox>
+					<Label 	text="{i18n>searchcriteria.label.datefrom}" labelFor="dpReportingCriteriaDateFrom"/>					
+					<HBox>
+						<DatePicker id="dpReportingCriteriaDateFrom" 
+							dateValue="{path:'AppData>/REP_RETENTION_DAYS',formatter:'.businessRules.getReportingDateFromInitialValue'}"
+							minDate="{path:'AppData>/REP_MAX_RETENTION_YR',formatter:'.businessRules.getReportingDateFromMinValue'}"
+							width="7rem" required="true"
+							change="onChangeReportingDateFrom"
+							placeholder="{i18n>searchcriteria.placeholder.date}" valueFormat="yyyyMMdd" displayFormat="dd/MM/yyyy">
+						</DatePicker>
+	<!-- 					<Label 	text="{i18n>searchcriteria.label.dateto}" labelFor="dpReportingCriteriaDateTo"/> -->
+							<Label class="toMargin"
+								text="{i18n>searchcriteria.label.dateto}" />
+						<DatePicker id="dpReportingCriteriaDateTo" 
+							dateValue="{path:'AppData>/REP_RETENTION_DAYS',formatter:'.businessRules.getReportingDateToInitialValue'}"
+							width="7rem"
+							change="onChangeReportingDateTo"
+							placeholder="{i18n>searchcriteria.placeholder.date}" valueFormat="yyyyMMdd" displayFormat="dd/MM/yyyy">
+						</DatePicker>
+					</HBox>
+					<core:Title level="H6">
+						<core:customData>
+							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+						</core:customData>
+					</core:Title>
+					<Label 	text="{i18n>label.intercotype}" labelFor="mcbReportingCriteriaRequestType"
+						visible="false"/>
+					<MultiComboBox id="mcbReportingCriteriaIntercoType"
+						items="{IntercoTypeCollection>/results}" visible="false">
+						<core:Item 	key="{IntercoTypeCollection>IntercoTypeCode}" text="{IntercoTypeCollection>IntercoTypeName}" />	
+					</MultiComboBox>
+					<Label 	text="{i18n>request.table.column.creationmode}"/>
+					<MultiComboBox id="mcbReportingCriteriaCreationMode">
+						<items>
+							<core:Item 	key="M" text="{i18n>creationtype.manual}" />
+							<core:Item 	key="U" text="{i18n>creationtype.fileuploading}" />
+						</items>
+					</MultiComboBox>
+					<Label 	text="{i18n>label.majortype}" labelFor="mcbReportingCriteriaMajorType"
+							visible="false"/>
+					<MultiComboBox id="mcbReportingCriteriaMajorType"
+						items="{MajorTypeCollection>/results}" visible="false">
+						<core:Item 	key="{MajorTypeCollection>MajorTypeCode}" text="{MajorTypeCollection>MajorTypeName}" />
+					</MultiComboBox> 
+					<Label 	text="{i18n>searchcriteria.label.country}" labelFor="mcbReportingCriteriaCountry"/>
+					<ComboBox id="CbReportingCriteriaCountry" 
+						items="{path:'CountryCollection>/results',templateShareable:'Constants>/true',length:500}">
+						<core:Item 	
+							key="{CountryCollection>CountryCode}" 
+							text="{CountryCollection>CountryName}"
+						/>
+					</ComboBox>
+
+					<core:Title level="H6">
+						<core:customData>
+							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
+						</core:customData>
+					</core:Title>
+					<Label 	text="{i18n>searchcriteria.label.issuingcompany}" labelFor="mcbReportingCriteriaIssuingCompany"/>
+					<MultiComboBox id="mcbReportingCriteriaIssuingCompany" 
+						items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true',length:500}">
+						<core:Item 	
+							key="{CompanyCollection>CompanyCode}" 
+							text="{CompanyCollection>LegalEntityCode} / {parts:[{path:'CompanyCollection>CompanyCode'},{path:'CompanyCollection>CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
+						/>
+					</MultiComboBox>
+					<Label 	text="{i18n>searchcriteria.label.receivingcompany}" labelFor="mcbReportingCriteriaReceivingCompany"/>
+					<MultiComboBox id="mcbReportingCriteriaReceivingCompany" 
+						items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true',length:500}">
+						<core:Item 	
+							key="{CompanyCollection>CompanyCode}" 
+							text="{CompanyCollection>LegalEntityCode} / {parts:[{path:'CompanyCollection>CompanyCode'},{path:'CompanyCollection>CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
+						/>
+					</MultiComboBox>
+					<Label></Label>
+			   	</form:content>
+			</form:SimpleForm> 
+			
+			<form:Form id="formReportingSearchButton" class="sapUiSizeCompact sapUiNoContentPadding">
+				<form:layout>
+					<form:ResponsiveGridLayout columnsL="1" columnsM="1" labelSpanL="5" labelSpanM="5" labelSpanS="2"></form:ResponsiveGridLayout>
+				</form:layout>
+				<form:FormContainer>
+				<form:FormElement>
+					<form:label>
+						<Label>
+						</Label>
+					</form:label>
+					<form:fields>
+						<Button id="btnReportingSearch" class="sapUiSizeCompact sapUiNoContentPadding"
+							text="{i18n>searchcriteria.button.search.label}" press="onPressSearchReportingData" type="Emphasized">
+							<layoutData>
+								<layout:GridData span="L1 M1 S6"></layout:GridData>
+							</layoutData>
+						</Button>						
+						<Button id="btnReportingClear" class="sapUiSizeCompact sapUiNoContentPadding"
+							text="{i18n>searchcriteria.button.clear.label}" press="onPressClearReportingData" type="Default">
+							<layoutData>
+								<layout:GridData span="L1 M1 S6"></layout:GridData>
+							</layoutData>
+						</Button>
+					</form:fields>
+				</form:FormElement>
+				</form:FormContainer>
+			</form:Form>
+						
+</core:FragmentDefinition>

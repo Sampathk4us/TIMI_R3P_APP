@@ -1,0 +1,30 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File 		 : view/fragment/ValueHelpTableSelectDialog.fragment.xml  * -->
+<!-- * Author 		 : David TEA 											  * -->
+<!-- * Company 		 : Resp 												  * -->
+<!-- * Creation Date : 23/05/2016 											  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description : Value Help Dialog fragment 							  * -->
+<!-- * 																		  * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n  ........... : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+	xmlns="sap.m" xmlns:core="sap.ui.core">
+	<TableSelectDialog 
+		noDataText="{i18n>valuehelp.dialog.nodata}">
+	</TableSelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,57 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestHeaderLongText.fragment.xml   	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 27/10/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request header long text fragment   					  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : M001									  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : David TEA                          	  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 							  			  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 							  			  * -->
+<!-- * Description ............... : 		  								  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form">
+	<form:SimpleForm minWidth="1024" maxContainerCols="1" editable="true" layout="ResponsiveGridLayout" class="sapUiNoContentPadding"
+					labelSpanL="2" labelSpanM="2" emptySpanL="2" emptySpanM="1" columnsL="1" columnsM="1">
+		<form:content>
+			<Label 	text="{i18n>request.label.issuinglongtext}" labelFor="taIssuingLongText" 
+					required="{FieldsAttributes>/HEADER_DATA/IS_LONGTEXT/Mandatory}" />
+			<TextArea id="taIssuingLongText"
+				value="{Request>/HeaderData/IsLongText}" maxLength="132"
+				editable="{FieldsAttributes>/HEADER_DATA/IS_LONGTEXT/Editable}" visible="{FieldsAttributes>/HEADER_DATA/IS_LONGTEXT/Visible}">
+			</TextArea>
+			
+			<Label 	text="{i18n>request.label.issuinglongtext}" labelFor="taIssuingVeryLongText" />
+			<TextArea id="taIssuingVeryLongText"
+				value="{Request>/HeaderData/IsVeryLongText}" growing="true"
+				editable="{= ${FieldsAttributes>/HEADER_DATA/IS_VERYLONGTEXT/Editable} === true}" visible="{= ${FieldsAttributes>/HEADER_DATA/IS_VERYLONGTEXT/Visible} === true}">
+			</TextArea>
+			
+			<Label  text="{i18n>request.label.receivinglongtext}" labelFor="taReceivingLongText" 
+					required="{FieldsAttributes>/HEADER_DATA/RC_LONGTEXT/Mandatory}" />
+			<TextArea id="taReceivingLongText"
+				value="{Request>/HeaderData/RcLongText}" maxLength="132"
+				editable="{FieldsAttributes>/HEADER_DATA/RC_LONGTEXT/Editable}" visible="{FieldsAttributes>/HEADER_DATA/RC_LONGTEXT/Visible}">	
+			</TextArea>
+			
+			<Label  text="{i18n>request.label.receivinglongtext}" labelFor="taReceivingVeryLongText" />
+			<TextArea id="taReceivingVeryLongText"
+				value="{Request>/HeaderData/RcVeryLongText}" growing="true"
+				editable="{= ${FieldsAttributes>/HEADER_DATA/RC_VERYLONGTEXT/Editable} === true}" visible="{= ${FieldsAttributes>/HEADER_DATA/RC_VERYLONGTEXT/Visible} === true}">
+			</TextArea>
+		</form:content>
+	</form:SimpleForm>
+</core:FragmentDefinition>

@@ -1,0 +1,157 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestCreationPopup.fragment.xml   	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 13/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request creation popup fragment   					  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification nÂ° ........... : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+  xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog title="{i18n>request.popup.title.create}" class="timi" contentWidth="680px">
+		<content>
+			<form:SimpleForm minWidth="1280"
+				maxContainerCols="1"
+				editable="true"
+				layout="ResponsiveGridLayout"
+				labelSpanL="4"
+				labelSpanM="4"
+				labelSpanS="4"
+				emptySpanL="0"
+				emptySpanM="0"
+				emptySpanS="0"
+				columnsL="1"
+				columnsM="1"
+				class="editableForm">
+				<form:content>
+				
+					<Label 	
+						text="{i18n>label.majortype}" labelFor="sMajorType"
+						visible="false"/>
+					<Select id="sMajorType" 
+						items="{MajorTypeCollection>/results}"
+						visible="false">
+						<core:Item 
+							key="{MajorTypeCollection>MajorTypeCode}" 
+							text="{MajorTypeCollection>MajorTypeName}"/>
+					</Select>
+					
+					<Label 	
+						text="{i18n>label.nature}" labelFor="sNature"
+						visible="false"/>
+					<Select id="sNature" 
+						items="{NatureCollection>/results}"
+						visible="false">
+						<core:Item 
+							key="{NatureCollection>NatureCode}" 
+							text="{NatureCollection>NatureName}"/>
+					</Select>		
+								
+					<Label 	text="{i18n>request.label.invoicetype}" labelFor="sInvoiceType"/>
+					<Select id="sInvoiceType" items="{DocumentTypeCreationCollection>/results}"
+							change="onChangeInvoiceType">
+						<core:Item key="{DocumentTypeCreationCollection>DocumentTypeCode}" text="{DocumentTypeCreationCollection>DocumentTypeName}" />
+					</Select>
+					
+					<Label class="sapUiSmallMarginTop" 	
+						text="{i18n>request.label.issuinglegalentity}" labelFor="cbIssuingLegalEntity"/>
+					<ComboBox id="cbIssuingLegalEntity" class="sapUiSmallMarginTop"
+						items="{path:'LegalEntityCreationCollection>/results',templateShareable:'Constants>/true'}" 
+						showSecondaryValues="true"
+						selectionChange="onSelectionChangeIssuingLegalEntity">
+						<core:ListItem 	key="{LegalEntityCreationCollection>LegalEntityCode}" 
+										text="{parts:[{path:'LegalEntityCreationCollection>LegalEntityCode'},{path:'LegalEntityCreationCollection>LegalEntityName'}],formatter:'.formatterText.formatTextAndId'}"
+										additionalText="{LegalEntityCreationCollection>SystemName}" />
+					</ComboBox>
+					
+					<Label 
+						text="{i18n>request.label.issuingcompany}" labelFor="cbIssuingCompany"/>
+					<Select id="cbIssuingCompany" 
+						items="{path:'IssuingCompanyCollection>/results',templateShareable:'Constants>/true'}" 
+						showSecondaryValues="true"
+						busyIndicatorDelay="{AppData>/busyIndicatorDelay}">
+						<core:ListItem 	key="{IssuingCompanyCollection>CompanyCode}" 
+									text="{parts:[{path:'IssuingCompanyCollection>CompanyCode'},{path:'IssuingCompanyCollection>CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
+									additionalText="{IssuingCompanyCollection>CountryName}" />
+					</Select>
+					
+					<Label id="lblSubInvoiceType" class="sapUiTinyMarginTop"
+						text="" labelFor="rbgSubInvoiceType"
+						visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/requestInitiationData/IssuingCountry'},{path:'AppData>/requestInitiationData/InvoiceType'}],formatter:'.businessRules.isInvoicePL'}"/>
+					<RadioButtonGroup id="rbgSubInvoiceType"
+						columns="3" selectedIndex="0"
+						visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/requestInitiationData/IssuingCountry'},{path:'AppData>/requestInitiationData/InvoiceType'}],formatter:'.businessRules.isInvoicePL'}"
+						select="onSelectSubInvoiceType">
+						<RadioButton text="{path:'Constants>/invoiceType/Invoice', formatter:'.formatterText.getInvoiceTypeText'}">
+							<customData>
+								<core:CustomData key="value" value="1"></core:CustomData>
+							</customData>
+						</RadioButton>
+						<RadioButton text="{path:'Constants>/invoiceType/AdvanceInvoice', formatter:'.formatterText.getInvoiceTypeText'}">
+							<customData>
+								<core:CustomData key="value" value="4"></core:CustomData>
+							</customData>
+						</RadioButton>
+						<RadioButton text="{path:'Constants>/invoiceType/FinalInvoice', formatter:'.formatterText.getInvoiceTypeText'}">
+							<customData>
+								<core:CustomData key="value" value="5"></core:CustomData>
+							</customData>
+						</RadioButton>
+					</RadioButtonGroup>
+					
+					<Label class="sapUiSmallMarginTop"	 	
+						text="{i18n>request.label.receivinglegalentity}" labelFor="cbReceivingLegalEntity"/>
+					<ComboBox id="cbReceivingLegalEntity" class="sapUiSmallMarginTop"	 
+						items="{path:'LegalEntityRCCreationCollection>/results',templateShareable:'Constants>/true'}" 
+						showSecondaryValues="true"
+						selectionChange="onSelectionChangeReceivingLegalEntity">
+						<core:ListItem 	key="{LegalEntityRCCreationCollection>LegalEntityCode}" 
+										text="{parts:[{path:'LegalEntityRCCreationCollection>LegalEntityCode'},{path:'LegalEntityRCCreationCollection>LegalEntityName'}],formatter:'.formatterText.formatTextAndId'}"
+										additionalText = "{LegalEntityRCCreationCollection>SystemName}" />
+					</ComboBox>
+					
+					<Label
+						text="{i18n>request.label.receivingcompany}" labelFor="cbReceivingCompany"/>
+					<Select id="cbReceivingCompany" 
+						items="{path:'ReceivingCompanyCollection>/results',templateShareable:'Constants>/true'}" 
+						showSecondaryValues="true"
+						busyIndicatorDelay="{AppData>/busyIndicatorDelay}">
+						<core:ListItem 	key="{ReceivingCompanyCollection>CompanyCode}" 
+									text="{parts:[{path:'ReceivingCompanyCollection>CompanyCode'},{path:'ReceivingCompanyCollection>CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
+									additionalText="{ReceivingCompanyCollection>CountryName}" />
+					</Select>
+					
+			   	</form:content>
+			</form:SimpleForm> 
+		</content>
+		<beginButton>
+			<Button id="btnCreateRequestConfirm" 
+				text="{i18n>button.confirmation.create}" type="Accept"
+				press="onPressRequestCreationDialogConfirm">
+			</Button>
+		</beginButton>
+		<endButton>
+			<Button id="btnCreateRequestCancel" type="Reject"
+				text="{i18n>button.confirmation.no}" 
+				press="onPressRequestCreationDialogCancel">
+			</Button>
+		</endButton>
+  	</Dialog>
+</core:FragmentDefinition>

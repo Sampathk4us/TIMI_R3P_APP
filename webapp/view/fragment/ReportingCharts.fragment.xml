@@ -1,0 +1,337 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI084                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/ReportingCharts.fragment.xml   	  	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 26/01/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Reporting Charts fragment   					  		  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+  xmlns:viz="sap.viz.ui5.controls" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data"
+  xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+  xmlns:commons="sap.suite.ui.commons">
+		<VBox>
+			<FlexBox alignItems="Start">
+				<items>
+ 					<commons:ChartContainer id="ccRequestsbyIntercoType" 
+                   		showLegendButton="false" showZoom="false" showLegend="false">
+                   		<commons:layoutData>
+							<FlexItemData growFactor="1" />
+						</commons:layoutData>
+                   		<commons:content>
+                   			<commons:ChartContainerContent>
+		               			<commons:content>
+									<viz:VizFrame id="vfRequestsbyIntercoType" uiConfig="{applicationSet:'fiori'}"
+										visible="true"
+					               		height="400px" width="25%" vizType="pie"
+					               		legendVisible="false">
+					         			<viz:dataset>
+							             <viz.data:FlattenedDataset data="{/results}">
+							                 <viz.data:dimensions>
+							                     <viz.data:DimensionDefinition 
+							                     	name="{i18n>charts.label.intercotype}" value="{IntercoType}" />
+							                 </viz.data:dimensions>
+							                 <viz.data:measures>
+							                     <viz.data:MeasureDefinition 
+							                     	name="{i18n>charts.label.requestsnumber}" value="{RequestsCount}" />
+							                 </viz.data:measures>
+						             		</viz.data:FlattenedDataset>
+							         	</viz:dataset>
+								         <viz:feeds>
+								             <viz.feeds:FeedItem id='valueAxisFeedRequestsbyIntercoType' uid="size" type="Measure"
+								                 values="{=[${i18n>charts.label.requestsnumber}]}" />
+								             <viz.feeds:FeedItem id='categoryAxisFeedRequestsbyIntercoType' uid="color" type="Dimension"
+								                 values="{=[${i18n>charts.label.intercotype}]}" />
+								         </viz:feeds>
+           							</viz:VizFrame>
+                   				</commons:content>
+                			</commons:ChartContainerContent>
+                   		</commons:content>
+           			</commons:ChartContainer>
+ 					<commons:ChartContainer id="ccAmountbyIntercoType" 
+                   		showLegendButton="false" showZoom="false" showLegend="false">
+                   		<commons:layoutData>
+							<FlexItemData growFactor="1" />
+						</commons:layoutData>
+                   		<commons:content>
+                   			<commons:ChartContainerContent>
+		               			<commons:content>
+									<viz:VizFrame id="vfAmountbyIntercoType" uiConfig="{applicationSet:'fiori'}"
+										visible="true"
+					               		height="400px" width="25%" vizType="pie"
+					               		legendVisible="false">
+					         			<viz:dataset>
+							             <viz.data:FlattenedDataset data="{/results}">
+							                 <viz.data:dimensions>
+							                     <viz.data:DimensionDefinition 
+							                     	name="{i18n>charts.label.intercotype}" value="{IntercoType}" />
+							                 </viz.data:dimensions>
+							                 <viz.data:measures>
+							                     <viz.data:MeasureDefinition 
+							                     	name="{i18n>charts.label.amount}" value="{Amount}" />
+							                 </viz.data:measures>
+						             		</viz.data:FlattenedDataset>
+							         	</viz:dataset>
+								         <viz:feeds>
+								             <viz.feeds:FeedItem id='valueAxisFeedAmountbyIntercoType' uid="size" type="Measure"
+								                 values="{=[${i18n>charts.label.amount}]}" />
+								             <viz.feeds:FeedItem id='categoryAxisFeedAmountbyIntercoType' uid="color" type="Dimension"
+								                 values="{=[${i18n>charts.label.intercotype}]}" />
+								         </viz:feeds>
+           							</viz:VizFrame>
+                   				</commons:content>
+                			</commons:ChartContainerContent>
+                   		</commons:content>
+           			</commons:ChartContainer>
+ 					<commons:ChartContainer id="ccRequestsbyCreationMode" 
+                   		showLegendButton="false" showZoom="false" showLegend="false">
+                   		<commons:layoutData>
+							<FlexItemData growFactor="1" />
+						</commons:layoutData>
+                   		<commons:content>
+                   			<commons:ChartContainerContent>
+		               			<commons:content>
+									<viz:VizFrame id="vfRequestsbyCreationMode" uiConfig="{applicationSet:'fiori'}"
+										visible="true"
+					               		height="400px" width="25%" vizType="pie"
+					               		legendVisible="false">
+					         			<viz:dataset>
+							             <viz.data:FlattenedDataset data="{/results}">
+							                 <viz.data:dimensions>
+							                     <viz.data:DimensionDefinition 
+							                     	name="{i18n>charts.label.creationmode}" value="{CreationMode}" />
+							                 </viz.data:dimensions>
+							                 <viz.data:measures>
+							                     <viz.data:MeasureDefinition 
+							                     	name="{i18n>charts.label.requestsnumber}" value="{RequestsCount}" />
+							                 </viz.data:measures>
+						             		</viz.data:FlattenedDataset>
+							         	</viz:dataset>
+								         <viz:feeds>
+								             <viz.feeds:FeedItem id='valueAxisFeedRequestsbyCreationMode' uid="size" type="Measure"
+								                 values="{=[${i18n>charts.label.requestsnumber}]}" />
+								             <viz.feeds:FeedItem id='categoryAxisFeedRequestsbyCreationMode' uid="color" type="Dimension"
+								                 values="{=[${i18n>charts.label.creationmode}]}" />
+								         </viz:feeds>
+           							</viz:VizFrame>
+                   				</commons:content>
+                			</commons:ChartContainerContent>
+                   		</commons:content>
+           			</commons:ChartContainer>
+ 					<commons:ChartContainer id="ccAmountbyCreationMode" 
+                   		showLegendButton="false" showZoom="false" showLegend="false">
+                   		<commons:layoutData>
+							<FlexItemData growFactor="1" />
+						</commons:layoutData>
+                   		<commons:content>
+                   			<commons:ChartContainerContent>
+		               			<commons:content>
+									<viz:VizFrame id="vfAmountbyCreationMode" uiConfig="{applicationSet:'fiori'}"
+										visible="true"
+					               		height="400px" width="25%" vizType="pie"
+					               		legendVisible="false">
+					         			<viz:dataset>
+							             <viz.data:FlattenedDataset data="{/results}">
+							                 <viz.data:dimensions>
+							                     <viz.data:DimensionDefinition 
+							                     	name="{i18n>charts.label.creationmode}" value="{CreationMode}" />
+							                 </viz.data:dimensions>
+							                 <viz.data:measures>
+							                     <viz.data:MeasureDefinition 
+							                     	name="{i18n>charts.label.amount}" value="{Amount}" />
+							                 </viz.data:measures>
+						             		</viz.data:FlattenedDataset>
+							         	</viz:dataset>
+								         <viz:feeds>
+								             <viz.feeds:FeedItem id='valueAxisFeedAmountbyCreationMode' uid="size" type="Measure"
+								                 values="{=[${i18n>charts.label.amount}]}" />
+								             <viz.feeds:FeedItem id='categoryAxisFeedAmountbyCreationMode' uid="color" type="Dimension"
+								                 values="{=[${i18n>charts.label.creationmode}]}" />
+								         </viz:feeds>
+           							</viz:VizFrame>
+                   				</commons:content>
+                			</commons:ChartContainerContent>
+                   		</commons:content>
+           			</commons:ChartContainer>
+				</items>
+			</FlexBox>
+			<FlexBox alignItems="Start">
+				<items>
+ 					<commons:ChartContainer id="ccRequestsbyStatus"
+                   		showLegendButton="false" showZoom="false" showLegend="false">
+                   		<commons:layoutData>
+							<FlexItemData growFactor="1" />
+						</commons:layoutData>
+                   		<commons:content>
+                   			<commons:ChartContainerContent>
+		               			<commons:content>
+									<viz:VizFrame id="vfRequestsbyStatus" uiConfig="{applicationSet:'fiori'}"
+										visible="{path:'AppData>/reportingType',formatter:'.formatterVisibility.triggerReportingChartsVisibility'}"
+					               		height="400px" width="50%" vizType="pie"
+					               		legendVisible="false">
+					         			<viz:dataset>
+							             <viz.data:FlattenedDataset data="{/results}">
+							                 <viz.data:dimensions>
+							                     <viz.data:DimensionDefinition 
+							                     	name="{i18n>charts.label.status}" value="{StatusName}" />
+							                 </viz.data:dimensions>
+							                 <viz.data:measures>
+							                     <viz.data:MeasureDefinition 
+							                     	name="{i18n>charts.label.requestsnumber}" value="{RequestsCount}" />
+							                 </viz.data:measures>
+							             	</viz.data:FlattenedDataset>
+							         	</viz:dataset>
+								         <viz:feeds>
+								             <viz.feeds:FeedItem id='valueAxisFeedRequestsbyStatus' uid="size" type="Measure"
+								                 values="{=[${i18n>charts.label.requestsnumber}]}" />
+								             <viz.feeds:FeedItem id='categoryAxisFeedRequestsbyStatus' uid="color" type="Dimension"
+								                 values="{=[${i18n>charts.label.status}]}" />
+								         </viz:feeds>
+           							</viz:VizFrame>
+                   			</commons:content>
+                		</commons:ChartContainerContent>
+                   </commons:content>
+           		</commons:ChartContainer>
+                   
+			    <commons:ChartContainer id="ccAmountbyStatus"
+                 		showLegendButton="false" showZoom="false" showLegend="false">
+                   	<commons:layoutData>
+						<FlexItemData growFactor="1" />
+					</commons:layoutData>
+                   <commons:content>
+                   		<commons:ChartContainerContent>
+		               		<commons:content>
+								<viz:VizFrame id="vfAmountbyStatus" uiConfig="{applicationSet:'fiori'}"
+										visible="{path:'AppData>/reportingType',formatter:'.formatterVisibility.triggerReportingChartsVisibility'}"
+						               	height="400px" width="100%" vizType="column"
+					               		legendVisible="false">
+							         <viz:dataset>
+							             <viz.data:FlattenedDataset data="{/results}">
+							                 <viz.data:dimensions>
+							                     <viz.data:DimensionDefinition name="{i18n>charts.label.status}"
+							                         value="{StatusName}">
+							                     </viz.data:DimensionDefinition>
+							                 </viz.data:dimensions>
+							                 <viz.data:measures>
+							                     <viz.data:MeasureDefinition name="{i18n>charts.label.amount}"
+							                         value="{values}" />
+							                 </viz.data:measures>
+							             </viz.data:FlattenedDataset>
+							         </viz:dataset>
+							
+							         <viz:feeds>
+							             <viz.feeds:FeedItem id='valueAxisFeedAmountbyStatus' uid="valueAxis" type="Measure"
+							                 values="{=[${i18n>charts.label.amount}]}" />
+							             <viz.feeds:FeedItem id='categoryAxisFeedAmountbyStatus' uid="categoryAxis" type="Dimension"
+							                 values="{=[${i18n>charts.label.status}]}" />
+						         </viz:feeds>
+				           </viz:VizFrame>
+                   		</commons:content>
+                   	</commons:ChartContainerContent>
+                  </commons:content>
+               </commons:ChartContainer>
+			</items>
+			</FlexBox>
+			<FlexBox alignItems="Start">
+				<items>
+ 					<commons:ChartContainer id="ccAmountbyIssuingCompany"
+                   		showLegendButton="false" showZoom="false" showLegend="false">
+                   		<commons:layoutData>
+							<FlexItemData growFactor="1" />
+						</commons:layoutData>
+                   		<commons:content>
+                   			<commons:ChartContainerContent>
+		               			<commons:content>
+									<viz:VizFrame id="vfAmountbyIssuingCompany" uiConfig="{applicationSet:'fiori'}"
+											visible="{path:'AppData>/reportingType',formatter:'.formatterVisibility.triggerReportingChartsVisibility'}"
+							               	height="400px" width="100%" vizType="column"
+					               			legendVisible="false">
+								         <viz:dataset>
+								             <viz.data:FlattenedDataset data="{/results}">
+								                 <viz.data:dimensions>
+								                     <viz.data:DimensionDefinition name="{i18n>charts.label.company}"
+								                         value="{key}" displayValue="{CompanyName}"/>
+								                 </viz.data:dimensions>
+								                 <viz.data:measures>
+								                     <viz.data:MeasureDefinition name="{i18n>charts.label.amount}"
+								                         value="{values}" />
+								                 </viz.data:measures>
+								             </viz.data:FlattenedDataset>
+								         </viz:dataset>
+								
+								         <viz:feeds>
+								             <viz.feeds:FeedItem id='valueAxisFeedAmountbyIssuingCompany' uid="valueAxis" type="Measure"
+								                 values="{=[${i18n>charts.label.amount}]}" />
+								             <viz.feeds:FeedItem id='categoryAxisFeedAmountbyIssuingCompany' uid="categoryAxis" type="Dimension"
+								                 values="{=[${i18n>charts.label.company}]}" />
+								         </viz:feeds>
+							          </viz:VizFrame>
+                   			</commons:content>
+                		</commons:ChartContainerContent>
+                   </commons:content>
+           		</commons:ChartContainer>
+                   
+			    <commons:ChartContainer id="ccAmountbyReceivingCompany"
+                 		showLegendButton="false" showZoom="false" showLegend="false">
+                   	<commons:layoutData>
+						<FlexItemData growFactor="1" />
+					</commons:layoutData>
+                   <commons:content>
+                   		<commons:ChartContainerContent>
+		               		<commons:content>
+								<viz:VizFrame id="vfAmountbyReceivingCompany" uiConfig="{applicationSet:'fiori'}"
+										visible="{path:'AppData>/reportingType',formatter:'.formatterVisibility.triggerReportingChartsVisibility'}"
+						               	height="400px" width="100%" vizType="column"
+					               		legendVisible="false">
+							         <viz:dataset>
+							             <viz.data:FlattenedDataset data="{/results}">
+							                 <viz.data:dimensions>
+							                     <viz.data:DimensionDefinition name="{i18n>charts.label.company}"
+							                         value="{key}" displayValue="{CompanyName}"/>
+							                 </viz.data:dimensions>
+							                 <viz.data:measures>
+							                     <viz.data:MeasureDefinition name="{i18n>charts.label.amount}"
+							                         value="{values}" />
+							                 </viz.data:measures>
+							             </viz.data:FlattenedDataset>
+							         </viz:dataset>
+							
+							         <viz:feeds>
+							             <viz.feeds:FeedItem id='valueAxisFeedAmountbyReceivingCompany' uid="valueAxis" type="Measure"
+							                 values="{=[${i18n>charts.label.amount}]}" />
+							             <viz.feeds:FeedItem id='categoryAxisFeedAmountbyReceivingCompany' uid="categoryAxis" type="Dimension"
+							                 values="{=[${i18n>charts.label.company}]}" />
+							         </viz:feeds>
+						           </viz:VizFrame>
+                   		</commons:content>
+                   	</commons:ChartContainerContent>
+                  </commons:content>
+               </commons:ChartContainer>
+			</items>
+		</FlexBox>
+	</VBox>
+	<VBox 
+		class="sapUiSmallMargin" 
+		visible="{path:'ReportingRequestHeaderList>/results', formatter:'.formatterVisibility.triggerReportingChartsNoDataMessageVisibility'}"
+		renderType="Bare" alignItems="Center">
+		<Text text="{i18n>request.table.nodata}"></Text>
+	</VBox>
+	
+</core:FragmentDefinition>

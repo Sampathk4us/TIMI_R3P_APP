@@ -1,0 +1,238 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/Item.view.xml   	  							  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 12/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request Item view  					  				  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n  ........... : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"  xmlns:custom="cus.fi.timi.rel.assets.js.library"
+		xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+		controllerName="cus.fi.timi.rel.controller.Item" xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"  
+		xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page id="pItem" 
+		title="{parts:[{path:'ItemInfo>/ItemType'},{path:'Request>ItemId'},{path:'Request>ItemText'}],formatter:'.formatterText.getItemViewTitle'}"
+		showNavButton="true" navButtonPress="onNavBack">
+		<headerContent >
+			<Button id="btnNavigateNextItem" icon="sap-icon://down" press="onPressNavigateNextItem"	enabled="true" />
+			<Button id="btnNavigatePreviousItem" icon="sap-icon://up" press="onPressNavigatePreviousItem"	enabled="true" />
+		</headerContent>	
+		<content>
+			<form:SimpleForm minWidth="1024"
+				maxContainerCols="1"
+				editable="true"
+				layout="ResponsiveGridLayout"
+				labelSpanL="4"
+				labelSpanM="4"
+				labelSpanS="4"
+				emptySpanL="4"
+				emptySpanM="2"
+				emptySpanS="0"
+				columnsL="1"
+				columnsM="1"
+				class="editableForm">
+				<form:content>
+					<Label 	text="{i18n>request.label.debitcredit}" labelFor="iDCIndicator"/>
+					<ComboBox items="{DCIndicatorCollection>/results}"
+						selectedKey="{Request>DCIndicator}"
+						editable="{FieldsAttributes>ITMDCIND/Editable}" visible="{FieldsAttributes>ITMDCIND/Visible}"
+						valueState="{path:'Request>States/DCIndicator',formatter:'.formatterState.getValueState'}"
+						showValueStateMessage="{parts:[{path:'Request>States/DCIndicator'},{path:'Request>Messages/DCIndicator'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+						valueStateText="{Request>Messages/DCIndicator}" >
+						<core:Item key="{DCIndicatorCollection>DCIndicatorCode}" text="{DCIndicatorCollection>DCIndicatorName}" />
+					</ComboBox>
+					<Label 	text="{i18n>request.label.itemtext}" labelFor="iItemText"
+							required="{FieldsAttributes>ITMTEXT/Mandatory}" />
+					<Input 	id="iItemText"
+							value="{Request>ItemText}" maxLength="100" 
+							editable="{FieldsAttributes>ITMTEXT/Editable}" visible="{FieldsAttributes>ITMTEXT/Visible}" 
+							valueState="{path:'Request>States/ItemText',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/ItemText'},{path:'Request>Messages/ItemText'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/ItemText}">
+					</Input>
+					<Label 	text="{i18n>request.label.analyticalnature}" labelFor="iAnalyticalNature"
+							required="{FieldsAttributes>ANALNATURE/Mandatory}" />
+					<Input 	id="iAnalyticalNature"
+							value="{Request>AnalyticalNature}" maxLength="4"
+							showValueHelp="true" valueHelpRequest="onValueHelpItemNature"
+							change="onChangeItemNature"
+							editable="{FieldsAttributes>ANALNATURE/Editable}" visible="{FieldsAttributes>ANALNATURE/Visible}" 
+							valueState="{path:'Request>States/AnalyticalNature',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/AnalyticalNature'},{path:'Request>Messages/AnalyticalNature'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/AnalyticalNature}">
+					</Input>
+					<Label 	text="{i18n>request.label.glaccount}" labelFor="iGLAccount"
+							required="{FieldsAttributes>GLACCOUNT/Mandatory}" />
+					<Input 	id="iGLAccount"
+							value="{Request>GLAccount}" maxLength="10"
+							showValueHelp="true" valueHelpRequest="onValueHelpItemAccount"
+							change="onChangeItemAccount"
+							editable="{FieldsAttributes>GLACCOUNT/Editable}" visible="{FieldsAttributes>GLACCOUNT/Visible}" 
+							valueState="{path:'Request>States/GLAccount',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/GLAccount'},{path:'Request>Messages/GLAccount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/GLAccount}">
+					</Input>
+					<Label 	text="{i18n>request.label.gmid}" labelFor="iGMID"
+							required="{FieldsAttributes>GMID/Mandatory}" />
+					<Input 	id="iGMID"
+							value="{Request>GMID}" maxLength="18"
+							showValueHelp="true" valueHelpRequest="onValueHelpItemGMID"
+							change="onChangeItemGMID"
+							editable="{FieldsAttributes>GMID/Editable}" visible="{FieldsAttributes>GMID/Visible}" 
+							valueState="{path:'Request>States/GMID',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/GMID'},{path:'Request>Messages/GMID'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/GMID}">
+					</Input>					
+					<Label 	text="{i18n>request.label.costcenter}" labelFor="iCostCenter"
+							required="{FieldsAttributes>COSTCENTER/Mandatory}" />
+					<Input 	id="iCostCenter"
+							value="{Request>CostCenter}" maxLength="10"
+							showValueHelp="true" valueHelpRequest="onValueHelpItemCostCenter"
+							change="onChangeItemCostCenter"
+							editable="{FieldsAttributes>COSTCENTER/Editable}" visible="{FieldsAttributes>COSTCENTER/Visible}" 
+							valueState="{path:'Request>States/CostCenter',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/CostCenter'},{path:'Request>Messages/CostCenter'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/CostCenter}">
+					</Input>
+					<Label 	text="{i18n>request.label.internalorder}" labelFor="iInternalOrder"
+							required="{FieldsAttributes>INTERNALORDER/Mandatory}" />
+					<Input 	id="iInternalOrder"
+							value="{Request>InternalOrder}" maxLength="12"
+							showValueHelp="true" valueHelpRequest="onValueHelpItemInternalOrder" 
+							change="onChangeItemInternalOrder"
+							editable="{FieldsAttributes>INTERNALORDER/Editable}" visible="{FieldsAttributes>INTERNALORDER/Visible}" 
+							valueState="{path:'Request>States/InternalOrder',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/InternalOrder'},{path:'Request>Messages/InternalOrder'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/InternalOrder}">
+					</Input>
+					<Label 	text="{i18n>request.label.wbs}" labelFor="iWBS"
+							required="{FieldsAttributes>WBS/Mandatory}" />
+					<Input 	id="iWBS"
+							value="{Request>WBSExternal}" maxLength="24"
+							showValueHelp="true" valueHelpRequest="onValueHelpItemWBS"  
+							change="onChangeItemWBS"
+							editable="{FieldsAttributes>WBS/Editable}" visible="{FieldsAttributes>WBS/Visible}" 
+							valueState="{path:'Request>States/WBSExternal',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/WBSExternal'},{path:'Request>Messages/WBSExternal'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/WBSExternal}">
+					</Input>
+					<Label 	text="{i18n>request.label.study}" labelFor="iStudy"
+							required="{FieldsAttributes>STUDY/Mandatory}" />
+					<Input 	id="iStudy"
+							value="{Request>Study}" maxLength="50"
+							editable="{FieldsAttributes>STUDY/Editable}" visible="{FieldsAttributes>STUDY/Visible}" 
+							valueState="{path:'Request>States/Study',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/Study'},{path:'Request>Messages/Study'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/Study}">
+					</Input>
+					<Label 	text="{i18n>request.label.product}" labelFor="iProduct"
+							required="{FieldsAttributes>PRODUCT/Mandatory}" />
+					<Input 	id="iProduct"
+							value="{Request>Product}" maxLength="50"
+							editable="{FieldsAttributes>PRODUCT/Editable}" visible="{FieldsAttributes>PRODUCT/Visible}" 
+							valueState="{path:'Request>States/Product',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/Product'},{path:'Request>Messages/Product'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/Product}">
+					</Input>
+					<Label 	text="{i18n>request.label.amount}" labelFor="iAmount"
+							required="{FieldsAttributes>AMOUNT/Mandatory}" />
+					<custom:NumericInput id="iAmount"
+							value="{Request>Amount}" hAlign="Left" decimals="{path:'Request>/HeaderData/CurrencyCode',formatter:'.businessRules.getCurrencyMaxDecimals'}" maxLength="16"
+							change="onChangeItemAmount"
+							editable="{FieldsAttributes>AMOUNT/Editable}" visible="{FieldsAttributes>AMOUNT/Visible}" 
+							valueState="{path:'Request>States/Amount',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/Amount'},{path:'Request>Messages/Amount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/Amount}">
+					</custom:NumericInput>
+					<Label 	text="{i18n>request.label.markup}" labelFor="iMarkup"
+							required="{FieldsAttributes>MARKUP/Mandatory}" />
+					<custom:NumericInput id="iMarkup"
+							value="{Request>Markup}" hAlign="Left" decimals="0" maxLength="3"
+							change="onChangeItemMarkup"
+							editable="{FieldsAttributes>MARKUP/Editable}" visible="{FieldsAttributes>MARKUP/Visible}" 
+							valueState="{path:'Request>States/Markup',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/Markup'},{path:'Request>Messages/Markup'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/Markup}">
+					</custom:NumericInput>
+					<Label 	text="{i18n>request.label.totalamount}" labelFor="iTotalAmount"
+							required="{FieldsAttributes>TOTALAMOUNT/Mandatory}" />
+					<custom:NumericInput id="iTotalAmount"
+							value="{Request>TotalAmount}" hAlign="Left" decimals="{path:'Request>/HeaderData/CurrencyCode',formatter:'.businessRules.getCurrencyMaxDecimals'}" maxLength="16"
+							editable="{FieldsAttributes>TOTALAMOUNT/Editable}" visible="{FieldsAttributes>TOTALAMOUNT/Visible}" 
+							valueState="{path:'Request>States/TotalAmount',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/TotalAmount'},{path:'Request>Messages/TotalAmount'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/TotalAmount}">
+					</custom:NumericInput>
+					<Label 	text="{i18n>request.label.taxcode}" labelFor="iTaxCode"
+							required="{FieldsAttributes>TAXCODE/Mandatory}" />
+					<Input 	id="iTaxCode" maxLength="2"
+							value="{Request>TaxCode}" 
+							showValueHelp="true" valueHelpRequest="onValueHelpItemTax"
+							change="onChangeItemTax"
+							editable="{FieldsAttributes>TAXCODE/Editable}" visible="{FieldsAttributes>TAXCODE/Visible}" 
+							valueState="{path:'Request>States/TaxCode',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/TaxCode'},{path:'Request>Messages/TaxCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/TaxCode}">
+					</Input>
+					<Label 	text="{i18n>request.label.businessarea}" labelFor="tBusinessArea"
+							required="{FieldsAttributes>BUSINESSAREA/Mandatory}" />
+					<Input 	id="tBusinessArea" maxLength="4"
+							value="{Request>BusinessAreaCode}" 
+							editable="{FieldsAttributes>BUSINESSAREA/Editable}" visible="{FieldsAttributes>BUSINESSAREA/Visible}" 
+							valueState="{path:'Request>States/BusinessAreaCode',formatter:'.formatterState.getValueState'}"
+							showValueStateMessage="{parts:[{path:'Request>States/BusinessAreaCode'},{path:'Request>Messages/BusinessAreaCode'}],formatter:'.formatterVisibility.triggerValueStateMessageVisibility'}"
+							valueStateText="{Request>Messages/BusinessAreaCode}">
+					</Input>
+			   	</form:content>
+			</form:SimpleForm> 
+		</content>
+		<footer>
+			<Toolbar id="tbFooter">
+				<Button id="btnAddItem"
+					icon="sap-icon://add" text="{i18n>button.request.item.add}" press="onPressAddNewItem"
+					visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'},{path:'Request>ItemType'}],formatter:'.formatterVisibility.triggerAddNewItemButtonVisibility'}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="gray" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>		
+				<Button id="btnDuplicateItem"
+					icon="sap-icon://duplicate" text="{i18n>button.request.item.duplicate}" press="onPressDuplicateItem"
+					visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'},{path:'Request>ItemType'},{path:'Request>/HeaderData/CreationMode'}],formatter:'.formatterVisibility.triggerDuplicateItemButtonVisibility'}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="gray" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>
+				<ToolbarSpacer/>
+				<Button id="btnOkItem"
+					icon="sap-icon://accept" text="{i18n>button.request.item.ok}" press="onPressItemOk" timiColor="Green">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="green" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>	
+				<Button id="btnDeleteItem"
+					icon="sap-icon://delete" text="{i18n>button.request.delete}" press="onPressDeleteItem" timiColor="Red"
+					visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'Request>/StatusId'},{path:'Request>ItemType'},{path:'Request>/HeaderData/CreationMode'}],formatter:'.formatterVisibility.triggerDeleteItemButtonVisibility'}">
+					<customData>
+						<core:CustomData key="custombuttoncolor" value="red" writeToDom="true"></core:CustomData>
+					</customData>
+				</Button>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

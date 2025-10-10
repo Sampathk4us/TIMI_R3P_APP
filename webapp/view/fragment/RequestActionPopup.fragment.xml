@@ -1,0 +1,55 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/RequestActionPopup.fragment.xml   	  	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 19/05/2016                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request action popup fragment   					  	  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : M001										  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : Marion Alberny                           * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 16/11/2016								  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : CR2016-273225							  * -->
+<!-- * Description ............... : Choice of Generation Option			  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+  xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog id="dActionRequest" class="timi popup"
+		type="Message">
+		<content>
+			<VBox>
+				<HBox>					
+					<Text id="tActionText" class="sapUiSmallMarginBottom"></Text>
+				</HBox>
+				<RadioButton id="rbRejectReceiver" class="sapUiSizeCompact" 
+					groupName="GroupReject" data:actionId="10" selected="true"/>
+				<RadioButton id="rbRejectIssuer" class="sapUiSizeCompact"  
+					groupName="GroupReject" data:actionId="4"/>
+				<TextArea id="taActionComment" width="100%"></TextArea>
+			</VBox>
+		</content>
+		<beginButton>
+			<Button id="btnRequestActionConfirm" 
+				text="{i18n>button.confirm}" type="Accept"
+				press="onPressConfirmRequestAction">
+			</Button>
+		</beginButton>
+		<endButton>
+			<Button id="btnRequestActionCancel"
+				text="{i18n>button.cancel}" type="Reject"
+				press="onPressCancelRequestAction">
+			</Button>
+		</endButton>
+  	</Dialog>
+</core:FragmentDefinition>

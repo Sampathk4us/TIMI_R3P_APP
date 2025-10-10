@@ -1,0 +1,55 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/DialogDuplicateRequestItem.fragment.xml  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 09/10/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Request item duplicate dialog fragment   			  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+  	xmlns:custom="cus.fi.timi.rel.assets.js.library">
+	<Dialog class="sapUiSizeCompact"
+		title="{i18n>request.item.popup.title.duplicate}">
+		<content>
+			<Text class="sapUiTinyMarginBegin"
+				text="{i18n>request.item.text.duplicate}">
+			</Text>
+			<custom:NumericInput id="niTimes" class="sapUiTinyMarginBeginEnd" 
+				value="1" decimals="0" 
+				width="3rem" maxLength="3">
+			</custom:NumericInput>
+			<Text class="sapUiTinyMarginEnd"
+				text="{i18n>request.item.text.duplicate.times}">
+			</Text>	
+		</content>
+		<beginButton>
+			<Button id="btnConfirmDuplicateRequestItem" 
+			text="{i18n>button.confirmation.yes}" type="Accept"
+			press="onPressConfirmDuplicateRequestItem">
+			</Button>
+		</beginButton>
+		<endButton>
+			<Button id="btnCancelDuplicateRequestItem" 
+			text="{i18n>button.confirmation.no}" type="Reject"
+			press="onPressCancelDuplicateRequestItem">
+			</Button>
+		</endButton>
+  	</Dialog>
+</core:FragmentDefinition>

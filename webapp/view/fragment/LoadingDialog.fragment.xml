@@ -1,0 +1,42 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI062                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/LoadingDialog.fragment.xml  			  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 11/12/2018                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Loading dialog fragment   			  				  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition
+  xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout" xmlns:form="sap.ui.layout.form"
+  	xmlns:custom="cus.fi.timi.rel.assets.js.library">
+	<Dialog class="sapUiSizeCompact"
+		showHeader="false">
+		<content>
+			<VBox class="sapUiSmallMarginTopBottom"
+				width="100%" justifyContent="Center" alignItems="Center">
+				<Text id="textLoading" class="sapUiSmallMarginBottom"></Text>
+				<BusyIndicator id="biLoading" class="sapUiSmallMarginBottom"/>
+				<ProgressIndicator id="piLoading"
+					showValue="false"
+					state="None"
+					visible="false"/>
+			</VBox>
+		</content>
+  	</Dialog>
+</core:FragmentDefinition>
