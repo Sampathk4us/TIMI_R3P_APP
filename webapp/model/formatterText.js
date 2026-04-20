@@ -163,7 +163,7 @@ sap.ui.define([
         getCompanyCodeNameFromCompanyCode: function(sCompanyCode) {
 
             var oCompanyItem = {};
-            var aCompanyList = this.getComponentModel("CompanyCollection").getData().results;
+            var aCompanyList = !!this.getComponentModel("CompanyCollection") ? this.getComponentModel("CompanyCollection").getData().results : [];
 
             oCompanyItem = utilities.findFirstItem(aCompanyList, "CompanyCode", sCompanyCode);
 
@@ -184,7 +184,29 @@ sap.ui.define([
         getCompanyNameFromCompanyCode: function(sCompanyCode) {
 
             var oCompanyItem = {},
-                aCompanyList = this.getComponentModel("CompanyCollection").getData().results;
+                aCompanyList = !!this.getComponentModel("CompanyCollection") ? this.getComponentModel("CompanyCollection").getData().results : [];
+
+            oCompanyItem = utilities.findFirstItem(aCompanyList, "CompanyCode", sCompanyCode);
+
+            if(oCompanyItem) {
+                return oCompanyItem.CompanyName;
+            }
+
+            return sCompanyCode;
+
+        },
+
+        
+        /**
+         * Get company code and name
+         * @param {string} sCompanyCode the local company code
+         * @public
+         * @returns {string} the company code and name
+         */
+        getCompanyNameFromCompanyCode: function(sCompanyCode) {
+
+            var oCompanyItem = {};
+            var aCompanyList = !!this.getComponentModel("CompanyCollection") ? this.getComponentModel("CompanyCollection").getData().results : [];
 
             oCompanyItem = utilities.findFirstItem(aCompanyList, "CompanyCode", sCompanyCode);
 
@@ -205,7 +227,7 @@ sap.ui.define([
         getCountryNameFromCountryCode: function(sCountryCode) {
 
             var oCountryItem = {},
-                aCountryList = this.getComponentModel("CountryCollection").getData().results;
+                aCountryList = !!this.getComponentModel("CountryCollection") ? this.getComponentModel("CountryCollection").getData().results : [];
 
             oCountryItem = utilities.findFirstItem(aCountryList, "CountryCode", sCountryCode);
 
@@ -293,7 +315,7 @@ sap.ui.define([
         getDCIndicatorText: function(sDCIndicatorCode) {
 
             var oDCIndicatorItem = {};
-            var aDCIndicatorList = this.getComponentModel("DCIndicatorCollection").getData().results;
+            var aDCIndicatorList = !!this.getComponentModel("DCIndicatorCollection") ? this.getComponentModel("DCIndicatorCollection").getData().results : [];
 
             oDCIndicatorItem = utilities.findFirstItem(aDCIndicatorList, "DCIndicatorCode", sDCIndicatorCode);
 
@@ -347,7 +369,7 @@ sap.ui.define([
         getInvoiceTypeText: function(sInvoiceType) {
 
             var oInvoiceTypeItem = {};
-            var aInvoiceTypeList = this.getComponentModel("DocumentTypeCollection").getData().results;
+            var aInvoiceTypeList = !!this.getComponentModel("DocumentTypeCollection") ? this.getComponentModel("DocumentTypeCollection").getData().results : [];
 
             oInvoiceTypeItem = utilities.findFirstItem(aInvoiceTypeList, "DocumentTypeCode", sInvoiceType);
 
@@ -419,7 +441,7 @@ sap.ui.define([
         getLegalEntityCodeFromCompanyCode: function(sCompanyCode) {
 
             var oCompanyItem = {},
-                aCompanyList = this.getComponentModel("CompanyCollection").getData().results;
+                aCompanyList = !!this.getComponentModel("CompanyCollection") ? this.getComponentModel("CompanyCollection").getData().results : [];
 
             oCompanyItem = utilities.findFirstItem(aCompanyList, "CompanyCode", sCompanyCode);
 
@@ -440,7 +462,7 @@ sap.ui.define([
         getLegalEntityCodeNameFromLegalEntityCode: function(sLegalEntityCode) {
 
             var oLegalEntityItem = {},
-                aLegalEntityList = this.getComponentModel("LegalEntityCollection").getData().results;
+                aLegalEntityList = !!this.getComponentModel("LegalEntityCollection") ? this.getComponentModel("LegalEntityCollection").getData().results : [];
 
             oLegalEntityItem = utilities.findFirstItem(aLegalEntityList, "LegalEntityCode", sLegalEntityCode);
 
@@ -461,7 +483,7 @@ sap.ui.define([
         getLegalEntityNameFromLegalEntityCode: function(sLegalEntityCode) {
 
             var oLegalEntityItem = {},
-                aLegalEntityList = this.getComponentModel("LegalEntityCollection").getData().results;
+                aLegalEntityList = !!this.getComponentModel("LegalEntityCollection") ? this.getComponentModel("LegalEntityCollection").getData().results : [];
 
             oLegalEntityItem = utilities.findFirstItem(aLegalEntityList, "LegalEntityCode", sLegalEntityCode);
 
@@ -575,7 +597,7 @@ sap.ui.define([
         getStatusText: function(sIntercoType, sAppType, sStatusId) {
 
             var oStatusItem = {};
-            var aStatusList = this.getComponentModel("StatusCollection").getData().results;
+            var aStatusList = !!this.getComponentModel("StatusCollection") ? this.getComponentModel("StatusCollection").getData().results : [];
 
             if(aStatusList.length > 0) {
 
@@ -740,7 +762,7 @@ sap.ui.define([
         getMajorTypeText : function(sMajorTypeId){
         	
             var oMajorTypeItem = {},
-            	aMajorTypeList = this.getComponentModel("MajorTypeCollection").getData().results;
+            	aMajorTypeList = !!this.getComponentModel("MajorTypeCollection") ? this.getComponentModel("MajorTypeCollection").getData().results : [];
 
             if(aMajorTypeList.length > 0) {
 
@@ -748,6 +770,25 @@ sap.ui.define([
 
                 if(oMajorTypeItem) {
                     return oMajorTypeItem.MajorTypeName;
+                }
+
+            }
+            
+            return "";
+        	
+        },
+
+        getDocumentTypeText : function(sDocumentTypeId){
+        	
+            var oDocumentTypeItem = {},
+            	aDocumentTypeList = !!this.getComponentModel("DocumentTypeCollection") ? this.getComponentModel("DocumentTypeCollection").getData().results : [];
+
+            if(aDocumentTypeList.length > 0) {
+
+                oDocumentTypeItem = utilities.findFirstItem(aDocumentTypeList, "DocumentTypeCode", sDocumentTypeId);
+
+                if(oDocumentTypeItem) {
+                    return oDocumentTypeItem.DocumentTypeName;
                 }
 
             }
@@ -793,6 +834,7 @@ sap.ui.define([
             }
             return sText;
         }
+        
     };
 
     return oText;

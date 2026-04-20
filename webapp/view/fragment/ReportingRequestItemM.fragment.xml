@@ -30,7 +30,7 @@
 			showNoData="true" noDataText="{i18n>request.table.nodata}" fixedLayout="false"
 			growing="true" growingScrollToLoad="true">
 			<columns>
-				<Column id="ItmReqidCol" hAlign="Center" width="4rem"><Text text="{i18n>request.table.column.request}"/></Column>
+				<Column id="ItmReqidCol" hAlign="Center" width="5rem"><Text text="{i18n>request.table.column.request}"/></Column>
 				<Column id="ItmStatusCol" hAlign="Center" width="9rem"><Text text="{i18n>request.table.column.status}"/></Column>
 				<Column id="ItmIssuingReceivingCol" hAlign="Center"><Text text="{i18n>request.table.column.itemtype}"/></Column>
 				<Column id="ItmDebitCreditCol" hAlign="Center"><Text text="{i18n>request.table.column.debitcredit}"/></Column>

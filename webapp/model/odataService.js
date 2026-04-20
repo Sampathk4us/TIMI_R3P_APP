@@ -20,7 +20,16 @@
 * Modification date ......... 	: 	 									*
 * Transport order ........... 	:  										*
 * Change Request ............ 	: 	  									*
-* Description ............... 	: 	 									*
+* Description ............... 	: 	 									* 
+*************************************************************************
+ * Modification n° ...........  : M0001								    *
+ * Project ...................	: TIMI									*
+ * Author .................... 	: David TEA                        	    *
+ *----------------------------------------------------------------------*
+ * Modification date ......... 	: 18/12/2025 							*
+ * Transport order ........... 	: DO8K908635 							*
+ * Change Request ............ 	: CHG0173797  							*
+ * Description ............... 	: Enhancement Q4 2025					*
 *************************************************************************
 /**
 * @fileOverview Provides functions for OData service 
@@ -402,6 +411,28 @@ sap.ui.define([
             );
 
         },
+
+        //M0001 DTE - Begin of ins
+        queryRequestBatchLogs: function(aFilters) {
+
+            var oDataModel = _getODataModel.apply(this);
+
+            return new Promise(
+                function resolver(resolve, reject) {
+                    oDataModel.read("/RequestBatchLogsCollection", {
+                        "filters": aFilters,
+                        "success": function(oData) {
+                            resolve(oData);
+                        },
+                        "error": function(oError) {
+                            reject(oError);
+                        }
+                    });
+                }
+            );
+
+        },
+        //M0001 DTE - End of ins        
 
         createRequest: function(oRequestData) {
 
@@ -1341,7 +1372,29 @@ sap.ui.define([
                 }
             );
 
-        },        
+        },  
+
+        getMasterDataDocUrl: function(oUrlParameters) {
+
+            var oDataModel = _getODataModel.apply(this);
+
+            return new Promise(
+                function resolver(resolve, reject) {
+                    oDataModel.callFunction("/MasterDataDocUrl", {
+                        "method": "GET",
+                        "urlParameters": oUrlParameters,
+                        "success": function(oData) {
+                            resolve(oData);
+                        },
+                        "error": function(oError) {
+                            reject(oError);
+                        }
+                    });
+                }
+            );
+
+        },    
+           
     };
 
     return oODataService;

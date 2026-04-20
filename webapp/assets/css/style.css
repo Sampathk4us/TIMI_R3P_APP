@@ -545,3 +545,17 @@
 .timi div[data-customobjectstatus="Generated"] .sapMObjStatusText{
 	background-color: #008236;
 }
+
+.timi .customLabel {
+    display: inline-flex !important;
+    align-items: baseline;
+}
+
+.timi .customLabelIcon {
+	pointer-events: auto !important;
+    cursor: help; /* Optionnel : indique qu'il y a une aide au survol */
+}
+
+.timi .rowSubstituted {
+    background-color: rgba(7, 141, 232, 0.23)!important;
+}

@@ -1,0 +1,126 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI084                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/ReportingRequestItem.fragment.xml   	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 26/01/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Reporting Request Item fragment   					  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core" 
+    xmlns:t="sap.ui.table"
+    xmlns:layout="sap.ui.layout" 
+    xmlns:form="sap.ui.layout.form" 
+    xmlns:custom="cus.fi.timi.rel.assets.js.library" 
+    xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+    <t:Table 
+        id="tReportingRequestItem" 
+        class="sapUiNoContentPadding reportingList"
+        rows="{ReportingRequestItemList>/results}"
+        selectionMode="None"
+        visibleRowCountMode="Auto"
+        minAutoRowCount="5"
+        width="100%"
+        rowActionCount="1">
+		
+		<t:layoutData>
+			<FlexItemData growFactor="1" baseSize="0%"/>
+		</t:layoutData>
+
+        <t:rowActionTemplate>
+            <t:RowAction>
+                <t:items>
+                    <t:RowActionItem type="Navigation" press="onPressNavigateToRequestDetailsFromItem"/>
+                </t:items>
+            </t:RowAction>
+        </t:rowActionTemplate>
+
+        <t:columns>
+            <t:Column id="ItmReqidCol" width="7rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.request}"/>
+                <t:template>
+                    <ObjectIdentifier title="{ReportingRequestItemList>RequestId}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ItmStatusCol" width="10rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.status}"/>
+                <t:template>
+                    <ObjectStatus text="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'ReportingRequestItemList>StatusId'}],formatter:'.formatterText.getStatusText'}">
+                        <customData>
+                            <core:CustomData key="customobjectstatus" value="{path:'ReportingRequestItemList>StatusId',formatter:'.formatterState.getCustomStatusState'}" writeToDom="true"/>
+                        </customData>
+                    </ObjectStatus>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ItmIssuingReceivingCol" width="10rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.itemtype}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestItemList>ItemType',formatter:'.formatterText.getItemTypeText'}" wrapping="false"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ItmDebitCreditCol" width="8rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.debitcredit}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestItemList>DCIndicator',formatter:'.formatterText.getDCIndicatorText'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ItmItemtextCol" hAlign="Left">
+                <Label text="{i18n>request.table.column.itemtext}"/>
+                <t:template>
+                    <Text text="{ReportingRequestItemList>ItemText}" wrapping="false"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ItmGlAccountCol" width="10rem" hAlign="Right">
+                <Label text="{i18n>request.table.column.glaccount}"/>
+                <t:template>
+                    <Text text="{ReportingRequestItemList>GLAccount}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ItmLCOACol" width="10rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.lcoaaccount}"/>
+                <t:template>
+                    <Text text="{ReportingRequestItemList>LCOAAccount}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ItmAmountCol" width="10rem" hAlign="End">
+                <Label text="{i18n>request.table.column.totalamount}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestItemList>TotalAmount',formatter:'.formatterFormat.formatAmount'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ItmCurrencyCol" width="5rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.currency}"/>
+                <t:template>
+                    <Text text="{ReportingRequestItemList>CurrencyCode}"/>
+                </t:template>
+            </t:Column>
+        </t:columns>
+    </t:Table>
+
+</core:FragmentDefinition>

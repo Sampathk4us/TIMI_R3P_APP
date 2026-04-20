@@ -31,8 +31,9 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/Device",
     "sap/ui/core/routing/History",
+	"cus/fi/timi/rel/model/odataService",
     "cus/fi/timi/rel/model/parameters"
-], function(Controller, Device, History, parameters) {
+], function(Controller, Device, History, odataService, parameters) {
     "use strict";
 
     /**
@@ -182,6 +183,18 @@ sap.ui.define([
             } else {
                 this.getRouter().navTo("overview", {}, true /* no history */ );
             }
+        },
+        
+
+        onPressShowMasterDataDoc : function(){
+            odataService.getMasterDataDocUrl.call(this)
+                .then(function(oData){
+                    if(!!oData.MasterDataDocUrl && !!oData.MasterDataDocUrl.Data){
+                        sap.m.URLHelper.redirect(oData.MasterDataDocUrl.Data, true);
+                    }else{
+                    
+                    }
+                }.bind(this))
         }
     });
 }, true);

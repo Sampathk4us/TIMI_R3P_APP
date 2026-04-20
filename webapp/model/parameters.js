@@ -498,6 +498,18 @@ sap.ui.define([
         		"FinalInvoice" : "5",
                 "GrantSubsidies" : "6"
         	}
+        },
+
+        getSystemList : function(){
+            return {
+                "CEP"   : "1",
+                "IS2000" : "2",
+                "Shift" : "3",
+                "GSA" : "4",
+                "iShift" : "5",
+                "Unity" : "6",
+                "Polaris" : "7",
+            }
         }
         
     };

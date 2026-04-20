@@ -13,6 +13,16 @@
  * Description   :Overview view controller   							*		
  *                                                                      *
  ************************************************************************
+ * Modification n° ...........  : M0001								    *
+ * Project ...................	: TIMI									*
+ * Author .................... 	: David TEA                        	    *
+ *----------------------------------------------------------------------*
+ * Modification date ......... 	: 18/12/2025 							*
+ * Transport order ........... 	: DO8K908635 							*
+ * Change Request ............ 	: CHG0173797  							*
+ * Description ............... 	: Enhancement Q4 2025 - Query batch logs*
+ * 							      on press 								*
+*************************************************************************
 /**
  * @fileOverview Overview view controller
  * @author David Tea
@@ -100,6 +110,13 @@ sap.ui.define([
 
 			this._creationIssuingLE = "";
 			this._creationReceivingLE = "";
+
+			
+			this.getView().byId("tRequests").addEventDelegate({
+				onAfterRendering: function() {
+					this._applyRowColors();
+				}.bind(this)
+			});
 		},
 
 		/**
@@ -146,10 +163,14 @@ sap.ui.define([
 				oDateFrom = {},
 				sDateTo = this.getView().byId("dpCriteriaDateTo").getValue(),
 				oDateTo = {},
-				aIssuingCompany = this.getView().byId("mcbCriteriaIssuingCompany").getSelectedItems(),
-				aReceivingCompany = this.getView().byId("mcbCriteriaReceivingCompany").getSelectedItems(),
-				aMajorType = this.getView().byId("mcbReportingCriteriaMajorType").getSelectedItems(),
-				aCreationMode = this.getView().byId("mcbReportingCriteriaCreationMode").getSelectedItems(),
+				oMCBCriteriaIssuingCompany = this.getView().byId("mcbCriteriaIssuingCompany"),
+				oMCBCriteriaReceivingCompany = this.getView().byId("mcbCriteriaReceivingCompany"),
+				oMCBReportingCriteriaMajorType = this.getView().byId("mcbReportingCriteriaMajorType"),
+				oMCBReportingCriteriaCreationMode = this.getView().byId("mcbReportingCriteriaCreationMode"),
+				aIssuingCompany = !!oMCBCriteriaIssuingCompany ? oMCBCriteriaIssuingCompany.getSelectedItems() : [],
+				aReceivingCompany = !!oMCBCriteriaReceivingCompany ? oMCBCriteriaReceivingCompany.getSelectedItems() : [],
+				aMajorType = !!oMCBReportingCriteriaMajorType ? oMCBReportingCriteriaMajorType.getSelectedItems() : [],
+				aCreationMode = !!oMCBReportingCriteriaCreationMode ? oMCBReportingCriteriaCreationMode.getSelectedItems() : [],
 				aIssuingCompanyLength = aIssuingCompany.length,
 				aReceivingCompanyLength = aReceivingCompany.length,
 				aMajorTypeLength = aMajorType.length,
@@ -230,12 +251,14 @@ sap.ui.define([
 			this._asyncGetRequests()
 				.catch(messageHelper.showODataFailedMessages.bind(this))
 				.then(function () {
-					this._applyRequestsDisplayMode(this.getView().byId("sbRequestDisplayMode").getSelectedKey());
-					this._selectRequestByUploadId(this._getUploadId());
-					this._clearUploadId();
-					this._refreshMassActionsEnabledStatus();
-					this.getView().getModel("RequestList").updateBindings();
-					this._setBusyRequestTable(false);
+					// if(!!this.getView().byId("sbRequestDisplayMode")){
+						// this._applyRequestsDisplayMode(this.getView().byId("sbRequestDisplayMode").getSelectedKey());
+						this._selectRequestByUploadId(this._getUploadId());
+						this._clearUploadId();
+						this._refreshMassActionsEnabledStatus();
+						this.getView().getModel("RequestList").updateBindings();
+						this._setBusyRequestTable(false);
+					// }
 				}.bind(this));
 
 		},
@@ -270,10 +293,12 @@ sap.ui.define([
 
 		_asyncCountRequests: function () {
 
-			var aIssuingCompanyItems = this.getView().byId("mcbCriteriaIssuingCompany").getSelectedItems(),
+			var oMCBCriteriaIssuingCompany = this.getView().byId("mcbCriteriaIssuingCompany"),
+				oMCBCriteriaReceivingCompany = this.getView().byId("mcbCriteriaReceivingCompany"),
+				aIssuingCompanyItems = !!oMCBCriteriaIssuingCompany ? oMCBCriteriaIssuingCompany.getSelectedItems() : [],
 				iIssuingCompanyItemsLength = aIssuingCompanyItems.length,
 				aIssuingCompany = [],
-				aReceivingCompanyItems = this.getView().byId("mcbCriteriaReceivingCompany").getSelectedItems(),
+				aReceivingCompanyItems = !!oMCBCriteriaReceivingCompany ? oMCBCriteriaReceivingCompany.getSelectedItems() : [],
 				iReceivingCompanyItemsLength = aReceivingCompanyItems.length,
 				aReceivingCompany = [],
 				bHasActionsOnly = this.getComponentModel("AppData").getProperty("/visibleActionsOnRequestOnly"),
@@ -701,19 +726,25 @@ sap.ui.define([
 			var oSource = oEvent.getSource();
 			var sPath = oSource.getBindingContext("RequestList").getPath();
 			var oReqData = this.getView().getModel("RequestList").getProperty(sPath);
+			var aFilters = [ new Filter("RequestId", FilterOperator.EQ, oReqData.RequestId)]; //M0001 DTE - Build filter with request id
 
-			if (oReqData.BatchLogs.results.length > 0) {
-				// Create popover
-				if (!this._oPopoverRequestBatchLogs) {
-					this._oPopoverRequestBatchLogs = sap.ui.xmlfragment("cus.fi.timi.rel.view.fragment.RequestBatchLogsPopup", this);
-					this.getView().addDependent(this._oPopoverRequestBatchLogs);
-				}
+            //M0001 DTE - Begin of ins - Query request batch logs 
+			odataService.queryRequestBatchLogs.call(this, aFilters)
+				.then(function(oData){
+					if (oData.results.length > 0) {
+						// Create popover
+						if (!this._oPopoverRequestBatchLogs) {
+							this._oPopoverRequestBatchLogs = sap.ui.xmlfragment("cus.fi.timi.rel.view.fragment.RequestBatchLogsPopup", this);
+							this.getView().addDependent(this._oPopoverRequestBatchLogs);
+						}
 
-				// Set JSON Model
-				this._oPopoverRequestBatchLogs.setModel(new JSONModel(oReqData), "Request");
+						// Set JSON Model
+						this._oPopoverRequestBatchLogs.setModel(new JSONModel(oData), "RequestBatchLogs");
 
-				this._oPopoverRequestBatchLogs.openBy(oSource);
-			}
+						this._oPopoverRequestBatchLogs.openBy(oSource);
+					}
+				}.bind(this));
+            //M0001 DTE - End of ins
 
 		},
 
@@ -1160,21 +1191,27 @@ sap.ui.define([
 		 */
 		_generateRequests: function () {
 
-			var oTable = this.getView().byId("tRequests"),
-				aItems = oTable.getItems(),
-				iCountItems = aItems.length,
+			var oRequestModel = this.getView().getModel("RequestList"),
+				aRequests = oRequestModel.getProperty("/results"),
 				aRequestsId = [],
 				oUrlParameters = {},
 				sAppType = this.getAppType(),
 				sIntercoType = this.getIntercoType(),
 				oSelectedRequest = {};
 
-			for (var i = 0; i < iCountItems; i++) {
-				if (aItems[i].getCells()[0].getSelected() === true) {
-					oSelectedRequest = aItems[i].getBindingContext("RequestList");
-					if (oSelectedRequest.getProperty("Actions/VisibleGenerate") === true) {
-						aRequestsId.push(oSelectedRequest.getProperty("RequestId"));
-					}
+			// for (var i = 0; i < iCountItems; i++) {
+			// 	if (aItems[i].getCells()[0].getSelected() === true) {
+			// 		oSelectedRequest = aItems[i].getBindingContext("RequestList");
+			// 		if (oSelectedRequest.getProperty("Actions/VisibleGenerate") === true) {
+			// 			aRequestsId.push(oSelectedRequest.getProperty("RequestId"));
+			// 		}
+			// 	}
+			// }
+
+			for (var i = 0; i < aRequests.length; i++) {
+				if (aRequests[i].Filters.IsSelected && aRequests[i].Actions.VisibleGenerate) {
+					var oRequest = aRequests[i];
+					aRequestsId.push(oRequest.HeaderData.RequestId);
 				}
 			}
 
@@ -1488,7 +1525,9 @@ sap.ui.define([
 				aSorters.push(new Sorter("HeaderData/TimestampCreation", true));
 			}
 
-			oBindingItems.sort(aSorters);
+			if(!!oBindingItems){
+				oBindingItems.sort(aSorters);
+			}
 
 		},
 
@@ -1997,6 +2036,19 @@ sap.ui.define([
 			busy.setBusyOff();
 
 		},
+	
+        onPressGetInvoiceAttachment : function(oEvent){
+            var oSource = oEvent.getSource(),
+				sPath = oSource.getBindingContext("RequestList").getPath(),
+				oRequestData = this.getView().getModel("RequestList").getProperty(sPath),
+                sRequestId = oRequestData.RequestId;
+
+            var sPath = "/AttachmentInvoiceCollection(RequestId='" + sRequestId + "')",
+                sServiceUrl = this.oDataModel.sServiceUrl;
+            var sPdfUrl = sServiceUrl + sPath + "/$value";
+
+            sap.m.URLHelper.redirect(sPdfUrl, true);
+        },
 
 		_setLoadingDialogText: function (sText) {
 			this.byId(sap.ui.core.Fragment.createId("frgtLoadingDialog", "textLoading")).setText(sText);
@@ -2086,6 +2138,42 @@ sap.ui.define([
 
 		_clearUploadId: function () {
 			this.sUploadId = "";
+		},
+
+		onRowPress: function (oEvent) {
+			// 1. Récupérer le contexte de la ligne cliquée
+			var oRowContext = oEvent.getParameter("rowBindingContext");
+
+			// 2. Vérifier si on a bien cliqué sur une ligne (et pas sur le vide ou le header)
+			if (!oRowContext) {
+				return;
+			}
+
+			// 3. Extraire les données (ex: RequestId)
+			var sRequestId = oRowContext.getProperty("RequestId");
+
+			// 4. Navigation
+			this.oRouter.navTo("request", {
+				"requestId": sRequestId
+			});
+		},
+
+		_applyRowColors: function() {
+    		var oTable = this.getView().byId("tRequests");
+			var aRows = oTable.getRows();
+
+			aRows.forEach(function(oRow) {
+				var oContext = oRow.getBindingContext("RequestList");
+				oRow.removeStyleClass("rowSubstituted"); // Reset
+
+				if (oContext) {
+					var bIsSubstitution = oContext.getProperty("Substitution/IsSubstitution");
+					// Mapping Status -> CSS Class
+					if(!!bIsSubstitution) {
+						oRow.addStyleClass("rowSubstituted");
+					}
+				}
+			});
 		},
 
 	});

@@ -1,0 +1,242 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core" xmlns:table="sap.ui.table"
+    xmlns:custom="cus.fi.timi.rel.assets.js.library"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+    <table:Table id="tRequests" class="sapUiNoContentPadding overviewList"
+        rows="{path:'RequestList>/results'}"
+        selectionMode="None" 
+        visibleRowCountMode="Auto"
+        minAutoRowCount="5"
+        busyIndicatorDelay="{AppData>/busyIndicatorDelay}"
+        cellClick="onRowPress">
+    
+    <table:extension>
+        <OverflowToolbar class="sapUiSizeCompact toolbarHeight">
+            <!-- <Label class="displayMode" text="{i18n>text.displaymode}"/>
+            <SegmentedButton id="sbRequestDisplayMode" selectedKey="1" selectionChange="onSelectDisplayModeUI">
+                <items>
+                    <SegmentedButtonItem icon="sap-icon://multiselect-none" text="{i18n>text.displaymode.list}" key="1"/>
+                    <SegmentedButtonItem icon="sap-icon://group-2" text="{i18n>text.displaymode.group.uploadfile}" key="2"/>
+                </items>
+            </SegmentedButton> -->
+            <ToolbarSpacer/>
+            <Button type="Transparent" icon="sap-icon://refresh" press="onPressRefreshResquestsList"
+                visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerAutomaticPostingColumnVisibility'}"/>
+            <Button type="Transparent" icon="sap-icon://citizen-connect" press="onPressNavigateToSubstitutionApp"
+                tooltip="{i18n>request.table.button.substitution.navigate.tooltip}"/>
+        </OverflowToolbar>
+    </table:extension>
+
+    <table:rowSettingsTemplate>
+        <table:RowSettings 
+            highlight="{path:'RequestList>Substitution/IsSubstitution', formatter: '.formatterState.getRequestSubstitutionHighlight'}" />
+    </table:rowSettingsTemplate>
+
+    <table:columns>
+        <table:Column width="4rem" 
+            visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerRequestSelectColumnVisibility'}">
+            <CheckBox id="cbSelectAllRequests" select="onSelectAllRequests" /> 
+            <table:template>
+                <CheckBox visible="{RequestList>Filters/IsSelectable}" selected="{RequestList>Filters/IsSelected}" select="onSelectRequest"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="5rem" 
+            visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerRequestListActionColumnVisibility'}">
+            <Label text="" textAlign="Center" width="100%"/>
+            <table:template>
+                <HBox>
+                    <Button icon="sap-icon://duplicate" type="Transparent" tooltip="{i18n>button.request.copy.tooltip}"
+                        press="onPressDuplicateRequest" visible="{RequestList>Actions/VisibleCopy}"/>
+                    <Button icon="sap-icon://delete" type="Transparent" tooltip="{i18n>button.request.delete.tooltip}"
+                        press="onPressDeleteRequest" visible="{RequestList>Actions/VisibleDelete}"/>
+                </HBox>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="3rem" hAlign="Center" 
+            visible="{path:'AppData>/appType', formatter:'.businessRules.isAppAccountant'}">
+                    <core:Icon class="iconActionsOnRequest" src="sap-icon://begin" size="0.75rem"
+                        color="{path:'AppData>/visibleActionsOnRequestOnly', formatter:'.formatterState.getActionsOnRequestIconColor'}"
+                        backgroundColor="{path:'AppData>/visibleActionsOnRequestOnly', formatter:'.formatterState.getActionsOnRequestIconBGColor'}"
+                        press="onPressActionsOnRequest"></core:Icon>
+            <table:template>
+                <!-- <core:Icon src="sap-icon://begin" size="0.75rem"
+                    color="{path:'AppData>/visibleActionsOnRequestOnly', formatter:'.formatterState.getActionsOnRequestIconColor'}"
+                    backgroundColor="{path:'AppData>/visibleActionsOnRequestOnly', formatter:'.formatterState.getActionsOnRequestIconBGColor'}"
+                    press="onPressActionsOnRequest"/> -->
+                    
+				<core:Icon src="sap-icon://begin" useIconTooltip="true" size="0.65rem" visible="{RequestList>Filters/HasActions}"></core:Icon>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="6rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.request}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Link text="{RequestList>RequestId}" press="onPressNavigateToRequestDetails" wrapping="false" />
+            </table:template>
+        </table:Column>
+
+        <table:Column width="10rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.status}" textAlign="Center" width="100%"/>
+            <table:template>
+                <ObjectStatus
+                    text="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'RequestList>StatusId'}],formatter:'.formatterText.getStatusText'}">
+                    <customData>
+                        <core:CustomData key="customobjectstatus" value="{path:'RequestList>StatusId', formatter:'.formatterState.getCustomStatusState'}" writeToDom="true"/>
+                    </customData>
+                </ObjectStatus>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="3rem" hAlign="Center" 
+            visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerAutomaticPostingColumnVisibility'}">
+            <!-- <Label text=""  textAlign="Center" width="100%"/> -->
+            <core:Icon src="sap-icon://hint">
+                <core:tooltip>
+                    <custom:CustomTooltip text="{i18n>request.table.column.generation.status}"/>
+                </core:tooltip>
+            </core:Icon>
+            <table:template>
+                <core:Icon
+                    src="{parts:[{path:'AppData>/appType'},{path:'RequestList>HeaderData'}], formatter:'.formatterState.getAutomaticIntegrationIcon'}"
+                    size="0.85rem"
+                    tooltip="{parts:[{path:'AppData>/appType'},{path:'RequestList>HeaderData'}], formatter:'.formatterText.getAutomaticIntegrationTooltip'}"
+                    color="{parts:[{path:'AppData>/appType'},{path:'RequestList>HeaderData'}], formatter:'.formatterState.getAutomaticIntegrationIconColor'}"
+                    press="onPressShowRequestBatchLogs"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="3rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.workflowhistory.short}"  textAlign="Center" width="100%">
+                <tooltip>
+                    <custom:CustomTooltip text="{i18n>request.table.column.workflowhistory}"/>
+                </tooltip>
+            </Label>
+            <table:template>
+                <Button icon="sap-icon://workflow-tasks" type="Transparent" tooltip="{i18n>button.request.showhistory.tooltip}"
+                    press="onPressShowRequestHistory" />
+            </table:template>
+        </table:Column>
+
+        <table:Column  width="7rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.datecreation}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{path:'RequestList>DateCreation', formatter:'.formatterFormat.formatDate'}" wrapping="false"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="8rem" hAlign="Center" visible="true"
+            sortProperty="HeaderData/UploadId">
+            <Label text="{i18n>request.table.column.creationmode}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{RequestList>HeaderData/Descriptions/CreationModeName}" wrapping="false"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="10rem" hAlign="Center" visible="false">
+            <Label text="{i18n>request.table.column.majortype}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{RequestList>HeaderData/Descriptions/MajorTypeName}" wrapping="false"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="8rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.invoicetype}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{RequestList>HeaderData/Descriptions/DocumentTypeName}" wrapping="false"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column hAlign="Right" width="12rem">
+            <Label text="{i18n>request.table.column.amount}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{path:'RequestList>HeaderData/Amount', formatter:'.formatterFormat.formatAmount'}" wrapping="false"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="5rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.currency}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{RequestList>HeaderData/CurrencyCode}" wrapping="false"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="8rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.issuingcompany}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{RequestList>HeaderData/IsLegalEntityCode} / {RequestList>HeaderData/IsCompanyCode}" wrapping="false"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="8rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.receivingcompany}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{RequestList>HeaderData/RcLegalEntityCode} / {RequestList>HeaderData/RcCompanyCode}" wrapping="false"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="15rem" hAlign="Left">
+            <Label text="{i18n>request.table.column.headertext}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text text="{RequestList>HeaderData/HeaderText}" wrapping="false">
+                    <tooltip>
+                        <custom:CustomTooltip text="{RequestList>HeaderData/HeaderText}" />
+                    </tooltip>
+                </Text>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="10rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.issuingdocumentnumber}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text 
+                    visible="{= !!${RequestList>HeaderData/IsDocumentNumber} }"
+                    text="{RequestList>HeaderData/IsCompanyCode} {RequestList>HeaderData/IsDocumentNumber} {RequestList>HeaderData/IsDocumentYear}"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="10rem" hAlign="Center">
+            <Label text="{i18n>request.table.column.receivingdocumentnumber}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Text 
+                    visible="{= !!${RequestList>HeaderData/RcDocumentNumber} }"
+                    text="{RequestList>HeaderData/RcCompanyCode} {RequestList>HeaderData/RcDocumentNumber} {RequestList>HeaderData/RcDocumentYear}"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column hAlign="Center" width="4rem">
+            <Label text="{i18n>request.table.column.invoice.pdf}" textAlign="Center" width="100%"/>
+            <table:template>
+                <Button icon="sap-icon://pdf-attachment" type="Transparent"
+                    visible="{RequestList>HeaderData/IsPdfAttached}"
+                    press="onPressGetInvoiceAttachment"/>
+            </table:template>
+        </table:Column>
+
+        <table:Column width="4rem">
+            <Button type="Transparent" icon="sap-icon://refresh" press="onPressRefreshResquestsList"
+                visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerAutomaticPostingColumnVisibility'}"/>
+            <table:template>
+                <HBox>
+                    <Button id="btnShowRequestHeaderData" icon="sap-icon://search" type="Transparent" tooltip="{i18n>button.request.showheaderdata.tooltip}"
+                        press="onPressShowRequestHeaderData"/>
+                </HBox>
+            </table:template>
+        </table:Column>
+
+        <!-- <table:Column width="4rem" hAlign="Center">
+            <Label text=""  textAlign="Center" width="100%"/>
+            <table:template>
+                <Button 
+                    icon="sap-icon://navigation-right-arrow"
+                    type="Transparent"
+                    press="onPressNavigateToRequestDetails"
+                    tooltip="Voir les détails" />
+            </table:template>
+        </table:Column> -->
+
+    </table:columns>
+</table:Table>
+</core:FragmentDefinition>

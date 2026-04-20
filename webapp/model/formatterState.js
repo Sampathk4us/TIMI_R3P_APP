@@ -253,6 +253,16 @@ sap.ui.define([
             }
 
         },
+        
+        getRequestSubstitutionHighlight : function(bIsSubstitution) {
+
+            if(bIsSubstitution === true) {
+                return "Information";;
+            } else {
+                return "None";
+            }
+
+        },
 
         /**
          * Get value state base on mandatory property

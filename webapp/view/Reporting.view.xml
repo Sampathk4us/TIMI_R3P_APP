@@ -22,65 +22,88 @@
 <!-- * Change Request ............ : 										  * -->
 <!-- * Description ............... : 										  * -->
 <!-- *************************************************************************/ -->
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:custom="cus.fi.timi.rel.assets.js.library"
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.f"
+		xmlns:custom="cus.fi.timi.rel.assets.js.library"
 		xmlns:commons="sap.suite.ui.commons"
 		xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 		xmlns:viz="sap.viz.ui5.controls" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data"
 		controllerName="cus.fi.timi.rel.controller.Reporting" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="{i18n>reporting.title}">
-		<content>
-			<Toolbar id="tbReportingSearchCriteria" class="sapUiTinyMarginTop sapUiSmallMarginBeginEnd">
-				<Title 	id="tTitleReportingSearchCriteria" text="{i18n>searchcriteria.title}"/>
-				<Button id="btnReportingSearchCriteriaVisibility" 
-					icon="sap-icon://navigation-up-arrow" type="Transparent" data:displayStateValue="show" 
-					press="onPressToogleSearchCriteriaVisibility"
-					tooltip="{i18n>searchcriteria.button.tooltip.hide}"></Button>
-			</Toolbar>
-			<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.ReportingSearchCriteria" type="XML"/>
-			
-			<Toolbar id="tbReportingResults" class="sapUiMediumMarginTop" design="Transparent">
-				<SegmentedButton selectedKey="{AppData>/reportingType}">
-					<items>
-						<!-- <SegmentedButtonItem icon="sap-icon://bar-chart" key="3"  press="onPressOnReportingType" tooltip="{i18n>reporting.tooltip.chart}"/> -->
-						<SegmentedButtonItem icon="sap-icon://table-view" key="1" press="onPressOnReportingType" tooltip="{i18n>reporting.tooltip.header}"/>
-						<SegmentedButtonItem icon="sap-icon://list" key="2" press="onPressOnReportingType" tooltip="{i18n>reporting.tooltip.item}"/>						
-					</items>
-				</SegmentedButton>
-	 			<Label id="lblToolbarText" ></Label>
-	 			<ToolbarSpacer/>
-	 			<Title id="tReportingTitle"/>
-				<ToolbarSpacer/>
-				<Button icon="sap-icon://action-settings" type="Transparent"
-						tooltip="{i18n>reporting.button.settings}"
-						press="onSettingsButtonPressed" visible="{path:'AppData>/reportingType',formatter:'.formatterVisibility.triggerReportingSettingsButtonVisibility'}" >
-	    			<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow" />
-					</layoutData> 
-				</Button>
-				<Button icon="sap-icon://documents" type="Transparent" 
-						tooltip="{i18n>reporting.button.export.csv}" 
-						press="onExportButtonPressed" >
-	   				<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow" />
-					</layoutData> 
-				</Button>
-				<Button icon="sap-icon://excel-attachment" type="Transparent" 
-						tooltip="{i18n>reporting.button.export.xlsx}" 
-						press="onPressExportXLSX" >
-	   				<layoutData>
-						<OverflowToolbarLayoutData priority="NeverOverflow" />
-					</layoutData> 
-				</Button>
-			</Toolbar>	
-			
-			<VBox visible="{path:'AppData>/reportingType',formatter:'.formatterVisibility.triggerReportingRequestHeaderVisibility'}">
-				<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.ReportingRequestHeader" type="XML"/>
+
+	<f:DynamicPage id="reportingDynamicPage" class="sapUiNoContentPadding"
+		headerExpanded="true" toggleHeaderOnTitleClick="true" showFooter="false"
+		fitContent="true">
+		
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{i18n>reporting.title}"/>
+				</f:heading>
+				<f:actions>
+				</f:actions>
+			</f:DynamicPageTitle>
+		</f:title>
+
+		<f:header>
+			<f:DynamicPageHeader pinnable="true">
+				<f:content>
+					<VBox>
+						<Title class="sapUiTinyMarginBottom" text="{i18n>searchcriteria.title}"/>
+						<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.ReportingSearchCriteria" type="XML"/>
+					</VBox>
+				</f:content>
+			</f:DynamicPageHeader>
+		</f:header>
+
+		<f:content>
+			<VBox fitContainer="true" height="100%">
+				<OverflowToolbar id="tbReportingResults" class="sapUiTinyMarginTop"
+					design="Transparent">
+					<SegmentedButton selectedKey="{AppData>/reportingType}">
+						<items>
+							<SegmentedButtonItem icon="sap-icon://table-view" key="1" press="onPressOnReportingType" tooltip="{i18n>reporting.tooltip.header}"/>
+							<SegmentedButtonItem icon="sap-icon://list" key="2" press="onPressOnReportingType" tooltip="{i18n>reporting.tooltip.item}"/>						
+						</items>
+					</SegmentedButton>
+					<Label id="lblToolbarText" />
+					<ToolbarSpacer/>
+					<Title id="tReportingTitle"/>
+					<ToolbarSpacer/>
+					
+					<Button icon="sap-icon://action-settings" type="Transparent"
+							tooltip="{i18n>reporting.button.settings}"
+							press="onSettingsButtonPressed" 
+							visible="{path:'AppData>/reportingType', formatter:'.formatterVisibility.triggerReportingSettingsButtonVisibility'}" />
+					
+					<Button icon="sap-icon://documents" type="Transparent" 
+							tooltip="{i18n>reporting.button.export.csv}" 
+							press="onExportButtonPressed" />
+					
+					<Button icon="sap-icon://excel-attachment" type="Transparent" 
+							tooltip="{i18n>reporting.button.export.xlsx}" 
+							press="onPressExportXLSX" />
+				</OverflowToolbar>
+
+				<VBox fitContainer="true">
+					<layoutData>
+						<FlexItemData growFactor="1" />
+					</layoutData>
+					
+					<VBox fitContainer="true" height="100%" 
+						  visible="{path:'AppData>/reportingType', formatter:'.formatterVisibility.triggerReportingRequestHeaderVisibility'}">
+						<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.ReportingRequestHeaderUI" type="XML"/>
+					</VBox>
+
+					<VBox fitContainer="true" height="100%" 
+						  visible="{path:'AppData>/reportingType', formatter:'.formatterVisibility.triggerReportingRequestItemVisibility'}">
+						<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.ReportingRequestItemUI" type="XML"/>
+					</VBox>
+
+					<VBox visible="{path:'AppData>/reportingType', formatter:'.formatterVisibility.triggerReportingChartsVisibility'}">
+						<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.ReportingCharts" type="XML"/>
+					</VBox>
+				</VBox>
 			</VBox>
-			<VBox visible="{path:'AppData>/reportingType',formatter:'.formatterVisibility.triggerReportingRequestItemVisibility'}">
-				<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.ReportingRequestItem" type="XML"/>
-			</VBox><VBox visible="{path:'AppData>/reportingType',formatter:'.formatterVisibility.triggerReportingChartsVisibility'}">
-				<core:Fragment fragmentName="cus.fi.timi.rel.view.fragment.ReportingCharts" type="XML"/>
-			</VBox>
-		</content>
-	</Page>
+		</f:content>
+
+	</f:DynamicPage>
 </mvc:View>

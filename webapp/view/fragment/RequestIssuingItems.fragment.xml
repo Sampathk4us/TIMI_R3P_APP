@@ -83,14 +83,88 @@
 			<Column id="colIssuingAnalyticalNature" width="5rem" hAlign="Center" 
 				demandPopin="true" popinDisplay="Inline" minScreenWidth="705px"
 				visible="{FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Visible}">
-				<Label text="{i18n>request.table.column.analyticalnature.short}" tooltip="{i18n>request.table.column.analyticalnature}"
-					required="{FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Mandatory}" />
+				<custom:CustomLabel class="sapUiTinyMarginEnd"
+					text="{i18n>request.table.column.analyticalnature.short}" 
+					tooltip="{i18n>request.table.column.analyticalnature}"
+					required="false" 
+					icon="sap-icon://hint" iconColor="#107e3e" 
+					iconVisible="{parts:[{path:'FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Mandatory'},{path:'FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Mandatory'},{path:'Request>/HeaderData/IsSystemId'}],formatter:'.businessRules.formatGLAccountNatureIconVisibility'}" 
+					>
+					<custom:iconTooltip>
+						<custom:CustomTooltip>
+							<custom:content>
+								<Label class="sapUiTinyMargin" 
+									text="{i18n>request.table.column.tooltip.analytical}"/>
+							</custom:content>
+						</custom:CustomTooltip>
+					</custom:iconTooltip>
+				</custom:CustomLabel>
+				<!-- <HBox class="labelWithBadge" alignItems="Start">
+				<Label class="sapUiTinyMarginEnd" 
+					text="{i18n>request.table.column.analyticalnature.short}" tooltip="{i18n>request.table.column.analyticalnature}"
+					required="false" />
+					<core:Icon 
+						visible="{parts:[{path:'FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Mandatory'},{path:'FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Mandatory'},{path:'Request>/HeaderData/IsSystemId'}],formatter:'.businessRules.formatGLAccountNatureIconVisibility'}" 
+						src="sap-icon://hint"
+						size="0.75rem"
+						color="#107e3e"
+						class="customInfoIcon">
+						<core:layoutData>
+							<FlexItemData alignSelf="Start" />
+						</core:layoutData>
+						<core:tooltip>
+							<custom:CustomTooltip>
+								<custom:content>
+									<Text class="sapUiTinyMargin" 
+										text="{i18n>request.table.column.tooltip.analytical}"/>
+								</custom:content>
+							</custom:CustomTooltip>
+						</core:tooltip>
+					</core:Icon>
+				</HBox> -->
 			</Column>
 			<Column id="colIssuingGLAccount" width="8rem" hAlign="Center" 
 				demandPopin="true" popinDisplay="Inline" minScreenWidth="850px"
 				visible="{FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Visible}">
-				<Label text="{i18n>request.table.column.glaccount.short}" tooltip="{i18n>request.table.column.glaccount}"
-					required="{FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Mandatory}" />
+				<custom:CustomLabel class="sapUiTinyMarginEnd"
+					text="{i18n>request.table.column.glaccount.short}" 
+					tooltip="{i18n>request.table.column.glaccount}"
+					required="{parts:[{path:'FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Mandatory'},{path:'Request>/HeaderData/IsSystemId'},{path:'Request>/Actions/VisibleSubmit'}],formatter:'.businessRules.formatGLAccountRequired'}" 
+					icon="sap-icon://hint" iconColor="#107e3e" 
+					iconVisible="{parts:[{path:'FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Mandatory'},{path:'FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Mandatory'},{path:'Request>/HeaderData/IsSystemId'}],formatter:'.businessRules.formatGLAccountNatureIconVisibility'}"
+					>
+					<custom:iconTooltip>
+						<custom:CustomTooltip>
+							<custom:content>
+								<Label class="sapUiTinyMargin" 
+									text="{i18n>request.table.column.tooltip.analytical}"/>
+							</custom:content>
+						</custom:CustomTooltip>
+					</custom:iconTooltip>
+				</custom:CustomLabel>
+				<!-- <HBox class="labelWithBadge" alignItems="Start">
+					<Label class="sapUiTinyMarginEnd" 
+						text="{i18n>request.table.column.glaccount.short}" tooltip="{i18n>request.table.column.glaccount}"
+						required="{parts:[{path:'FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Mandatory'},{path:'Request>/HeaderData/IsSystemId'}],formatter:'.businessRules.formatGLAccountRequired'}" />
+					<core:Icon 
+						visible="{parts:[{path:'FieldsAttributes>/ISSUING_ITEMS/GLACCOUNT/Mandatory'},{path:'FieldsAttributes>/ISSUING_ITEMS/ANALNATURE/Mandatory'},{path:'Request>/HeaderData/IsSystemId'}],formatter:'.businessRules.formatGLAccountNatureIconVisibility'}" 
+						src="sap-icon://hint"
+						size="0.75rem"
+						color="#107e3e"
+						class="customInfoIcon">
+						<core:layoutData>
+							<FlexItemData alignSelf="Start" />
+						</core:layoutData>
+						<core:tooltip>
+							<custom:CustomTooltip>
+								<custom:content>
+									<Text class="sapUiTinyMargin" 
+										text="{i18n>request.table.column.tooltip.analytical}"/>
+								</custom:content>
+							</custom:CustomTooltip>
+						</core:tooltip>
+					</core:Icon>
+				</HBox> -->
 			</Column>
 			<Column id="colIssuingLCOA" width="8rem" hAlign="Center" 
 				demandPopin="true" popinDisplay="Inline" minScreenWidth="850px"
@@ -112,14 +186,46 @@
 			<Column id="colIssuingCostCenter" width="8rem" hAlign="Center" 
 				demandPopin="true" popinDisplay="Inline" minScreenWidth="995px"
 				visible="{FieldsAttributes>/ISSUING_ITEMS/COSTCENTER/Visible}">
-					<Label 
+				<custom:CustomLabel class="sapUiTinyMarginEnd"
+					text="{i18n>request.table.column.costcenter}"  
+					required="false" 
+					icon="sap-icon://hint" iconColor="#ffa600" 
+					iconVisible="{FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory}">
+					<custom:iconTooltip>
+						<custom:CustomTooltip>
+							<custom:content>
+								<Text class="sapUiTinyMargin" 
+									text="{i18n>request.table.column.tooltip.coobjects}"/>
+							</custom:content>
+						</custom:CustomTooltip>
+					</custom:iconTooltip>
+				</custom:CustomLabel>
+				<!-- <HBox class="labelWithBadge" alignItems="Start">
+					<Label class="sapUiTinyMarginEnd"  
 						text="{i18n>request.table.column.costcenter}" 
-						tooltip="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? ${i18n>request.table.column.rulescoobjects} : ${i18n>request.table.column.costcenter}}"
-						required="{FieldsAttributes>/ISSUING_ITEMS/COSTCENTER/Mandatory}">
+						required="false">
 						<customData>
 							<core:CustomData key="customrequiredcoobjects" value="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? 'X' : ''}" writeToDom="true"></core:CustomData>
 						</customData>
 					</Label>
+						<core:Icon visible="{FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory}"
+							src="sap-icon://hint"
+							size="0.75rem"
+							color="#ffa600"
+							class="customInfoIcon">
+							<core:layoutData>
+								<FlexItemData alignSelf="Start" />
+							</core:layoutData>
+							<core:tooltip>
+								<custom:CustomTooltip>
+									<custom:content>
+										<Text class="sapUiTinyMargin" 
+											text="{i18n>request.table.column.tooltip.coobjects}"/>
+										</custom:content>
+								</custom:CustomTooltip>
+							</core:tooltip>
+						</core:Icon>
+				</HBox> -->
 			</Column>
 			<Column id="colIssuingInternalOrder" width="9rem" hAlign="Center" 
 				demandPopin="true" popinDisplay="Inline" minScreenWidth="1152px"
@@ -130,14 +236,46 @@
 			<Column id="colIssuingWBS" width="9rem" hAlign="Center" 
 				demandPopin="true" popinDisplay="Inline" minScreenWidth="1314px"
 				visible="{FieldsAttributes>/ISSUING_ITEMS/WBS/Visible}">
-					<Label 
+				<custom:CustomLabel class="sapUiTinyMarginEnd"
+					text="{i18n>request.table.column.wbs}"  
+					required="false" 
+					icon="sap-icon://hint" iconColor="#ffa600" 
+					iconVisible="{FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory}">
+					<custom:iconTooltip>
+						<custom:CustomTooltip>
+							<custom:content>
+								<Text class="sapUiTinyMargin" 
+									text="{i18n>request.table.column.tooltip.coobjects}"/>
+							</custom:content>
+						</custom:CustomTooltip>
+					</custom:iconTooltip>
+				</custom:CustomLabel>
+				<!-- <HBox class="labelWithBadge" alignItems="Start">
+					<Label class="sapUiTinyMarginEnd"  
 						text="{i18n>request.table.column.wbs}"
-						tooltip="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? ${i18n>request.table.column.rulescoobjects} : ${i18n>request.table.column.wbs}}"
-						required="{FieldsAttributes>/ISSUING_ITEMS/WBS/Mandatory}">
+						required="false">
 						<customData>
 							<core:CustomData key="customrequiredcoobjects" value="{= ${FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory} === true ? 'X' : ''}" writeToDom="true"></core:CustomData>
 						</customData>
 					</Label>
+						<core:Icon visible="{FieldsAttributes>/ISSUING_ITEMS/RULES_CO_OBJECTS/Mandatory}"
+							src="sap-icon://hint"
+							size="0.75rem"
+							color="#ffa600"
+							class="customInfoIcon">
+							<core:layoutData>
+								<FlexItemData alignSelf="Start" />
+							</core:layoutData>
+							<core:tooltip>
+								<custom:CustomTooltip>
+									<custom:content>
+										<Text class="sapUiTinyMargin" 
+											text="{i18n>request.table.column.tooltip.coobjects}"/>
+										</custom:content>
+								</custom:CustomTooltip>
+							</core:tooltip>
+						</core:Icon>
+				</HBox> -->
 			</Column>
 			<Column id="colIssuingStudy" width="6rem" hAlign="Center" 
 				demandPopin="true" popinDisplay="Inline" minScreenWidth="1440px"

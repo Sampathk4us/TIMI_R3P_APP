@@ -21,6 +21,6 @@ builder:
           name: YFI062_TIMI_REL
           description: TIMI - Related Third Party
           package: YTIMI
-          transport: DO8K908536
+          transport: DO8K908832
         exclude:
           - /test/

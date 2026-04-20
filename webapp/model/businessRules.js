@@ -514,6 +514,39 @@ sap.ui.define([
             return formatterFormat.formatAmountWithDecimalAndSpaceSeparator(sAmount, iDecimal);
         },
 
+        formatGLAccountRequired : function(bGLAccountMandatory, sSystemId, bValidAction){ 
+            switch(sSystemId){
+                case parameters.getSystemList().Unity:
+                case parameters.getSystemList().GSA:
+                    return bValidAction;
+                default:
+                    return false;
+            }
+        },
+
+        formatGLAccountNatureIconVisibility : function(bGLAccountMandatory, bNatureMandatory, sSystemId){
+            if(bGLAccountMandatory || bNatureMandatory){
+                switch(sSystemId){
+                    case parameters.getSystemList().Unity:
+                    case parameters.getSystemList().GSA:
+                        return true; //false
+                    default:
+                        return true;
+                }
+            }
+            return false;
+        },
+
+        formatInvoicePDFVisibility : function(bIsPDFAttached, sSystemId){
+            if(bIsPDFAttached && 
+                ( sSystemId !== parameters.getSystemList().GSA 
+                || sSystemId !== parameters.getSystemList().IS2000 ) 
+            ){
+                return true;
+            }
+            return false;
+        }
+
     };
 
     return oBusinessRules;

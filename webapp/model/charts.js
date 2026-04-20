@@ -549,7 +549,11 @@ sap.ui.define([
 
                 if (sCompanyCode !== "") {
                     sLegalEntityCode = formatterText.getLegalEntityCodeFromCompanyCode.call(this, sCompanyCode);
-                    oEvent.text = sLegalEntityCode + ' - ' + sCompanyCode;
+                    if(!sLegalEntityCode){
+                        oEvent.text = sCompanyCode;
+                    }else{
+                        oEvent.text = sLegalEntityCode + ' - ' + sCompanyCode;
+                    }
                 }
 
             };
