@@ -1,0 +1,124 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core" 
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Table id="tRequests" class="overviewList"
+				items="{path:'RequestList>/results', groupHeaderFactory:'.factoryRequestGroupHeader'}" showNoData="true"
+				noDataText="{i18n>request.table.nodata}" fixedLayout="false" busyIndicatorDelay="{AppData>/busyIndicatorDelay}">
+				<headerToolbar>
+					<Toolbar class="sapUiSizeCompact toolbarHeight"
+						visible="false">
+						<Label class="displayMode" text="{i18n>text.displaymode}"></Label>
+						<SegmentedButton id="sbRequestDisplayMode" selectedKey="1" selectionChange="onSelectDisplayMode">
+							<items>
+								<SegmentedButtonItem icon="sap-icon://multiselect-none" text="{i18n>text.displaymode.list}" key="1"/>
+								<SegmentedButtonItem icon="sap-icon://group-2" text="{i18n>text.displaymode.group.uploadfile}" key="2"/>
+							</items>
+						</SegmentedButton>
+						<ToolbarSpacer></ToolbarSpacer>
+						<Button type="Transparent" icon="sap-icon://citizen-connect" press="onPressNavigateToSubstitutionApp"
+							tooltip="{i18n>request.table.button.substitution.navigate.tooltip}"/>
+					</Toolbar>
+				</headerToolbar>
+				<columns >
+					<Column 
+						visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerRequestSelectColumnVisibility'}">
+						<CheckBox id="cbSelectAllRequests" select="onSelectAllRequests"></CheckBox>
+					</Column>
+					<Column  
+						visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerRequestListActionColumnVisibility'}"></Column>
+					<Column hAlign="Center" width="0.75rem" visible="{path:'AppData>/appType', formatter:'.businessRules.isAppAccountant'}">
+						<core:Icon class="iconActionsOnRequest" src="sap-icon://begin" size="0.75rem"
+							color="{path:'AppData>/visibleActionsOnRequestOnly', formatter:'.formatterState.getActionsOnRequestIconColor'}"
+							backgroundColor="{path:'AppData>/visibleActionsOnRequestOnly', formatter:'.formatterState.getActionsOnRequestIconBGColor'}"
+							press="onPressActionsOnRequest"></core:Icon>
+					</Column>
+					<Column hAlign="Center" width="5rem" ><Text text="{i18n>request.table.column.request}"/></Column>
+					<Column hAlign="Center"  ><Text text="{i18n>request.table.column.status}"/></Column>
+					<Column hAlign="Center"  
+						visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerAutomaticPostingColumnVisibility'}"></Column>
+					<Column hAlign="Center"  ></Column>
+					<Column hAlign="Center" ><Text text="{i18n>request.table.column.datecreation}"/></Column>
+					<Column hAlign="Center"  visible="{path:'AppData>/intercoType', formatter:'.businessRules.isAppR3P'}">
+						<Text text="{i18n>request.table.column.creationmode}"/>
+					</Column>
+					<Column hAlign="Center" visible="false">
+						<Text text="{i18n>request.table.column.majortype}"/>
+					</Column>
+					<Column hAlign="Center"><Text text="{i18n>request.table.column.invoicetype}"/></Column>
+					<Column width="4.5rem" hAlign="Right"><Text text="{i18n>request.table.column.amount}"/></Column>
+					<Column width="4.5rem" hAlign="Center" ><Text text="{i18n>request.table.column.currency}"/></Column>
+					<Column width="4.5rem" hAlign="Center"><Text text="{i18n>request.table.column.issuingcompany}"/></Column>
+					<Column hAlign="Center"><Text text="{i18n>request.table.column.receivingcompany}"/></Column>
+					<Column  hAlign="Left"><Text text="{i18n>request.table.column.headertext}"/></Column>
+					<Column hAlign="Center"><Text text="{i18n>request.table.column.issuingdocumentnumber}"/></Column>
+					<Column hAlign="Center"><Text text="{i18n>request.table.column.receivingdocumentnumber}"/></Column>
+					<Column hAlign="Center"><Text text="{i18n>request.table.column.invoice.pdf}"/></Column>
+					<Column >
+						<HBox>
+							<Button type="Transparent" icon="sap-icon://refresh" press="onPressRefreshResquestsList"
+								visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerAutomaticPostingColumnVisibility'}"/>
+							<Button type="Transparent" icon="sap-icon://citizen-connect" press="onPressNavigateToSubstitutionApp"
+								visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerNavigateToSubstitutionButtonVisibility'}"
+								tooltip="{i18n>request.table.button.substitution.navigate.tooltip}"/>
+						</HBox>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation" press="onPressNavigateToRequestDetails"
+						tooltip="{parts:[{path:'RequestList>Substitution/IsSubstitution'},{path:'RequestList>Substitution/Fullname'},{path:'RequestList>Substitution/DateBegin'},{path:'RequestList>Substitution/DateEnd'}],formatter:'.formatterText.getSubstituteRequestTooltip'}">
+						<customData>
+							<core:CustomData key="isSubstitution"
+								value="{path:'RequestList>Substitution/IsSubstitution',formatter:'.formatterState.getRequestSubstitutionState'}" writeToDom="true"></core:CustomData>
+						</customData>
+						<cells>
+							<CheckBox id="cbSelectRequest" visible="{RequestList>Filters/IsSelectable}" selected="{RequestList>Filters/IsSelected}"
+								select="onSelectRequest"></CheckBox>
+							<HBox>
+								<Button id="btnCopyRequest" icon="sap-icon://duplicate" type="Transparent" tooltip="{i18n>button.request.copy.tooltip}"
+									press="onPressDuplicateRequest" visible="{RequestList>Actions/VisibleCopy}"></Button>
+								<Button id="btnDeleteRequest" icon="sap-icon://delete" type="Transparent" tooltip="{i18n>button.request.delete.tooltip}"
+									press="onPressDeleteRequest" visible="{RequestList>Actions/VisibleDelete}"></Button>
+							</HBox>
+							<core:Icon src="sap-icon://begin" useIconTooltip="true" size="0.65rem" visible="{RequestList>Filters/HasActions}"></core:Icon>
+							<ObjectIdentifier title="{RequestList>RequestId}"/>
+							<ObjectStatus
+								text="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'RequestList>StatusId'}],formatter:'.formatterText.getStatusText'}">
+								<customData>
+									<core:CustomData key="customobjectstatus" value="{path:'RequestList>StatusId', formatter:'.formatterState.getCustomStatusState'}"
+										writeToDom="true"></core:CustomData>
+								</customData>
+							</ObjectStatus>
+							<core:Icon
+								src="{parts:[{path:'AppData>/appType'},{path:'RequestList>HeaderData'}], formatter:'.formatterState.getAutomaticIntegrationIcon'}"
+								size="0.85rem"
+								tooltip="{parts:[{path:'AppData>/appType'},{path:'RequestList>HeaderData'}], formatter:'.formatterText.getAutomaticIntegrationTooltip'}"
+								color="{parts:[{path:'AppData>/appType'},{path:'RequestList>HeaderData'}], formatter:'.formatterState.getAutomaticIntegrationIconColor'}"
+								press="onPressShowRequestBatchLogs"></core:Icon>
+							<Button id="btnShowRequestHistory" icon="sap-icon://workflow-tasks" type="Transparent" tooltip="{i18n>button.request.showhistory.tooltip}"
+								press="onPressShowRequestHistory"></Button>
+							<Text text="{path:'RequestList>DateCreation',formatter:'.formatterFormat.formatDate'}"/>
+							<Text text="{RequestList>HeaderData/Descriptions/CreationModeName}"/>
+							<Text text="{RequestList>HeaderData/Descriptions/MajorTypeName}"/>
+							<Text text="{RequestList>HeaderData/Descriptions/DocumentTypeName}"/>
+							<Text text="{path:'RequestList>HeaderData/Amount',formatter:'.formatterFormat.formatAmount'}"/>
+							<Text text="{RequestList>HeaderData/CurrencyCode}"/>
+							<Text text="{RequestList>HeaderData/IsLegalEntityCode} / {RequestList>HeaderData/IsCompanyCode}"/>
+							<Text text="{RequestList>HeaderData/RcLegalEntityCode} / {RequestList>HeaderData/RcCompanyCode}"/>
+							<Text text="{RequestList>HeaderData/HeaderText}"/>
+							<Text 
+								visible="{= !!${RequestList>HeaderData/IsDocumentNumber} }"
+								text="{RequestList>HeaderData/IsCompanyCode} {RequestList>HeaderData/IsDocumentNumber} {RequestList>HeaderData/IsDocumentYear}"/>
+							<Text 
+								visible="{= !!${RequestList>HeaderData/RcDocumentNumber} }"
+								text="{RequestList>HeaderData/RcCompanyCode} {RequestList>HeaderData/RcDocumentNumber} {RequestList>HeaderData/RcDocumentYear}"/>
+							<Button icon="sap-icon://pdf-attachment" type="Transparent"
+								visible="{RequestList>HeaderData/IsPdfAttached}"
+								press="onPressGetInvoiceAttachment">
+							</Button>	
+							<Button id="btnShowRequestHeaderData" icon="sap-icon://search" type="Transparent" tooltip="{i18n>button.request.showheaderdata.tooltip}"
+								press="onPressShowRequestHeaderData"></Button>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+</core:FragmentDefinition>

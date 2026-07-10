@@ -28,23 +28,23 @@
   	<ResponsivePopover placement="Right" showHeader="false" class="sapUiSizeCompact timi batchlog"> 
     	<content>
     		<Label class="batchlogTitle"
-    			text="{i18n>request.label.batch} {Request>/HeaderData/Batch}"
+    			text="{i18n>request.label.batch}"
     			design="Bold"></Label>
 			<List
-				items="{Request>/BatchLogs/results}"
+				items="{RequestBatchLogs>/results}"
 				mode="None"
 				backgroundDesign="Transparent">
 				<CustomListItem>
 					<HBox
 						alignContent="Center" alignItems="Center">
 						<Label class="sapUiTinyMarginBegin"
-							text="{Request>CustomField1}" design="Bold"/>
+							text="{RequestBatchLogs>CustomField1}" design="Bold"/>
 						<Label class="sapUiTinyMarginBegin"
-							text="{Request>CustomField2}" width="100px"/>
+							text="{RequestBatchLogs>CustomField2}" width="100px"/>
 						<core:Icon class="sapUiSmallMarginBeginEnd"
-							src="{path:'Request>MessageType',formatter:'.formatterState.getMessageStateIcon'}"
-							color="{path:'Request>MessageType',formatter:'.formatterState.getMessageStateIconColor'}" />
-						<Label text="{Request>Message}"/>
+							src="{path:'RequestBatchLogs>MessageType',formatter:'.formatterState.getMessageStateIcon'}"
+							color="{path:'RequestBatchLogs>MessageType',formatter:'.formatterState.getMessageStateIconColor'}" />
+						<Label text="{RequestBatchLogs>Message}"/>
 					</HBox>
 				</CustomListItem>
 			</List>

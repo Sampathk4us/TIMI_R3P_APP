@@ -36,6 +36,18 @@
 		xmlns:html="http://www.w3.org/1999/xhtml" xmlns:variants="sap.ui.comp.variants">
 	<Page id="pRequest" title="{path:'Request>/RequestId',formatter:'.formatterText.getRequestViewTitle'}"
 		showNavButton="true" navButtonPress="onNavBack">
+		<customHeader>
+			<Toolbar>
+				<Button icon="sap-icon://nav-back" type="Transparent" press="onNavBack" />
+				<ToolbarSpacer ></ToolbarSpacer>
+				<Title text="{path:'Request>/RequestId',formatter:'.formatterText.getRequestViewTitle'}"/>
+				<ToolbarSpacer ></ToolbarSpacer>
+				<Button type="Transparent" press="onPressShowMasterDataDoc"  
+				    icon="sap-icon://message-information" 
+					text="{i18n>link.masterdatadoc.label}"
+					tooltip="{i18n>link.masterdatadoc.tooltip}" />
+			</Toolbar>
+		</customHeader>
 		<content>
 			<ObjectHeader id="ohRequest" 
 				visible="{= ${AppData>/issuingItemFullscreen} === true || ${AppData>/receivingItemFullscreen} === true ? false : true}"
@@ -49,6 +61,11 @@
 							<core:CustomData key="customobjectstatus" value="{path:'Request>/StatusId', formatter:'.formatterState.getCustomStatusState'}" writeToDom="true"></core:CustomData>
 						</customData>
 					</ObjectStatus>	
+					<ObjectStatus icon="sap-icon://pdf-attachment"
+						text="{i18n>request.label.pdf.invoice}" active="true"
+						visible="{parts:[{path:'Request>/HeaderData/IsPdfAttached'},{path:'Request>/HeaderData/IsSystemId'}],formatter:'.businessRules.formatInvoicePDFVisibility'}"
+						press="onPressGetInvoiceAttachment">
+					</ObjectStatus>
 				</statuses>
 				<attributes>
 					<ObjectAttribute text="{Request>/HeaderData/Descriptions/DocumentTypeName}" />

@@ -21,7 +21,16 @@
  * Transport order ........... : 										*
  * Change Request ............ : 										*
  * Description ............... : 										*
- ************************************************************************/
+ ************************************************************************
+ * Modification n° ...........  : M0001								    *
+ * Project ...................	: TIMI									*
+ * Author .................... 	: David TEA                        	    *
+ *----------------------------------------------------------------------*
+ * Modification date ......... 	: 18/12/2025 							*
+ * Transport order ........... 	: DO8K908635 							*
+ * Change Request ............ 	: CHG0173797  							*
+ * Description ............... 	: Enhancement Q4 2025					*
+*************************************************************************
 /**
  * @fileOverview Reporting view controller
  * @author David Tea 
@@ -140,13 +149,15 @@ sap.ui.define([
             var aReceivingCompany = this.getView().byId("mcbReportingCriteriaReceivingCompany").getSelectedItems();
             var aIntercoType = this.getView().byId("mcbReportingCriteriaIntercoType").getSelectedItems();
             var aCreationMode = this.getView().byId("mcbReportingCriteriaCreationMode").getSelectedItems();
-            var aMajorType = this.getView().byId("mcbReportingCriteriaMajorType").getSelectedItems();            
+            var aMajorType = this.getView().byId("mcbReportingCriteriaMajorType").getSelectedItems();     
+            var aInvoiceType = this.getView().byId("mcbReportingCriteriaInvoiceType").getSelectedItems();         
             var aIssuingCompanyLength = aIssuingCompany.length,
                 aReceivingCompanyLength = aReceivingCompany.length,
                 aStatusLength = aStatus.length,
                 aIntercoTypeLength = aIntercoType.length,
                 aCreationModeLength = aCreationMode.length,
-                aMajorTypeLength = aMajorType.length;
+                aMajorTypeLength = aMajorType.length,
+                aInvoiceTypeLength = aInvoiceType.length;
             var sRequestId = this.getView().byId("iReportingCriteriaRequest").getValue();
 
             if (aStatusLength > 0) {
@@ -182,19 +193,22 @@ sap.ui.define([
             
             if (aIssuingCompanyLength > 0) {
                 for (i = 0; i < aIssuingCompanyLength; i++) {
-                    aFilters.push(new Filter("IsCompanyCode", FilterOperator.EQ, aIssuingCompany[i].getBindingContext("CompanyCollection").getProperty("CompanyCode")));
+                    // aFilters.push(new Filter("IsCompanyCode", FilterOperator.EQ, aIssuingCompany[i].getBindingContext("CompanyCollection").getProperty("CompanyCode")));
+                    aFilters.push(new Filter("IsCompanyCode", FilterOperator.EQ, aIssuingCompany[i].getBindingContext().getProperty("CompanyCode")));
                 }
             }
 
             if (aReceivingCompanyLength > 0) {
                 for (i = 0; i < aReceivingCompanyLength; i++) {
-                    aFilters.push(new Filter("RcCompanyCode", FilterOperator.EQ, aReceivingCompany[i].getBindingContext("CompanyCollection").getProperty("CompanyCode")));
+                    // aFilters.push(new Filter("RcCompanyCode", FilterOperator.EQ, aReceivingCompany[i].getBindingContext("CompanyCollection").getProperty("CompanyCode")));
+                    aFilters.push(new Filter("RcCompanyCode", FilterOperator.EQ, aReceivingCompany[i].getBindingContext().getProperty("CompanyCode")));
                 }
             }
 
             if (aIntercoTypeLength > 0) {
                 for (i = 0; i < aIntercoTypeLength; i++) {
-                    aFilters.push(new Filter("IntercoTypeCode", FilterOperator.EQ, aIntercoType[i].getBindingContext("IntercoTypeCollection").getProperty("IntercoTypeCode")));
+                    // aFilters.push(new Filter("IntercoTypeCode", FilterOperator.EQ, aIntercoType[i].getBindingContext("IntercoTypeCollection").getProperty("IntercoTypeCode")));
+                    aFilters.push(new Filter("IntercoTypeCode", FilterOperator.EQ, aIntercoType[i].getBindingContext().getProperty("IntercoTypeCode")));
                 }
             }
 
@@ -207,6 +221,12 @@ sap.ui.define([
             if (aMajorTypeLength > 0) {
                 for (i = 0; i < aMajorTypeLength; i++) {
                     aFilters.push(new Filter("MajorTypeCode", FilterOperator.EQ, aMajorType[i].getBindingContext("MajorTypeCollection").getProperty("MajorTypeCode")));
+                }
+            }
+
+            if (aInvoiceTypeLength > 0) {
+                for (i = 0; i < aInvoiceTypeLength; i++) {
+                    aFilters.push(new Filter("DocumentTypeCode", FilterOperator.EQ, aInvoiceType[i].getKey()));
                 }
             }
             
@@ -451,8 +471,8 @@ sap.ui.define([
          */
         _initiateTablePersonalization: function() {
 
-            this.oTPCReportingHeader = tpcHelper.initiateReportingTPC.call(this, parameters.getReportingTypeList().RequestHeader);
-            this.oTPCReportingItem = tpcHelper.initiateReportingTPC.call(this, parameters.getReportingTypeList().RequestItem);
+            //this.oTPCReportingHeader = tpcHelper.initiateReportingTPC.call(this, parameters.getReportingTypeList().RequestHeader);
+            //this.oTPCReportingItem = tpcHelper.initiateReportingTPC.call(this, parameters.getReportingTypeList().RequestItem);
 
         },
 
@@ -468,10 +488,12 @@ sap.ui.define([
             var sReportingType = this.getView().getModel("AppData").getProperty("/reportingType");
             switch (sReportingType) {
                 case parameters.getReportingTypeList().RequestItem:
-                    this.oTPCReportingItem.openDialog();
+                    //this.oTPCReportingItem.openDialog();
+                    this._openItemsSettingsDialog();
                     break;
                 case parameters.getReportingTypeList().RequestHeader:
-                    this.oTPCReportingHeader.openDialog();
+                    //this.oTPCReportingHeader.openDialog();
+                    this._openHeaderSettingsDialog();
                     break;
                 default:
                     break;
@@ -662,19 +684,26 @@ sap.ui.define([
             var oSource = oEvent.getSource();
             var sPath = oSource.getBindingContext("ReportingRequestHeaderList").getPath();
             var oReqData = this.getView().getModel("ReportingRequestHeaderList").getProperty(sPath);
+			var aFilters = [ new Filter("RequestId", FilterOperator.EQ, oReqData.RequestId)]; //M0001 DTE - Build filter with request id
 
-            if (oReqData.BatchLogs.results.length > 0) {
-                // Create popover
-                if (!this._oPopoverRequestBatchLogs) {
-                    this._oPopoverRequestBatchLogs = sap.ui.xmlfragment("cus.fi.timi.rel.view.fragment.RequestBatchLogsPopup", this);
-                    this.getView().addDependent(this._oPopoverRequestBatchLogs);
-                }
+            
+            //M0001 DTE - Begin of ins - Query request batch logs 
+			odataService.queryRequestBatchLogs.call(this, aFilters)
+				.then(function(oData){
+					if (oData.results.length > 0) {
+						// Create popover
+						if (!this._oPopoverRequestBatchLogs) {
+							this._oPopoverRequestBatchLogs = sap.ui.xmlfragment("cus.fi.timi.rel.view.fragment.RequestBatchLogsPopup", this);
+							this.getView().addDependent(this._oPopoverRequestBatchLogs);
+						}
 
-                // Set JSON Model
-                this._oPopoverRequestBatchLogs.setModel(new JSONModel(oReqData), "Request");
+						// Set JSON Model
+						this._oPopoverRequestBatchLogs.setModel(new JSONModel(oData), "RequestBatchLogs");
 
-                this._oPopoverRequestBatchLogs.openBy(oSource);
-            }
+						this._oPopoverRequestBatchLogs.openBy(oSource);
+					}
+				}.bind(this));
+            //M0001 DTE - End of ins
 
         },
         
@@ -690,6 +719,138 @@ sap.ui.define([
             this.getView().byId("tReportingRequestItem").addStyleClass(this.getContentDensityClass());
             this.getView().byId("tbReportingResults").addStyleClass(this.getContentDensityClass());
         },
+
+        
+
+        // Fonction appelée lors du clic sur un bouton "Personnaliser" (à ajouter dans votre barre d'outils)
+        _openHeaderSettingsDialog: function (oEvent) {
+    var oTable = this.byId("tReportingRequestHeader");
+    var oView = this.getView();
+
+    // 1. Préparer les items (toutes les colonnes disponibles)
+    var aItems = oTable.getColumns().map(function(oColumn) {
+        return {
+            columnKey: oColumn.getId(), // On utilise l'ID complet
+            text: oColumn.getLabel().getText()
+        };
+    });
+
+    // 2. Préparer l'état actuel (visibilité et ordre)
+    var aColumnItems = oTable.getColumns().map(function(oColumn, index) {
+        return {
+            columnKey: oColumn.getId(),
+            visible: oColumn.getVisible(),
+            index: index
+        };
+    });
+
+    // 3. Créer le Panel
+    var oColumnsPanel = new sap.m.P13nColumnsPanel({
+        items: aItems.map(function(item) {
+            return new sap.m.P13nItem({
+                columnKey: item.columnKey,
+                text: item.text
+            });
+        }),
+        columnsItems: aColumnItems
+    });
+
+    // 4. Créer le Dialog
+    var oP13nDialog = new sap.m.P13nDialog({
+        title: "Personnaliser les colonnes",
+        panels: [oColumnsPanel],
+        ok: function(oEvent) {
+            // C'est ici que la magie opère lors du clic sur OK
+            var aNextColumnsItems = oEvent.getParameter("payload").columns.tableItems;
+            
+            // On boucle sur tous les items renvoyés par le dialogue
+            aNextColumnsItems.forEach(function(oItem) {
+                var oColumn = oView.byId(oItem.columnKey) || sap.ui.getCore().byId(oItem.columnKey);
+                if (oColumn) {
+                    oColumn.setVisible(oItem.visible);
+                    
+                    // Optionnel : Gérer l'ordre des colonnes
+                    // oTable.removeColumn(oColumn);
+                    // oTable.insertColumn(oColumn, oItem.index);
+                }
+            });
+            oP13nDialog.close();
+            oP13nDialog.destroy();
+        },
+        cancel: function() {
+            oP13nDialog.close();
+            oP13nDialog.destroy();
+        }
+    });
+
+    oView.addDependent(oP13nDialog);
+    oP13nDialog.open();
+},
+
+ // Fonction appelée lors du clic sur un bouton "Personnaliser" (à ajouter dans votre barre d'outils)
+        _openItemsSettingsDialog: function (oEvent) {
+    var oTable = this.byId("tReportingRequestItem");
+    var oView = this.getView();
+
+    // 1. Préparer les items (toutes les colonnes disponibles)
+    var aItems = oTable.getColumns().map(function(oColumn) {
+        return {
+            columnKey: oColumn.getId(), // On utilise l'ID complet
+            text: oColumn.getLabel().getText()
+        };
+    });
+
+    // 2. Préparer l'état actuel (visibilité et ordre)
+    var aColumnItems = oTable.getColumns().map(function(oColumn, index) {
+        return {
+            columnKey: oColumn.getId(),
+            visible: oColumn.getVisible(),
+            index: index
+        };
+    });
+
+    // 3. Créer le Panel
+    var oColumnsPanel = new sap.m.P13nColumnsPanel({
+        items: aItems.map(function(item) {
+            return new sap.m.P13nItem({
+                columnKey: item.columnKey,
+                text: item.text
+            });
+        }),
+        columnsItems: aColumnItems
+    });
+
+    // 4. Créer le Dialog
+    var oP13nDialog = new sap.m.P13nDialog({
+        title: "Personnaliser les colonnes",
+        panels: [oColumnsPanel],
+        ok: function(oEvent) {
+            // C'est ici que la magie opère lors du clic sur OK
+            var aNextColumnsItems = oEvent.getParameter("payload").columns.tableItems;
+            
+            // On boucle sur tous les items renvoyés par le dialogue
+            aNextColumnsItems.forEach(function(oItem) {
+                var oColumn = oView.byId(oItem.columnKey) || sap.ui.getCore().byId(oItem.columnKey);
+                if (oColumn) {
+                    oColumn.setVisible(oItem.visible);
+                    
+                    // Optionnel : Gérer l'ordre des colonnes
+                    // oTable.removeColumn(oColumn);
+                    // oTable.insertColumn(oColumn, oItem.index);
+                }
+            });
+            oP13nDialog.close();
+            oP13nDialog.destroy();
+        },
+        cancel: function() {
+            oP13nDialog.close();
+            oP13nDialog.destroy();
+        }
+    });
+
+    oView.addDependent(oP13nDialog);
+    oP13nDialog.open();
+}
 
     });
 }, true);

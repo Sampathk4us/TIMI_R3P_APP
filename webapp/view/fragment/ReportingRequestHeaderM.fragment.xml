@@ -30,7 +30,7 @@
 			showNoData="true" noDataText="{i18n>request.table.nodata}" fixedLayout="false"
 			growing="true" growingScrollToLoad="true">
 			<columns>
-				<Column id="ReqidCol" hAlign="Center" width="4rem"><Text text="{i18n>request.table.column.request}"/></Column>
+				<Column id="ReqidCol" hAlign="Center" width="5rem"><Text text="{i18n>request.table.column.request}"/></Column>
 				<!-- <Column id="IntercoTypeCol" hAlign="Center" width="4rem" visible="false"><Text text="{i18n>label.intercotype}"/></Column> -->
 				<Column id="StatusCol" hAlign="Center" width="9rem"><Text text="{i18n>request.table.column.status}"/></Column>
 				<Column id="BatchStatusCol" hAlign="Center" width="2rem" 

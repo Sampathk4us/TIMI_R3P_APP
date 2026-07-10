@@ -251,6 +251,8 @@ sap.ui.define([
                     this._initiateRequestItemsTablesPersonalization(this.getAppType());
                     this._initiateRequestItemsVariantManagement(this.getAppType());
 
+                    this._applyRequestCustomerVendorCustomState();
+
                     this.getComponentModel("CurrencyCollection").updateBindings(true);
                     this.getComponentModel("Request").updateBindings(true);
 
@@ -353,6 +355,30 @@ sap.ui.define([
 
             // Set JSON Model
             this.setComponentModel(new JSONModel(oFieldsStructureList), "FieldsAttributes");
+
+        },
+        
+        _applyRequestCustomerVendorCustomState : function(){
+            var oRequest = this.getComponentModel("Request"),
+                oFieldsAttributes = this.getComponentModel("FieldsAttributes"),
+                oCustomerCollection = this.getComponentModel("CustomerCollection"),
+                aCustomer = !!oCustomerCollection.getProperty("/results") ? oCustomerCollection.getProperty("/results") : [],
+                oVendorCollection = this.getComponentModel("VendorCollection"),
+                aVendor = !!oVendorCollection.getProperty("/results") ? oVendorCollection.getProperty("/results") : [];
+
+            // Handle Vendor
+            if(!!aCustomer && aCustomer.length === 0
+                && oFieldsAttributes.getProperty("/HEADER_DATA/CUSTOMER/Editable") === true){
+                 oRequest.setProperty("/HeaderData/States/CustomerCode","E");   
+                 oRequest.setProperty("/HeaderData/Messages/CustomerCode",this.oBundle.getText("link.masterdatadoc.message.info"));
+            }
+
+            // Handle Customer
+            if(!!aVendor && aVendor.length === 0
+                && oFieldsAttributes.getProperty("/HEADER_DATA/VENDOR/Editable") === true){
+                 oRequest.setProperty("/HeaderData/States/VendorCode","E");   
+                 oRequest.setProperty("/HeaderData/Messages/VendorCode",this.oBundle.getText("link.masterdatadoc.message.info"));
+            }
 
         },
 
@@ -1554,6 +1580,7 @@ sap.ui.define([
 
                         // Set JSON Model
                         this.setComponentModel(new JSONModel(oRequestData), "Request");
+                        this._applyRequestCustomerVendorCustomState();
 
                         // Set Messages
                         messageHelper.setRequestMessagesModel.call(this, aContent);
@@ -1569,6 +1596,7 @@ sap.ui.define([
                     }else{
                         // Set JSON Model
                         this.setComponentModel(new JSONModel(oRequestData), "Request");
+                        this._applyRequestCustomerVendorCustomState();
                     }
 
                     return null;
@@ -3725,6 +3753,17 @@ sap.ui.define([
 	
 	        this._oPopoverRequestHeaderAdditionalData.openBy(oButton);
         	
+        },
+
+        onPressGetInvoiceAttachment : function(oEvent){
+            var oRequestData = this.getComponentModel("Request").getData(),
+                sRequestId = oRequestData.RequestId;
+
+            var sPath = "/AttachmentInvoiceCollection(RequestId='" + sRequestId + "')",
+                sServiceUrl = this.oDataModel.sServiceUrl;
+            var sPdfUrl = sServiceUrl + sPath + "/$value";
+
+            sap.m.URLHelper.redirect(sPdfUrl, true);
         },
 
         onChangeImportIssuingItems : function(oEvent){

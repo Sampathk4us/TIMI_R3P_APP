@@ -1,0 +1,240 @@
+<!-- /************************************************************************* -->
+<!-- * Project            : TIMI                                 			  * -->
+<!-- * Process            : FI                                                * -->
+<!-- * Task code          : FI084                                             * -->
+<!-- * Functional document:                                					  * -->
+<!-- * Technical document :                                    				  * -->
+<!-- *________________________________________________________________________* -->
+<!-- * File       	 : view/fragment/ReportingRequestHeader.fragment.xml   	  * -->
+<!-- * Author        : David TEA                                              * -->
+<!-- * Company       : Resp                                               	  * -->
+<!-- * Creation Date : 26/01/2017                                             * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Description   : Reporting Request Header fragment   					  * -->
+<!-- *                                                                        * -->
+<!-- ************************************************************************** -->
+<!-- * Modification n ...........  : 										  * -->
+<!-- * Project ................... : 										  * -->
+<!-- * Author .................... :                                          * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 										  * -->
+<!-- * Transport order ........... : 										  * -->
+<!-- * Change Request ............ : 										  * -->
+<!-- * Description ............... : 										  * -->
+<!-- *************************************************************************/ -->
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core" 
+    xmlns:t="sap.ui.table"
+    xmlns:layout="sap.ui.layout" 
+    xmlns:form="sap.ui.layout.form" 
+    xmlns:custom="cus.fi.timi.rel.assets.js.library" 
+    xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+    <t:Table 
+        id="tReportingRequestHeader" 
+        class="sapUiNoContentPadding reportingList"
+        rows="{ReportingRequestHeaderList>/results}"
+        selectionMode="None"
+        visibleRowCountMode="Auto"
+        minAutoRowCount="5"
+        rowActionCount="1">
+		
+		<t:layoutData>
+			<FlexItemData growFactor="1" baseSize="0%"/>
+		</t:layoutData>
+
+        <t:rowActionTemplate>
+            <t:RowAction>
+                <t:items>
+                    <t:RowActionItem type="Navigation" press="onPressNavigateToRequestDetailsFromHeader"/>
+                </t:items>
+            </t:RowAction>
+        </t:rowActionTemplate>
+
+        <t:columns>
+            <t:Column id="ReqidCol" width="7rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.request}"/>
+                <t:template>
+                    <ObjectIdentifier title="{ReportingRequestHeaderList>RequestId}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="DocumentTypeCol" width="5rem" hAlign="Center">
+                <Label text="{i18n>label.invoicetype}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestHeaderList>DocumentTypeCode', formatter:'.formatterText.getDocumentTypeText'}" wrapping="false"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="StatusCol" width="10rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.status}"/>
+                <t:template>
+                    <ObjectStatus text="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'},{path:'ReportingRequestHeaderList>StatusId'}],formatter:'.formatterText.getStatusText'}">
+                        <customData>
+                            <core:CustomData key="customobjectstatus" value="{path:'ReportingRequestHeaderList>StatusId', formatter:'.formatterState.getCustomStatusState'}" writeToDom="true"/>
+                        </customData>
+                    </ObjectStatus>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="BatchStatusCol" width="4rem" hAlign="Center" 
+                      visible="{parts:[{path:'AppData>/intercoType'},{path:'AppData>/appType'}], formatter:'.formatterVisibility.triggerAutomaticPostingColumnVisibility'}">
+                <Label text="{i18n>request.table.column.posted}"/>
+                <t:template>
+                    <core:Icon
+                        src="{parts:[{path:'AppData>/appType'},{path:'ReportingRequestHeaderList>'}], formatter:'.formatterState.getAutomaticIntegrationIcon'}"
+                        size="0.85rem"
+                        tooltip="{parts:[{path:'AppData>/appType'},{path:'ReportingRequestHeaderList>'}], formatter:'.formatterText.getAutomaticIntegrationTooltip'}"
+                        color="{parts:[{path:'AppData>/appType'},{path:'ReportingRequestHeaderList>'}], formatter:'.formatterState.getAutomaticIntegrationIconColor'}"
+                        press="onPressShowRequestBatchLogs"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="DateCreationCol" width="8rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.datecreation}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestHeaderList>DateCreation', formatter:'.formatterFormat.formatDate'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="CreationModeCol" width="8rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.creationmode}"/>
+                <t:template>
+                    <Text text="{path: 'ReportingRequestHeaderList>CreationMode', formatter:'.formatterText.getCreationModeText'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="InvoiceTypeCol" width="5rem" hAlign="Center">
+                <Label text="{i18n>label.invoicetype}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestHeaderList>DocumentTypeCode', formatter:'.formatterText.getInvoiceTypeText'}" wrapping="false"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="HeadertextCol" width="15rem">
+                <Label text="{i18n>request.table.column.headertext}"/>
+                <t:template>
+                    <Text text="{ReportingRequestHeaderList>HeaderText}" wrapping="false"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="IssuingCountryCol" width="10rem" visible="false">
+                <Label text="{i18n>request.table.column.issuingcountry}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestHeaderList>IsCountry', formatter:'.formatterText.getCountryNameFromCountryCode'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="IssuingLegalEntityCol" width="10rem" visible="false">
+                <Label text="{i18n>request.table.column.issuinglegalentity}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestHeaderList>IsLegalEntityCode', formatter:'.formatterText.getLegalEntityCodeNameFromLegalEntityCode'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="IssuingCompanyCol" width="12rem">
+                <Label text="{i18n>request.table.column.issuingcompany.long}"/>
+                <t:template>
+                    <!-- <Text text="{path:'ReportingRequestHeaderList>IsCompanyCode', formatter:'.formatterText.getCompanyCodeNameFromCompanyCode'}" wrapping="false"/> -->
+                    <ObjectIdentifier title="{ReportingRequestHeaderList>IsCompanyCode}" text="{path:'ReportingRequestHeaderList>IsCompanyCode', formatter:'.formatterText.getCompanyNameFromCompanyCode'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="IssuingControllerCol" width="12rem">
+                <Label text="{i18n>request.table.column.issuingcontroller.long}"/>
+                <t:template>
+                    <!-- <Text text="{ReportingRequestHeaderList>Descriptions/IsControllerName}" wrapping="false"/> -->
+                     <ObjectIdentifier title="{ReportingRequestHeaderList>IsController}" text="{ReportingRequestHeaderList>IsControllerName}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ReceivingCountryCol" width="10rem" visible="false">
+                <Label text="{i18n>request.table.column.receivingcountry}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestHeaderList>RcCountry', formatter:'.formatterText.getCountryNameFromCountryCode'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ReceivingLegalEntityCol" width="10rem" visible="false">
+                <Label text="{i18n>request.table.column.receivinglegalentity}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestHeaderList>RcLegalEntityCode', formatter:'.formatterText.getLegalEntityCodeNameFromLegalEntityCode'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ReceivingCompanyCol" width="12rem">
+                <Label text="{i18n>request.table.column.receivingcompany.long}"/>
+                <t:template>
+                    <!-- <Text text="{path:'ReportingRequestHeaderList>RcCompanyCode', formatter:'.formatterText.getCompanyCodeNameFromCompanyCode'}" wrapping="false"/> -->
+                    <ObjectIdentifier title="{ReportingRequestHeaderList>RcCompanyCode}" text="{path:'ReportingRequestHeaderList>RcCompanyCode', formatter:'.formatterText.getCompanyNameFromCompanyCode'}"/>
+               </t:template>
+            </t:Column>
+
+            <t:Column id="ReceivingControllerCol" width="12rem">
+                <Label text="{i18n>request.table.column.receivingcontroller.long}"/>
+                <t:template>
+                    <!-- <Text text="{ReportingRequestHeaderList>Descriptions/RcControllerName}" wrapping="false"/> -->
+                    <ObjectIdentifier title="{ReportingRequestHeaderList>RcController}" text="{ReportingRequestHeaderList>RcControllerName}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="AmountCol" width="10rem" hAlign="End">
+                <Label text="{i18n>request.table.column.amount}"/>
+                <t:template>
+                    <Text text="{path:'ReportingRequestHeaderList>Amount', formatter:'.formatterFormat.formatAmount'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="CurrencyCol" width="4rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.currency}"/>
+                <t:template>
+                    <Text text="{ReportingRequestHeaderList>CurrencyCode}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="IssuingTaxCodeCol" width="5rem" hAlign="Center">
+                <Label text="{i18n>label.taxcode.issuing}"/>
+                <t:template>
+                    <Text text="{ReportingRequestHeaderList>IsTaxCode}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ReceivingTaxCodeCol" width="5rem" hAlign="Center">
+                <Label text="{i18n>label.taxcode.receiving}"/>
+                <t:template>
+                    <Text text="{ReportingRequestHeaderList>RcTaxCode}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="IssuingPostingDocCol" width="10rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.issuingdocumentnumber}"/>
+                <t:template>
+                    <Text text="{ReportingRequestHeaderList>IsDocumentNumber}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="IssuingFiscalYearCol" width="5rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.issuingfiscalyear}"/>
+                <t:template>
+                    <Text text="{parts:[{path:'ReportingRequestHeaderList>IsDocumentNumber'},{path:'ReportingRequestHeaderList>IsFiscalYear'}], formatter:'.formatterText.getPostingFiscalYearText'}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ReceivingPostingDocCol" width="10rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.receivingdocumentnumber}"/>
+                <t:template>
+                    <Text text="{ReportingRequestHeaderList>RcDocumentNumber}"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column id="ReceivingFiscalYearCol" width="5rem" hAlign="Center">
+                <Label text="{i18n>request.table.column.receivingfiscalyear}"/>
+                <t:template>
+                    <Text text="{parts:[{path:'ReportingRequestHeaderList>RcDocumentNumber'},{path:'ReportingRequestHeaderList>RcFiscalYear'}], formatter:'.formatterText.getPostingFiscalYearText'}"/>
+                </t:template>
+            </t:Column>
+
+        </t:columns>
+    </t:Table>
+</core:FragmentDefinition>

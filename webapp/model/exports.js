@@ -648,7 +648,12 @@ sap.ui.define([
                 // Format Interco Type
                 if (aData[j].hasOwnProperty("IntercoTypeCode")) {
                     aData[j].IntercoTypeCodeFormatted = formatterText.getIntercoTypeText.call(this, aData[j].IntercoTypeCode);
-                }      
+                }    
+
+                // Format Invoice Type
+                if (aData[j].hasOwnProperty("DocumentTypeCode")) {
+                    aData[j].InvoiceTypeCodeFormatted = formatterText.getInvoiceTypeText.call(this, aData[j].DocumentTypeCode);
+                }   
 
                 // Format Issuing Country
                 if (aData[j].hasOwnProperty("IsCountry")) {
@@ -688,6 +693,14 @@ sap.ui.define([
                     template: {
                         content: {
                             path: 'DateCreationFormatted'
+                        }
+                    }
+                },
+                "InvoiceTypeCol": {
+                    name: this.oBundle.getText("label.invoicetype"),
+                    template: {
+                        content: {
+                            path: 'InvoiceTypeCodeFormatted'
                         }
                     }
                 },
@@ -784,6 +797,22 @@ sap.ui.define([
                     template: {
                         content: {
                             path: "CurrencyCode"
+                        }
+                    }
+                },
+                "IssuingTaxCodeCol": {
+                    name: this.oBundle.getText("label.taxcode.issuing"),
+                    template: {
+                        content: {
+                            path: "IsTaxCode"
+                        }
+                    }
+                },
+                "ReceivingTaxCodeCol": {
+                    name: this.oBundle.getText("label.taxcode.receiving"),
+                    template: {
+                        content: {
+                            path: "RcTaxCode"
                         }
                     }
                 },
@@ -999,7 +1028,12 @@ sap.ui.define([
                 // Format Receiving Fiscal Year
                 if (aData[j].hasOwnProperty("RcFiscalYear")) {
                     aData[j].RcFiscalYearFormatted = formatterText.getPostingFiscalYearText.call(this, aData[j].RcDocumentNumber, aData[j].RcFiscalYear);
-                }
+                }  
+                
+                // Format Invoice Type
+                if (aData[j].hasOwnProperty("DocumentTypeCode")) {
+                    aData[j].InvoiceTypeCodeFormatted = formatterText.getInvoiceTypeText.call(this, aData[j].DocumentTypeCode);
+                } 
                 
                 // Format Interco Type
                 if (aData[j].hasOwnProperty("IntercoTypeCode")) {
@@ -1036,6 +1070,12 @@ sap.ui.define([
                     property: "DateCreationFormatted",
 					type: "string",
 					width: "10"
+                },
+                "InvoiceTypeCol": {
+                    label: this.oBundle.getText("label.invoicetype"),
+                    property: "InvoiceTypeCodeFormatted",
+					type: "string",
+					width: "20"
                 },
                 "HeadertextCol": {
                     label: this.oBundle.getText("request.table.column.headertext"),
@@ -1100,6 +1140,18 @@ sap.ui.define([
                 "CurrencyCol": {
                     label: this.oBundle.getText("request.table.column.currency"),
                     property: "CurrencyCode",
+					type: "string",
+					width: "10"
+                },
+                "IssuingTaxCodeCol": {
+                    label: this.oBundle.getText("label.taxcode.issuing"),
+                    property: "IsTaxCode",
+					type: "string",
+					width: "10"
+                },
+                "ReceivingTaxCodeCol": {
+                    label: this.oBundle.getText("label.taxcode.receiving"),
+                    property: "RcTaxCode",
 					type: "string",
 					width: "10"
                 },

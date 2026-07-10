@@ -62,16 +62,16 @@
 						<DatePicker id="dpReportingCriteriaDateFrom" 
 							dateValue="{path:'AppData>/REP_RETENTION_DAYS',formatter:'.businessRules.getReportingDateFromInitialValue'}"
 							minDate="{path:'AppData>/REP_MAX_RETENTION_YR',formatter:'.businessRules.getReportingDateFromMinValue'}"
-							width="7rem" required="true"
+							width="9rem" required="true"
 							change="onChangeReportingDateFrom"
 							placeholder="{i18n>searchcriteria.placeholder.date}" valueFormat="yyyyMMdd" displayFormat="dd/MM/yyyy">
 						</DatePicker>
 	<!-- 					<Label 	text="{i18n>searchcriteria.label.dateto}" labelFor="dpReportingCriteriaDateTo"/> -->
-							<Label class="toMargin"
+							<Label class="sapUiTinyMarginTop sapUiSmallMarginBeginEnd"
 								text="{i18n>searchcriteria.label.dateto}" />
 						<DatePicker id="dpReportingCriteriaDateTo" 
 							dateValue="{path:'AppData>/REP_RETENTION_DAYS',formatter:'.businessRules.getReportingDateToInitialValue'}"
-							width="7rem"
+							width="9rem"
 							change="onChangeReportingDateTo"
 							placeholder="{i18n>searchcriteria.placeholder.date}" valueFormat="yyyyMMdd" displayFormat="dd/MM/yyyy">
 						</DatePicker>
@@ -81,18 +81,20 @@
 							<core:CustomData key="nodisplay" value="X" writeToDom="true"></core:CustomData>
 						</core:customData>
 					</core:Title>
+					<Label 	text="{i18n>label.invoicetype}" labelFor="mcbReportingCriteriaInvoiceType"/>
+					<MultiComboBox id="mcbReportingCriteriaInvoiceType"
+						items="{/DocumentTypeCollection}">
+						<core:Item 	key="{DocumentTypeCode}" text="{DocumentTypeName}" />	
+					</MultiComboBox>
 					<Label 	text="{i18n>label.intercotype}" labelFor="mcbReportingCriteriaRequestType"
 						visible="false"/>
-					<MultiComboBox id="mcbReportingCriteriaIntercoType"
+					<!-- <MultiComboBox id="mcbReportingCriteriaIntercoType"
 						items="{IntercoTypeCollection>/results}" visible="false">
 						<core:Item 	key="{IntercoTypeCollection>IntercoTypeCode}" text="{IntercoTypeCollection>IntercoTypeName}" />	
-					</MultiComboBox>
-					<Label 	text="{i18n>request.table.column.creationmode}"/>
-					<MultiComboBox id="mcbReportingCriteriaCreationMode">
-						<items>
-							<core:Item 	key="M" text="{i18n>creationtype.manual}" />
-							<core:Item 	key="U" text="{i18n>creationtype.fileuploading}" />
-						</items>
+					</MultiComboBox> -->
+					<MultiComboBox id="mcbReportingCriteriaIntercoType"
+						items="{/IntercoTypeCollection}" visible="false">
+						<core:Item 	key="{IntercoTypeCode}" text="{IntercoTypeName}" />	
 					</MultiComboBox>
 					<Label 	text="{i18n>label.majortype}" labelFor="mcbReportingCriteriaMajorType"
 							visible="false"/>
@@ -100,12 +102,26 @@
 						items="{MajorTypeCollection>/results}" visible="false">
 						<core:Item 	key="{MajorTypeCollection>MajorTypeCode}" text="{MajorTypeCollection>MajorTypeName}" />
 					</MultiComboBox> 
+					<Label 	text="{i18n>request.table.column.creationmode}"/>
+					<MultiComboBox id="mcbReportingCriteriaCreationMode">
+						<items>
+							<core:Item 	key="M" text="{i18n>creationtype.manual}" />
+							<core:Item 	key="U" text="{i18n>creationtype.fileuploading}" />
+						</items>
+					</MultiComboBox>
 					<Label 	text="{i18n>searchcriteria.label.country}" labelFor="mcbReportingCriteriaCountry"/>
-					<ComboBox id="CbReportingCriteriaCountry" 
+					<!-- <ComboBox id="CbReportingCriteriaCountry" 
 						items="{path:'CountryCollection>/results',templateShareable:'Constants>/true',length:500}">
 						<core:Item 	
 							key="{CountryCollection>CountryCode}" 
 							text="{CountryCollection>CountryName}"
+						/>
+					</ComboBox> -->
+					<ComboBox id="CbReportingCriteriaCountry" 
+						items="{path:'/CountryCollection',templateShareable:'Constants>/true',length:500}">
+						<core:Item 	
+							key="{CountryCode}" 
+							text="{CountryName}"
 						/>
 					</ComboBox>
 
@@ -115,19 +131,33 @@
 						</core:customData>
 					</core:Title>
 					<Label 	text="{i18n>searchcriteria.label.issuingcompany}" labelFor="mcbReportingCriteriaIssuingCompany"/>
-					<MultiComboBox id="mcbReportingCriteriaIssuingCompany" 
+					<!-- <MultiComboBox id="mcbReportingCriteriaIssuingCompany" 
 						items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true',length:500}">
 						<core:Item 	
 							key="{CompanyCollection>CompanyCode}" 
 							text="{CompanyCollection>LegalEntityCode} / {parts:[{path:'CompanyCollection>CompanyCode'},{path:'CompanyCollection>CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
 						/>
+					</MultiComboBox> -->
+					<MultiComboBox id="mcbReportingCriteriaIssuingCompany" 
+						items="{path:'/CompanyCollection',templateShareable:'Constants>/true',length:500}">
+						<core:Item 	
+							key="{CompanyCode}" 
+							text="{LegalEntityCode} / {parts:[{path:'CompanyCode'},{path:'CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
+						/>
 					</MultiComboBox>
 					<Label 	text="{i18n>searchcriteria.label.receivingcompany}" labelFor="mcbReportingCriteriaReceivingCompany"/>
-					<MultiComboBox id="mcbReportingCriteriaReceivingCompany" 
+					<!-- <MultiComboBox id="mcbReportingCriteriaReceivingCompany" 
 						items="{path:'CompanyCollection>/results',templateShareable:'Constants>/true',length:500}">
 						<core:Item 	
 							key="{CompanyCollection>CompanyCode}" 
 							text="{CompanyCollection>LegalEntityCode} / {parts:[{path:'CompanyCollection>CompanyCode'},{path:'CompanyCollection>CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
+						/>
+					</MultiComboBox> -->
+					<MultiComboBox id="mcbReportingCriteriaReceivingCompany" 
+						items="{path:'/CompanyCollection',templateShareable:'Constants>/true',length:500}">
+						<core:Item 	
+							key="{CompanyCode}" 
+							text="{LegalEntityCode} / {parts:[{path:'CompanyCode'},{path:'CompanyName'}],formatter:'.formatterText.formatTextAndId'}"
 						/>
 					</MultiComboBox>
 					<Label></Label>
