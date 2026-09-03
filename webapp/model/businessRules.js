@@ -13,6 +13,16 @@
  * Description   : Provides business rules functions   					*		
  *                                                                      *
  ************************************************************************
+ * Modification n° ........... : M004							     	*
+ * Project ................... : TIMI									*
+ * Author .................... : Sampath Kumar Kathirvelu (SKK)         *
+ *----------------------------------------------------------------------*
+ * Modification date ......... : 29/07/2026              				*
+ * Transport order ........... : DO8K908943             				*
+ * Change Request ............ : CHG0199181 							*
+ * Description ............... : Add logic for e-Invoice France adding  *
+ *                               EDOC PDF attachment                    *
+ ************************************************************************/ 
 /**
  * @fileOverview Provides business rules functions
  * @author David Tea 
@@ -545,7 +555,21 @@ sap.ui.define([
                 return true;
             }
             return false;
+        },
+
+// Begin of INS by SKK - M004 - 29/07/2026
+        formatEinvoicePDFVisibility : function(bEinvoiceFlag, sEdocStatus, nIsDocumentNumber, sSystemId, sCountry){
+            if(bEinvoiceFlag && ( sEdocStatus === 'ACCEPTED' || sEdocStatus === 'ACKN_DRCC' )
+                && nIsDocumentNumber !== '' && 
+                ( sSystemId === parameters.getSystemList().Shift 
+                || sSystemId === parameters.getSystemList().iShift ) &&
+                sCountry === 'FR'
+            ){
+                return true;
+            }
+            return false;
         }
+// End of INS by SKK - M004 - 29/07/2026        
 
     };
 

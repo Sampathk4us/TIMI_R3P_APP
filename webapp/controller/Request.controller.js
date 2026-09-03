@@ -31,6 +31,16 @@
  * Change Request ............ 	: CR  									*
  * Description ............... 	: Manage regeneration warning and       * 
  * 								  column management for item tables	 	*
+ ************************************************************************
+ * Modification n° ........... : M003							     	*
+ * Project ................... : TIMI									*
+ * Author .................... : Sampath Kumar Kathirvelu (SKK)         *
+ *----------------------------------------------------------------------*
+ * Modification date ......... : 29/07/2026              				*
+ * Transport order ........... : DO8K908943             				*
+ * Change Request ............ : CHG0199181 							*
+ * Description ............... : Add logic for e-Invoice France adding  *
+ *                               EDOC PDF attachment                    *
  *************************************************************************/
 /**
  * @fileOverview Request view controller
@@ -3757,14 +3767,29 @@ sap.ui.define([
 
         onPressGetInvoiceAttachment : function(oEvent){
             var oRequestData = this.getComponentModel("Request").getData(),
-                sRequestId = oRequestData.RequestId;
+                sRequestId = oRequestData.RequestId,
+                sTypeId = '001';    //INS by SKK - M003 - 29/07/2026
 
-            var sPath = "/AttachmentInvoiceCollection(RequestId='" + sRequestId + "')",
+            var sPath = "/AttachmentInvoiceCollection(TypeId='" + sTypeId + "',RequestId='" + sRequestId + "')", //CHNG by SKK - M003 - 29/07/2026
                 sServiceUrl = this.oDataModel.sServiceUrl;
             var sPdfUrl = sServiceUrl + sPath + "/$value";
 
             sap.m.URLHelper.redirect(sPdfUrl, true);
         },
+
+// Being of INS by SKK - M003 - 29/07/2026
+        onPressGetEinvoiceAttachment : function(oEvent){
+            var oRequestData = this.getComponentModel("Request").getData(),
+                sRequestId = oRequestData.RequestId,
+                sTypeId = '002';
+
+            var sPath = "/AttachmentInvoiceCollection(TypeId='" + sTypeId + "',RequestId='" + sRequestId + "')",
+                sServiceUrl = this.oDataModel.sServiceUrl;
+            var sPdfUrl = sServiceUrl + sPath + "/$value";
+
+            sap.m.URLHelper.redirect(sPdfUrl, true);
+        },
+// End of INS by SKK - M003 - 29/07/2026
 
         onChangeImportIssuingItems : function(oEvent){
 
