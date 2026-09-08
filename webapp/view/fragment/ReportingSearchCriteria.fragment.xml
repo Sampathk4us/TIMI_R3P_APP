@@ -32,12 +32,12 @@
 				maxContainerCols="3"
 				editable="true"
 				layout="ResponsiveGridLayout"
-				labelSpanL="4"
-				labelSpanM="4"
-				labelSpanS="4"
-				emptySpanL="1"
-				emptySpanM="1"
-				emptySpanS="1"
+				labelSpanL="3"
+				labelSpanM="3"
+				labelSpanS="2"
+				emptySpanL="0"
+				emptySpanM="0"
+				emptySpanS="0"
 				columnsL="3"
 				columnsM="2"
 				class="sapUiSizeCompact sapUiNoContentPadding">
@@ -62,16 +62,17 @@
 						<DatePicker id="dpReportingCriteriaDateFrom" 
 							dateValue="{path:'AppData>/REP_RETENTION_DAYS',formatter:'.businessRules.getReportingDateFromInitialValue'}"
 							minDate="{path:'AppData>/REP_MAX_RETENTION_YR',formatter:'.businessRules.getReportingDateFromMinValue'}"
-							width="9rem" required="true"
+							width="7.5rem" required="true"
 							change="onChangeReportingDateFrom"
 							placeholder="{i18n>searchcriteria.placeholder.date}" valueFormat="yyyyMMdd" displayFormat="dd/MM/yyyy">
 						</DatePicker>
 	<!-- 					<Label 	text="{i18n>searchcriteria.label.dateto}" labelFor="dpReportingCriteriaDateTo"/> -->
-							<Label class="sapUiTinyMarginTop sapUiSmallMarginBeginEnd"
-								text="{i18n>searchcriteria.label.dateto}" />
+							<!-- <Label class="sapUiTinyMarginTop sapUiSmallMarginBeginEnd"
+								text="{i18n>searchcriteria.label.dateto}" /> -->
+							<Label text="{i18n>searchcriteria.label.dateto}" labelFor="dpReportingCriteriaDateTo" class="sapUiTinyMarginTop sapUiTinyMarginBeginEnd"/>			
 						<DatePicker id="dpReportingCriteriaDateTo" 
 							dateValue="{path:'AppData>/REP_RETENTION_DAYS',formatter:'.businessRules.getReportingDateToInitialValue'}"
-							width="9rem"
+							width="7.5rem"
 							change="onChangeReportingDateTo"
 							placeholder="{i18n>searchcriteria.placeholder.date}" valueFormat="yyyyMMdd" displayFormat="dd/MM/yyyy">
 						</DatePicker>

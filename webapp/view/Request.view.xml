@@ -31,6 +31,17 @@
 <!-- * Change Request ............ : CR										  * -->
 <!-- * Description ............... : Toolbars for variant management		  * -->
 <!-- *************************************************************************/ -->
+<!-- * Modification n  ........... : M003									  * -->
+<!-- * Project ................... : TIMI			   						  * -->
+<!-- * Author .................... : Sampath Kumar KATHIRVELU                 * -->
+<!-- *________________________________________________________________________* -->
+<!-- * Modification date ......... : 29/07/2026								  * -->
+<!-- * Transport order ........... : DO8K908943  							  * -->
+<!-- * Change Request ............ : CHG0199181     						  * -->
+<!-- * Description ............... : Add logic for e-Invoice France adding    * -->
+<!-- *                               EDOC PDF attachment 		  			  * -->
+<!-- *************************************************************************/ -->
+
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:custom="cus.fi.timi.rel.assets.js.library"
 		controllerName="cus.fi.timi.rel.controller.Request" xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" 
 		xmlns:html="http://www.w3.org/1999/xhtml" xmlns:variants="sap.ui.comp.variants">
@@ -66,6 +77,13 @@
 						visible="{parts:[{path:'Request>/HeaderData/IsPdfAttached'},{path:'Request>/HeaderData/IsSystemId'}],formatter:'.businessRules.formatInvoicePDFVisibility'}"
 						press="onPressGetInvoiceAttachment">
 					</ObjectStatus>
+					<!-- Begin of INS by SKK - M003 - 29/07/2026 -->
+					<ObjectStatus icon="sap-icon://pdf-attachment"
+						text="{i18n>request.label.pdf.einvoice}" active="true"
+						visible="{parts:[{path:'Request>/HeaderData/EinvoiceFlag'},{path:'Request>/HeaderData/EdocStatus'},{path:'Request>/HeaderData/IsDocumentNumber'},{path:'Request>/HeaderData/IsSystemId'},{path:'Request>/HeaderData/IsCountryCode'}],formatter:'.businessRules.formatEinvoicePDFVisibility'}"
+						press="onPressGetEinvoiceAttachment">
+					</ObjectStatus>
+					<!-- End of INS by SKK - M003 - 29/07/2026 -->					
 				</statuses>
 				<attributes>
 					<ObjectAttribute text="{Request>/HeaderData/Descriptions/DocumentTypeName}" />
